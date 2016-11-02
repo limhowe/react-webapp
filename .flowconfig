@@ -1,0 +1,22 @@
+[include]
+
+[ignore]
+<PROJECT_ROOT>/dist/.*
+<PROJECT_ROOT>/lib/.*
+
+.*/node_modules/editions/.*
+.*/node_modules/fbjs/.*
+
+[libs]
+interfaces
+
+[options]
+module.name_mapper='.+\.s?css' -> 'CSSModule'
+module.system=haste
+module.use_strict=true
+
+suppress_comment=\\(.\\|\n\\)*\\$FlowFixMe
+suppress_comment=\\(.\\|\n\\)*\\$FlowIssue
+
+esproposal.class_static_fields=enable
+esproposal.class_instance_fields=enable

@@ -1,0 +1,7 @@
+dist
+lib
+node_modules
+.eslintcache
+webpack-assets.json
+webpack-stats.json
+*.log
