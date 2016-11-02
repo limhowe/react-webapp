@@ -1,9 +1,9 @@
-import { combineReducers } from 'redux'
+import { combineReducers } from 'redux';
 
-import { reducer as blog } from './modules/Blog'
+import { reducer as blog } from './modules/Blog';
 
 const reducer = combineReducers({
   blog
-})
+});
 
-export default reducer
+export default reducer;

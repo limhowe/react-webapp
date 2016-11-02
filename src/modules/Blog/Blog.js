@@ -1,14 +1,14 @@
 // @flow
-import React, { PropTypes } from 'react'
-import { connect } from 'react-redux'
-import { Link } from 'react-router'
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
-import { fetchArticles, getArticles } from './redux'
+import { fetchArticles, getArticles } from './redux';
 
 export const Blog = (props: Object) => {
-  const styles = require('./Blog.scss')
+  const styles = require('./Blog.scss');
 
-  const { children, articles } = props
+  const { children, articles } = props;
 
   return (
     <div className={ styles.Blog }>
@@ -27,10 +27,10 @@ export const Blog = (props: Object) => {
         { children }
       </main>
     </div>
-  )
-}
+  );
+};
 
-Blog.displayName = 'Blog'
+Blog.displayName = 'Blog';
 
 Blog.propTypes = {
   children: PropTypes.element.isRequired,
@@ -40,12 +40,12 @@ Blog.propTypes = {
       title: PropTypes.string.isRequired
     })
   ).isRequired
-}
+};
 
-Blog.onEnter = ({ dispatch }) => dispatch(fetchArticles())
+Blog.onEnter = ({ dispatch }) => dispatch(fetchArticles());
 
 const mapStateToProps = state => ({
   articles: getArticles(state)
-})
+});
 
-export default connect(mapStateToProps)(Blog)
+export default connect(mapStateToProps)(Blog);

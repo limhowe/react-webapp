@@ -1,19 +1,19 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { Router, browserHistory } from 'react-router'
-import { Provider } from 'react-redux'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Router, browserHistory } from 'react-router';
+import { Provider } from 'react-redux';
 
-import configureStore from './store'
-import configureRoutes from './routes'
+import configureStore from './store';
+import configureRoutes from './routes';
 
-const store = configureStore(window.__INITIAL_STATE__)
-const routes = configureRoutes(store)
+const store = configureStore(window.__INITIAL_STATE__);
+const routes = configureRoutes(store);
 
 if (__DEV__) {
-  const { AppContainer } = require('react-hot-loader')
+  const { AppContainer } = require('react-hot-loader');
 
   const render = () => {
-    const routes = require('./routes')(store) // eslint-disable-line no-shadow
+    const routes = require('./routes')(store); // eslint-disable-line no-shadow
 
     ReactDOM.render(
       <AppContainer>
@@ -22,13 +22,13 @@ if (__DEV__) {
         </Provider>
       </AppContainer>,
       document.getElementById('app')
-    )
-  }
-  render()
+    );
+  };
+  render();
 
   // Hot reloading on the client
   if (module.hot) {
-    module.hot.accept('./routes', render)
+    module.hot.accept('./routes', render);
   }
 } else {
   ReactDOM.render(
@@ -36,5 +36,5 @@ if (__DEV__) {
       <Router routes={ routes } history={ browserHistory } />
     </Provider>,
     document.getElementById('app')
-  )
+  );
 }

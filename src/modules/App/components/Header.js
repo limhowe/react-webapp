@@ -1,9 +1,9 @@
 // @flow
-import React from 'react'
-import { Link } from 'react-router'
+import React from 'react';
+import { Link } from 'react-router';
 
 const Header = () => {
-  const styles = require('./Header.scss')
+  const styles = require('./Header.scss');
 
   return (
     <header className={ styles.Header }>
@@ -19,9 +19,9 @@ const Header = () => {
         </ul>
       </nav>
     </header>
-  )
-}
+  );
+};
 
-Header.displayName = 'Header'
+Header.displayName = 'Header';
 
-export default Header
+export default Header;

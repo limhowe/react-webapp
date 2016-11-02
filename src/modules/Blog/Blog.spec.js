@@ -1,9 +1,9 @@
 /* eslint-env mocha */
 /* global expect, sinon */
-import React from 'react'
-import { shallow } from 'enzyme'
+import React from 'react';
+import { shallow } from 'enzyme';
 
-import { Blog } from './Blog'
+import { Blog } from './Blog';
 
 describe('<Blog />', () => {
 
@@ -11,20 +11,20 @@ describe('<Blog />', () => {
     props = {
       articles: [],
       ...props
-    }
+    };
 
-    const wrapper = shallow(<Blog { ...props }><children /></Blog>)
-    const instance = wrapper.instance()
+    const wrapper = shallow(<Blog { ...props }><children /></Blog>);
+    const instance = wrapper.instance();
 
-    return { wrapper, instance }
+    return { wrapper, instance };
   }
 
   it('renders', () => {
-    const { wrapper, instance } = setup()
+    const { wrapper, instance } = setup();
 
-    expect(wrapper).to.be.ok
-    expect(instance).to.be.ok
-  })
+    expect(wrapper).to.be.ok;
+    expect(instance).to.be.ok;
+  });
 
   it('renders list of articles', () => {
     const articles = [
@@ -40,9 +40,9 @@ describe('<Blog />', () => {
         slug: 'slug3',
         title: 'title3'
       }
-    ]
-    const { wrapper } = setup({ articles })
+    ];
+    const { wrapper } = setup({ articles });
 
-    expect(wrapper.find('li')).to.have.length(articles.length)
-  })
-})
+    expect(wrapper.find('li')).to.have.length(articles.length);
+  });
+});

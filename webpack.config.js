@@ -1,23 +1,23 @@
-'use strict' // eslint-disable-line strict
+'use strict'; // eslint-disable-line strict
 
-const path = require('path')
-const webpack = require('webpack')
+const path = require('path');
+const webpack = require('webpack');
 
-const autoprefixer = require('autoprefixer')
+const autoprefixer = require('autoprefixer');
 
-const WebpackToolsPlugin = require('webpack-isomorphic-tools/plugin')
-const webpackToolsConfig = require('./webpack.isomorphic.tools')
+const WebpackToolsPlugin = require('webpack-isomorphic-tools/plugin');
+const webpackToolsConfig = require('./webpack.isomorphic.tools');
 
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 // Globals
-const NODE_ENV = process.env.NODE_ENV || 'development'
-const __DEV__ = NODE_ENV !== 'production'
-const __PROD__ = NODE_ENV === 'production'
-const __SERVER__ = false
-const __CLIENT__ = true
+const NODE_ENV = process.env.NODE_ENV || 'development';
+const __DEV__ = NODE_ENV !== 'production';
+const __PROD__ = NODE_ENV === 'production';
+const __SERVER__ = false;
+const __CLIENT__ = true;
 
-let config
+let config;
 
 if (__DEV__) {
   config = {
@@ -83,7 +83,7 @@ if (__DEV__) {
       new WebpackToolsPlugin(webpackToolsConfig).development(__DEV__)
     ],
     devtool: 'inline-source-map'
-  }
+  };
 }
 
 if (__PROD__) {
@@ -152,7 +152,7 @@ if (__PROD__) {
       new WebpackToolsPlugin(webpackToolsConfig).development(__DEV__)
     ],
     devtool: 'source-map'
-  }
+  };
 }
 
-module.exports = config
+module.exports = config;

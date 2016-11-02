@@ -1,3 +1,3 @@
-export Html from './Html'
+export Html from './Html';
 
-export default from './App'
+export default from './App';

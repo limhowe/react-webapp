@@ -25,31 +25,31 @@ const articles = [
     title: 'The War of the Worlds',
     body: 'And while the Martians behind me were thus preparing for their next sally, and in front of me Humanity gathered for the battle, I made my way with infinite pains and labour from the fire and smoke of burning Weybridge towards London.'
   }
-]
+];
 
 // Warning: in a real production app you would probably want something more
 // advanced like `koa-router` to handle routing, `mongoose` for the models
 // (if your database is MongoDB) and controllers/actions for each resource.
 export default (ctx, next) => {
-  const [prefix, resource, slug] = ctx.path.substring(1).split('/')
+  const [prefix, resource, slug] = ctx.path.substring(1).split('/');
 
   if (prefix !== 'api') {
-    return next()
+    return next();
   }
 
   switch (resource) {
   case 'articles':
     if (slug) {
-      const article = articles.find(a => a.slug === slug)
-      ctx.assert(article, 404, 'Article not found')
+      const article = articles.find(a => a.slug === slug);
+      ctx.assert(article, 404, 'Article not found');
 
-      ctx.body = article
+      ctx.body = article;
     } else {
-      ctx.body = articles.map(({ body, ...rest }) => rest) // eslint-disable-line no-unused-vars
+      ctx.body = articles.map(({ body, ...rest }) => rest); // eslint-disable-line no-unused-vars
     }
-    break
+    break;
   default:
-    ctx.throw(404)
-    break
+    ctx.throw(404);
+    break;
   }
-}
+};

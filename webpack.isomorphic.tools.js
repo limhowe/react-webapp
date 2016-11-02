@@ -1,4 +1,4 @@
-const plugin = require('webpack-isomorphic-tools/plugin')
+const plugin = require('webpack-isomorphic-tools/plugin');
 
 const config = {
   webpackAssetsFilePath: '../webpack-assets.json',
@@ -8,27 +8,27 @@ const config = {
       extensions: ['scss'],
       filter: (module, regex, options, log) => {
         if (options.development) {
-          return plugin.styleLoaderFilter(module, regex, options, log)
+          return plugin.styleLoaderFilter(module, regex, options, log);
         }
 
-        return regex.test(module.name)
+        return regex.test(module.name);
       },
       path: (module, options, log) => {
         if (options.development) {
-          return plugin.styleLoaderPathExtractor(module, options, log)
+          return plugin.styleLoaderPathExtractor(module, options, log);
         }
 
-        return module.name
+        return module.name;
       },
       parser: (module, options, log) => {
         if (options.development) {
-          return plugin.cssModulesLoaderParser(module, options, log)
+          return plugin.cssModulesLoaderParser(module, options, log);
         }
 
-        return module.source
+        return module.source;
       }
     }
   }
-}
+};
 
-module.exports = config
+module.exports = config;

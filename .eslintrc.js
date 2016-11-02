@@ -412,10 +412,8 @@ module.exports = {
     'quotes': [2, 'single', { allowTemplateLiterals: true }],
     // require JSDoc comments
     'require-jsdoc': 0,
-    // enforce consistent spacing before and after semicolons
-    'semi-spacing': 2,
     // require or disallow semicolons instead of ASI
-    'semi': [2, 'never'],
+    'semi': [2, 'always'],
     // require variables within the same declaration block to be sorted
     'sort-vars': 0,
     // enforce consistent spacing before blocks

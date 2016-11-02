@@ -1,5 +1,5 @@
 // @flow
-import React, { PropTypes } from 'react'
+import React, { PropTypes } from 'react';
 
 // `getStyles` is to prevent FOUC in development
 const getStyles = assets =>
@@ -8,18 +8,18 @@ const getStyles = assets =>
     .map(key => assets[key])
     .reduce((acc, { _style }) => {
       if (_style) {
-        acc += _style
+        acc += _style;
       }
-      return acc
-    }, '')
+      return acc;
+    }, '');
 
 const getInitialState = state => {
-  const json = JSON.stringify(state).replace('</', '<\\/')
-  return `window.__INITIAL_STATE__=${ json }`
-}
+  const json = JSON.stringify(state).replace('</', '<\\/');
+  return `window.__INITIAL_STATE__=${ json }`;
+};
 
 const Html = (props: Object) => {
-  const { markup, state, assets: { styles, javascript, assets }, helmet } = props
+  const { markup, state, assets: { styles, javascript, assets }, helmet } = props;
 
   return (
     <html>
@@ -40,10 +40,10 @@ const Html = (props: Object) => {
         <script src={ javascript.app } />
       </body>
     </html>
-  )
-}
+  );
+};
 
-Html.displayName = 'Html'
+Html.displayName = 'Html';
 
 Html.propTypes = {
   markup: PropTypes.string.isRequired,
@@ -54,6 +54,6 @@ Html.propTypes = {
     assets: PropTypes.object.isRequired
   }).isRequired,
   helmet: PropTypes.object
-}
+};
 
-export default Html
+export default Html;
