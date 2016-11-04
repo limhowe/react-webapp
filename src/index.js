@@ -1,6 +1,7 @@
-import Koa from 'koa';
+// load configuration using dotenv - zero dependency module
+require('dotenv').config({ silent: true });
 
-import api from './api';
+import Koa from 'koa';
 
 const server = new Koa();
 
@@ -11,8 +12,6 @@ if (__DEV__) {
   const serve = require('koa-static');
   server.use(serve('dist'));
 }
-
-server.use(api);
 
 server.use(async ctx => {
   // Dynamic require enables hot reloading on the server

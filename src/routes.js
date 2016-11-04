@@ -2,7 +2,7 @@
 import React from 'react';
 import { IndexRoute, Route } from 'react-router';
 
-import { App, Home, Blog, BlogIndex, BlogArticle, NotFound } from './modules';
+import { AppLayout, MainLayout, Home, Blog, BlogIndex, BlogArticle, NotFound, Login } from './modules';
 
 // On server we want to fetch all data for the current route before rendering
 const fetchData = store => (nextState, replace, callback) => {
@@ -39,11 +39,10 @@ const configureRoutes = (store: Object) => { // eslint-disable-line react/displa
   const onEnter = __SERVER__ ? fetchData(store) : attachOnEnterHooks(store);
 
   return (
-    <Route path="/" component={ App } onEnter={ onEnter }>
+    <Route path="/" component={ MainLayout } onEnter={ onEnter }>
       <IndexRoute component={ Home } />
-      <Route path="blog" component={ Blog }>
-        <IndexRoute component={ BlogIndex } />
-        <Route path=":slug" component={ BlogArticle } />
+      <Route path="app" component={ AppLayout }>
+        <Route path="login" component={ Login } />
       </Route>
       <Route path="*" component={ NotFound } />
     </Route>

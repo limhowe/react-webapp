@@ -1,0 +1,16 @@
+{
+  "shared": {
+    "applicationName": "Dynamic Push"
+  },
+  "layout": {
+    "header": {
+      "home": "Home",
+      "pricing": "Pricing",
+      "howItWorks": "How it works",
+      "company": "Company",
+      "blog": "Blog",
+      "login": "Login",
+      "logout": "Logout"
+    }
+  }
+}

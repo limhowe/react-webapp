@@ -1,4 +1,5 @@
-export App, { Html } from './App';
-export Home from './Home';
-export Blog, { BlogIndex, BlogArticle } from './Blog';
-export NotFound from './NotFound';
+export Html from './Html';
+
+export { MainLayout, AppLayout } from './Layout';
+export { Home, NotFound } from './FrontPages';
+export { Login } from './App';

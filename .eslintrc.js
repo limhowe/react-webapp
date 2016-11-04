@@ -14,6 +14,7 @@ module.exports = {
     es6: true
   },
   globals: {
+    __APP_CONFIG__: true,
     __DEV__: true,
     __PROD__: true,
     __SERVER__: true,
@@ -437,7 +438,7 @@ module.exports = {
     // http://eslint.org/docs/rules/#ecmascript-6
 
     // require braces around arrow function bodies
-    'arrow-body-style': [2, 'as-needed'],
+    'arrow-body-style': [0, 'as-needed'],
     // require parentheses around arrow function arguments
     'arrow-parens': 0,
     // enforce consistent spacing before and after the arrow in arrow functions

@@ -17,6 +17,9 @@ const __PROD__ = NODE_ENV === 'production';
 const __SERVER__ = false;
 const __CLIENT__ = true;
 
+// set theme for react-toolbox
+const THEME = process.env.THEME || 'default';
+
 let config;
 
 if (__DEV__) {
@@ -56,10 +59,21 @@ if (__DEV__) {
             'postcss',
             'sass?sourceMap'
           ]
+        }, {
+          test: /\.json$/,
+          loader: 'json'
         }
       ]
     },
     plugins: [
+      new webpack.LoaderOptionsPlugin({
+        options: {
+          sassLoader: {
+            data: `@import "src/themes/${ THEME }/_config.scss";`
+          },
+          context: __dirname
+        }
+      }),
       new webpack.LoaderOptionsPlugin({
         test: /\.css$/,
         options: {
@@ -120,10 +134,21 @@ if (__PROD__) {
               'sass?sourceMap'
             ]
           })
+        }, {
+          test: /\.json$/,
+          loader: 'json'
         }
       ]
     },
     plugins: [
+      new webpack.LoaderOptionsPlugin({
+        options: {
+          sassLoader: {
+            data: `@import "src/themes/${ THEME }/_config.scss";`
+          },
+          context: __dirname
+        }
+      }),
       new webpack.LoaderOptionsPlugin({
         test: /\.css$/,
         options: {

@@ -33,6 +33,10 @@ const connect = (middleware, mockResponse) => (ctx, next) =>
       }
     } : ctx.res;
 
+    if (mockResponse) {
+      res.statusCode = 200;
+    }
+
     middleware(req, res, () => {
       next().then(resolve, reject);
     });

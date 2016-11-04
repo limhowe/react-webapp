@@ -1,0 +1,17 @@
+.c-container {
+  padding: 0 $unit * 2;
+}
+
+.c-container__small {
+  width: $container-width-small;
+
+  @include breakpoint($mobile-large-down) {
+    width: 100%;
+  }
+}
+
+.c-container__center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

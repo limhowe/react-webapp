@@ -1,0 +1,29 @@
+// ------------------------------------------
+// This file will be loaded before every scss file is included.
+// Only define variables and override variables which will be used by other style files
+// and react-toolbox components
+// ------------------------------------------
+
+@import "./variables";
+
+// Sizing
+$unit: $unit;
+
+// font size
+$font-size: 1.6 * $unit;
+$small-font-size: $font-size * 0.8;
+$medium-font-size: $font-size * 1;
+$large-font-size: $font-size * 1.2;
+$xlarge-font-size: $font-size * 1.8;
+
+// mixins
+@import "../../../node_modules/breakpoint-sass/stylesheets/breakpoint";
+
+// override react-toolbox configuration
+$color-primary: $blue-dark;
+$color-primary-dark: $blue-dark;
+$preferred-font: $font-family-roboto !default;
+
+// component based configurations
+@import "./configs/container";
+@import "./configs/snackbar";

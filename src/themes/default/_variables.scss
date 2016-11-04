@@ -1,0 +1,27 @@
+// size unit
+$unit: 10px;
+
+// colors
+$blue-dark: #1287cf;
+$blue-dark-100: #12b0ff;
+$blue-normal: #60c0ec;
+$blue-light: #d2e7f5;
+$gray-dark: #222;
+$gray-normal: #7d7d7d;
+$gray-light: #ddd;
+$white: #fff;
+
+$success-color: #ee6749;
+$error-color: #cd1e3d;
+$light-error-color: #f5d2d8;
+
+// font-family
+$font-family-roboto: 'Roboto', Helvetica, Arial, sans-serif;
+
+// screen breakpoints
+$mobile-small: max-width 320px;
+$mobile-medium-down: max-width 420px;
+$mobile-large-down: max-width 640px;
+$tablet-small-down: max-width 736px;
+$tablet-large-down: max-width 1024px;
+$table-large-up: min-width 1025px;

@@ -4,11 +4,13 @@ import ReactDOMServer from 'react-dom/server';
 import { RouterContext, match } from 'react-router';
 import { Provider } from 'react-redux';
 import Helmet from 'react-helmet';
+import { I18nextProvider } from 'react-i18next';
 
 import { Html } from './modules';
-import configureStore from './store';
+import configureStore from './redux/store';
 import configureRoutes from './routes';
 import { rewind } from './helpers/status';
+import i18n from './i18n';
 
 const doctype = '<!DOCTYPE html>';
 
@@ -27,7 +29,9 @@ export const render = location => new Promise((resolve, reject) => {
       const assets = webpackTools.assets();
       const markup = ReactDOMServer.renderToString(
         <Provider store={ store }>
-          <RouterContext { ...props } />
+          <I18nextProvider i18n={ i18n }>
+            <RouterContext { ...props } />
+          </I18nextProvider>
         </Provider>
       );
       const state = store.getState();
