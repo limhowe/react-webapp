@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavDrawer } from 'react-toolbox';
-
 import { hideNavDrawer } from '../redux/actions';
+import { translate } from 'react-i18next';
+import Navigation from 'react-toolbox/lib/navigation';
+import Link from 'react-toolbox/lib/link';
+
 
 export class SideBar extends Component {
   static displayName = 'NavDrawer';
   props: {
     active: bool,
     hide: Function,
-    user: ?Object
+    user: ?Object,
+    t: Function,
   };
 
   render() {
-    const { active, hide, user } = this.props;
+    const { active, hide, user, t } = this.props;
     if (!user) {
       return null;
     }
@@ -24,7 +28,15 @@ export class SideBar extends Component {
         permanentAt="md"
         onOverlayClick={ hide }
       >
-        Placeholder for sidebar
+        <Navigation type="vertical">
+          <Link href="/app/home" label={ t('layout.navbar.dashboard') } icon="dashboard" />
+          <Link href="/app/campaigns" active label={ t('layout.navbar.campaigns') } icon="alarm" />
+          <Link href="/app/audience" active label={ t('layout.navbar.audience') } icon="face" />
+          <Link href="/app/reports" active label={ t('layout.navbar.reports') } icon="add_alert" />
+          <Link href="/app/analytics" active label={ t('layout.navbar.analytics') } icon="alarm" />
+          <Link href="/app/revenue" active label={ t('layout.navbar.revenueGoals') } icon="local_atm" />
+          <Link href="/app/settings" active label={ t('layout.navbar.settings') } icon="gavel" />
+        </Navigation>
       </NavDrawer>
     );
   }
@@ -39,4 +51,4 @@ const mapDispatchToProps = (dispatch) => ({
   hide: () => dispatch(hideNavDrawer())
 });
 
-export default connect(mapStatesToProps, mapDispatchToProps)(SideBar);
+export default translate()(connect(mapStatesToProps, mapDispatchToProps)(SideBar));

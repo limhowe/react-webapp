@@ -11,6 +11,26 @@
       "blog": "Blog",
       "login": "Login",
       "logout": "Logout"
+    },
+    "navbar": {
+      "dashboard": "Dashboard",
+      "campaigns": "Campaigns",
+      "audience": "Audience",
+      "reports": "Reports",
+      "analytics": "Analytics",
+      "revenueGoals": "Revenue Goals",
+      "settings": "Settings"
+    }
+  },
+  "campaigns": {
+    "list": {
+      "heading": "Campaigns",
+      "newCampaign": "Create a New Campaign",
+      "inProgress": "In Progress",
+      "scheduled": "Scheduled",
+      "paused": "Paused",
+      "completed": "Completed",
+      "all": "All"
     }
   }
 }
