@@ -49,7 +49,35 @@
         "platform": "Select Platform",
         "android": "Android",
         "apple": "Apple",
-        "next": "Next: Create Dynamimc Push"
+        "next": "Next: Create Dynamic Push"
+      },
+      "createPush": {
+        "heading": "Create Dynamic Push",
+        "addAnimation": "Add Dynamic Push Animation",
+        "addAnimationNote": "Animation will be displayed only on the Android Phones",
+        "uploadAnimation": "Upload Animation",
+        "uploadAnimationNote": "Animation should be in GIF format and not exceed 5k.",
+        "replaceAnimation": "Replace Animation",
+        "replaceAnimationNote": "Animation should be in GIF format and not exceed 5k.",
+        "createAnimation": "Create Animation",
+        "createAnimationNote": "Ue GIF maker to create animation",
+        "preview": "Preview",
+        "next": "Next: Select Action",
+        "back": "Back",
+        "setDuration": {
+          "heading": "Set Duration for the Animation",
+          "loops": "Loops",
+          "loopsNote": "How many times animation will repeat",
+          "delay": "Delay",
+          "delayNote": "Pause between loops",
+          "totalDuration": "Total Duration"
+        },
+        "addPushNotification": {
+          "heading":  "Add Dynamic Push Notification",
+          "enterNotification": "Enter Notification Text",
+          "selectScreenLocation": "Select Location on the Screen",
+          "forAndroidOnly": "* For the Android phones only"
+        }
       }
     }
   }
