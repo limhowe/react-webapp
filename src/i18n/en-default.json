@@ -31,6 +31,26 @@
       "paused": "Paused",
       "completed": "Completed",
       "all": "All"
+    },
+    "create": {
+      "heading": "Create a Campaign",
+      "nav": {
+        "start": "Start",
+        "createPush": "Create Dynamic Push",
+        "addAction": "Add Action",
+        "scheduleDelivery": "Schedule Delivery",
+        "selectAudience": "Select Audience",
+        "previewAndLaunch": "Preview and Launch"
+      },
+      "start": {
+        "heading": "Start a Campaign",
+        "name": "Campaign Name",
+        "tags": "Add Tags",
+        "platform": "Select Platform",
+        "android": "Android",
+        "apple": "Apple",
+        "next": "Next: Create Dynamimc Push"
+      }
     }
   }
 }

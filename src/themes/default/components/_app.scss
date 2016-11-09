@@ -4,6 +4,10 @@
   box-sizing: inherit;
 }
 
+* {
+  outline: 0;
+}
+
 html {
   box-sizing: border-box;
   font: 400 100%/1.5 -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /* stylelint-disable-line value-keyword-case */
@@ -25,4 +29,13 @@ a {
 
 .pull-right {
   float: right;
+}
+
+.form-field {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.form-buttons {
+  margin-top: 16px;
 }
