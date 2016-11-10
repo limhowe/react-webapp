@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Button, IconButton } from 'react-toolbox/lib/button';
+import { List, ListItem, ListSubHeader, ListDivider, ListCheckbox } from 'react-toolbox/lib/list';
 import { Tab, Tabs } from 'react-toolbox';
 import { translate } from 'react-i18next';
 import Checkbox from 'react-toolbox/lib/checkbox';
 import Dropdown from 'react-toolbox/lib/dropdown';
 import Input from 'react-toolbox/lib/input';
 import Chip from 'react-toolbox/lib/chip';
+import Dropzone from 'react-dropzone';
 
 import styles from '../../../styles';
 import classnames from 'classnames';
@@ -20,7 +22,10 @@ export class CampaignStart extends Component {
     chip3: false,
     check1: true,
     check2: false,
-    pushText: 'haho'
+    pushText: '',
+    appAction: 1,
+    toggleSetDuration: false,
+    toggleAddPushNotification: false
     // loopsSelected: 1,
     // delaySelected: '10 secs'
   };
@@ -62,6 +67,14 @@ export class CampaignStart extends Component {
     { value: '1 min' }
   ];
 
+  toggleSetDuration = () => {
+    this.setState({ toggleSetDuration: !this.state.toggleSetDuration });
+  }
+
+  toggleAddPushNotification = () => {
+    this.setState({ toggleAddPushNotification: !this.state.toggleAddPushNotification });
+  }
+
   screenLocations = [
     { value: 'Top Left' },
     { value: 'Top Center' },
@@ -72,6 +85,12 @@ export class CampaignStart extends Component {
     { value: 'Bottom Left' },
     { value: 'Bottom Center' },
     { value: 'Bottom Right' }
+  ];
+
+  appActions = [
+    { value: 1, text: 'Display In App Message' },
+    { value: 2, text: 'Link to the Page Inside the app' },
+    { value: 3, text: 'Link to URL' }
   ];
 
   handleLoopsChange = (value) => {
@@ -86,12 +105,29 @@ export class CampaignStart extends Component {
     this.setState({ screenLocationSelected: value });
   };
 
+  handleAppActionChange = (value) => {
+    this.setState({ appAction: value });
+  };
+
   dropDownItemTemplate(item) {
     return (
       <div>
         <strong>{ item.value }</strong>
       </div>
     );
+  }
+
+  dropDownItemTextTemplate(item) {
+    return (
+      <div>
+        <strong>{ item.text }</strong>
+      </div>
+    );
+  }
+
+  onDrop = (acceptedFiles, rejectedFiles) => {
+    console.log('Accepted files: ', acceptedFiles);
+    console.log('Rejected files: ', rejectedFiles);
   }
 
   render() {
@@ -101,6 +137,8 @@ export class CampaignStart extends Component {
     const formButtonsClassName = classnames(styles['form-buttons']);
     const textMutedClassName = classnames(styles['text-muted']);
     const panelClassName = classnames(styles['panel']);
+    const noMarginClassName = classnames(styles['no-margin']);
+
     const { t } = this.props;
 
     return (
@@ -115,25 +153,29 @@ export class CampaignStart extends Component {
             <Tab label={ t('campaigns.create.nav.start') }>
               <div>
                 <h3>{ t('campaigns.create.start.heading') }</h3>
-                <div className={ formFieldClassName }>
-                  <Input type="text" label={ t('campaigns.create.start.name') } name="name" value={ this.state.name } onChange={ this.handleChange.bind(this, 'name') } />
-                </div>
-                <div className={ formFieldClassName }>
-                  {
-                    this.state.chip1 ? null : (
-                      <Chip deletable onDeleteClick={ this.handleDeleteClick.bind(this, 'chip1') }>Sales</Chip>
-                    )
-                  }
-                  {
-                    this.state.chip2 ? null : (
-                      <Chip deletable onDeleteClick={ this.handleDeleteClick.bind(this, 'chip2') }>Marketing</Chip>
-                    )
-                  }
-                  {
-                    this.state.chip3 ? null : (
-                      <Chip deletable onDeleteClick={ this.handleDeleteClick.bind(this, 'chip3') }>Finance</Chip>
-                    )
-                  }
+                <div className={ classnames(styles['row'])  }>
+                  <div className={ classnames(styles['col-xs-12'], styles['col-md-7']) }>
+                    <div className={ formFieldClassName }>
+                      <Input type="text" label={ t('campaigns.create.start.name') } name="name" value={ this.state.name } onChange={ this.handleChange.bind(this, 'name') } />
+                    </div>
+                    <div className={ formFieldClassName }>
+                      {
+                        this.state.chip1 ? null : (
+                          <Chip deletable onDeleteClick={ this.handleDeleteClick.bind(this, 'chip1') }>Sales</Chip>
+                        )
+                      }
+                      {
+                        this.state.chip2 ? null : (
+                          <Chip deletable onDeleteClick={ this.handleDeleteClick.bind(this, 'chip2') }>Marketing</Chip>
+                        )
+                      }
+                      {
+                        this.state.chip3 ? null : (
+                          <Chip deletable onDeleteClick={ this.handleDeleteClick.bind(this, 'chip3') }>Finance</Chip>
+                        )
+                      }
+                    </div>
+                  </div>
                 </div>
                 <div className={ formFieldClassName }>
                   <Checkbox
@@ -156,58 +198,158 @@ export class CampaignStart extends Component {
               <div>
                 <h3>{ t('campaigns.create.createPush.heading') }</h3>
                 <span>{ t('campaigns.create.createPush.addAnimation') }</span>
-                <small className={ textMutedClassName }>{ t('campaigns.create.createPush.addAnimationNote') }</small>
-                <div className={ panelClassName }>
-                  <Button icon="file_upload" label={ t('campaigns.create.createPush.uploadAnimation') } flat primary />
-                  <p className={ textMutedClassName }><small>{ t('campaigns.create.createPush.uploadAnimationNote') }</small></p>
-                </div>
-                <div className={ panelClassName }>
-                  <Button label={ t('campaigns.create.createPush.createAnimation') } flat primary />
-                  <p className={ textMutedClassName }><small>{ t('campaigns.create.createPush.createAnimationNote') }</small></p>
-                </div>
-                <div className={ panelClassName }>
-                  <h4><IconButton icon="add" />{ t('campaigns.create.createPush.setDuration.heading') }</h4>
-                  <label>{ t('campaigns.create.createPush.setDuration.loops') }</label>
-                  <Dropdown
-                    allowBlank={ false }
-                    source={ this.loops }
-                    onChange={ this.handleLoopsChange }
-                    label={ t('campaigns.create.createPush.setDuration.loopsNote') }
-                    template={ this.dropDownItemTemplate }
-                    value={ this.state.loopsSelected }
-                  />
-                  <label>{ t('campaigns.create.createPush.setDuration.delay') }</label>
-                  <Dropdown
-                    allowBlank={ false }
-                    source={ this.delays }
-                    onChange={ this.handleDelayChange }
-                    label={ t('campaigns.create.createPush.setDuration.delayNote') }
-                    template={ this.dropDownItemTemplate }
-                    value={ this.state.delaySelected }
-                  />
-                </div>
-                <div className={ panelClassName }>
-                  <h4><IconButton icon="add" />{ t('campaigns.create.createPush.addPushNotification.heading') }</h4>
-                  {/* <label>{ t('campaigns.create.createPush.addPushNotification.enterNotification') }</label> */}
-                  <Input type="text" multiline label={ t('campaigns.create.createPush.addPushNotification.enterNotification') } rows={ 5 } maxLength={ 20 } value={ this.state.pushText } onChange={ this.handleChange.bind(this, 'pushText') } />
-                  <small className={ textMutedClassName }>{ t('campaigns.create.createPush.addPushNotification.forAndroidOnly') }</small>
-                  <Dropdown
-                    allowBlank={ false }
-                    source={ this.screenLocations }
-                    onChange={ this.handleScreenLocationChange }
-                    label={ t('campaigns.create.createPush.addPushNotification.selectScreenLocation') }
-                    template={ this.dropDownItemTemplate }
-                    value={ this.state.screenLocationSelected }
-                  />
-                </div>
-                <div className={ formButtonsClassName }>
-                  <Button icon="chevron_left" onClick={ () => this.setTabIndex(0) } label={ t('campaigns.create.createPush.back') } raised />
-                  <Button onClick={ () => this.setTabIndex(1) } label={ t('campaigns.create.createPush.next') } raised primary />
+                <div><small className={ textMutedClassName }>{ t('campaigns.create.createPush.addAnimationNote') }</small></div>
+                <div className={ classnames(styles['row'])  }>
+                  <div className={ classnames(styles['col-xs-12'], styles['col-md-7']) }>
+                    <div className={ classnames(styles['row'])  }>
+                      <div className={ classnames(styles['col-md-8']) }>
+                        <div className={ panelClassName }>
+                          <List selectable ripple className={ noMarginClassName }>
+                            <ListItem
+                              leftIcon='file_upload'
+                              caption={ t('campaigns.create.createPush.uploadAnimation') }
+                              legend={ t('campaigns.create.createPush.uploadAnimationNote') }
+                            />
+                          </List>
+                        </div>
+                      </div>
+                      <div className={ classnames(styles['col-md-4']) }>
+                        <div className={ panelClassName }>
+                          <List selectable ripple className={ noMarginClassName }>
+                            <ListItem
+                              // leftIcon='file_upload'
+                              caption={ t('campaigns.create.createPush.createAnimation') }
+                              legend={ t('campaigns.create.createPush.createAnimationNote') }
+                            />
+                          </List>
+                        </div>
+                      </div>
+                    </div>
+                    <div className={ panelClassName }>
+                      <List selectable ripple className={ noMarginClassName }>
+                        <ListItem
+                          rightIcon="add"
+                          caption={ t('campaigns.create.createPush.setDuration.heading') }
+                          onClick={ () => this.toggleSetDuration() }
+                        />
+                      </List>
+                      {
+                        this.state.toggleSetDuration ? (
+                          <div className={ classnames(styles['row'])  }>
+                            <div className={ classnames(styles['col-xs-12'], styles['col-lg-6']) }>
+                              <label>{ t('campaigns.create.createPush.setDuration.loops') }</label>
+                              <Dropdown
+                                allowBlank={ false }
+                                source={ this.loops }
+                                onChange={ this.handleLoopsChange }
+                                label={ t('campaigns.create.createPush.setDuration.loopsNote') }
+                                template={ this.dropDownItemTemplate }
+                                value={ this.state.loopsSelected }
+                              />
+                              <label>{ t('campaigns.create.createPush.setDuration.delay') }</label>
+                              <Dropdown
+                                allowBlank={ false }
+                                source={ this.delays }
+                                onChange={ this.handleDelayChange }
+                                label={ t('campaigns.create.createPush.setDuration.delayNote') }
+                                template={ this.dropDownItemTemplate }
+                                value={ this.state.delaySelected }
+                              />
+                            </div>
+                            <div className={ classnames(styles['col-xs-12'], styles['col-lg-6'], styles['c-container__center']) }>
+                              <Button label={ t('campaigns.create.createPush.preview') } raised primary />
+                            </div>
+                          </div>
+                        ) : null
+                      }
+                    </div>
+                    <div className={ panelClassName }>
+                      <List selectable ripple className={ noMarginClassName }>
+                        <ListItem
+                          rightIcon="add"
+                          caption={ t('campaigns.create.createPush.addPushNotification.heading') }
+                          onClick={ () => this.toggleAddPushNotification() }
+                        />
+                      </List>
+                      {
+                        this.state.toggleAddPushNotification ? (
+                          <div>
+                            <Input type="text" multiline label={ t('campaigns.create.createPush.addPushNotification.enterNotification') } rows={ 3 } value={ this.state.pushText } onChange={ this.handleChange.bind(this, 'pushText') } />
+                            <small className={ textMutedClassName }>{ t('campaigns.create.createPush.addPushNotification.forAndroidOnly') }</small>
+                            <Dropdown
+                              allowBlank={ false }
+                              source={ this.screenLocations }
+                              onChange={ this.handleScreenLocationChange }
+                              label={ t('campaigns.create.createPush.addPushNotification.selectScreenLocation') }
+                              template={ this.dropDownItemTemplate }
+                              value={ this.state.screenLocationSelected }
+                            />
+                          </div>
+                        ) : null
+                      }
+                    </div>
+                    <div className={ formButtonsClassName }>
+                      <Button icon="chevron_left" onClick={ () => this.setTabIndex(0) } label={ t('campaigns.create.createPush.back') } raised />
+                      <Button onClick={ () => this.setTabIndex(2) } label={ t('campaigns.create.createPush.next') } raised primary />
+                    </div>
+                  </div>
+                  <div className={ classnames(styles['col-xs'], styles['col-md-5']) }>
+                    <h4>Mobile Phone Preview</h4>
+                    <img src="https://placeimg.com/300/500/tech" />
+                  </div>
                 </div>
               </div>
             </Tab>
             <Tab label={ t('campaigns.create.nav.addAction') }>
-              <small>Paused addAction</small>
+              <div>
+                <h3>{ t('campaigns.create.addAction.heading') }</h3>
+                <small className={ textMutedClassName }>{ t('campaigns.create.addAction.subtitle') }</small>
+                <Dropdown
+                  allowBlank={ false }
+                  source={ this.appActions }
+                  onChange={ this.handleAppActionChange }
+                  label={ t('campaigns.create.createPush.addPushNotification.selectScreenLocation') }
+                  template={ this.dropDownItemTextTemplate }
+                  value={ this.state.appAction }
+                />
+                {
+                  this.state.appAction === 1 ? (
+                    <div className={ classnames(styles['row'])  }>
+                      <div className={ classnames(styles['col-xs-12'], styles['col-lg-5']) }>
+                        <img src="https://placeimg.com/300/500/tech" />
+                      </div>
+                      <div className={ classnames(styles['col-xs-12'], styles['col-lg-7']) }>
+                        <div>
+                          <Dropzone onDrop={ this.onDrop }>
+                            <div>Try dropping some files here, or click to select files to upload.</div>
+                          </Dropzone>
+                        </div>
+                        <div className={ formFieldClassName }>
+                          <Input type="text" label={ t('campaigns.create.addAction.template.headline') } name="headline" value={ this.state.headline } onChange={ this.handleChange.bind(this, 'headline') } />
+                        </div>
+                        <div className={ formFieldClassName }>
+                          <Input type="text" multiline label={ t('campaigns.create.addAction.template.content') } name="content" value={ this.state.content } rows={ 3 } onChange={ this.handleChange.bind(this, 'content') } />
+                        </div>
+                        <div className={ formFieldClassName }>
+                          <label>{ t('campaigns.create.addAction.template.callToAction') }</label>
+                          <Input type="text" label={ t('campaigns.create.addAction.template.buttonLabel') } name="buttonLabel" value={ this.state.buttonLabel } onChange={ this.handleChange.bind(this, 'buttonLabel') } />
+                          <Input type="text" label={ t('campaigns.create.addAction.template.buttonLink') } name="buttonLink" value={ this.state.buttonLink } onChange={ this.handleChange.bind(this, 'buttonLink') } />
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                  <div className={ classnames(styles['row']) }>
+                    <div className={ classnames(styles['col-md-6']) }>
+                      <Input type="text" label={ t('campaigns.create.addAction.link.enterLink') } name="enterLink" value={ this.state.actionLink } onChange={ this.handleChange.bind(this, 'actionLink') } />
+                    </div>
+                  </div>
+                  )
+                }
+                <div className={ formButtonsClassName }>
+                  <Button icon="chevron_left" onClick={ () => this.setTabIndex(1) } label={ t('campaigns.create.addAction.back') } raised />
+                  <Button onClick={ () => this.setTabIndex(3) } label={ t('campaigns.create.addAction.next') } raised primary />
+                </div>
+              </div>
             </Tab>
             <Tab label={ t('campaigns.create.nav.scheduleDelivery') }>
               <small>campaigns.create.nav.scheduleDelivery</small>

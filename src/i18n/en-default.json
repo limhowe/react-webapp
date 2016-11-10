@@ -78,6 +78,26 @@
           "selectScreenLocation": "Select Location on the Screen",
           "forAndroidOnly": "* For the Android phones only"
         }
+      },
+      "addAction": {
+        "heading": "Add Action",
+        "subtitle": "Select desired action for the app to take when a user clicks on Dynamic Push notification.",
+        "enterLink": "Enter Link",
+        "next": "Next: Select Delivery",
+        "back": "Back",
+        "template": {
+          "createTemplate": "Create a New Template",
+          "templateEditor": "Template Editor",
+          "imageOrAnimation": "Image or Animation",
+          "headline": "Headline",
+          "content": "Content",
+          "callToAction": "Call to Action/Button",
+          "buttonLabel": "Button Label",
+          "buttonLink": "Enter Link"
+        },
+        "link": {
+          "enterLink": "Enter Link"
+        }
       }
     }
   }
