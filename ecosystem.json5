@@ -2,7 +2,7 @@
   apps: [
     {
       name: "DP-WEB-APP",
-      script: "bin/server",
+      script: "./bin/server",
       env_production: {
         NODE_ENV: "production"
       },
