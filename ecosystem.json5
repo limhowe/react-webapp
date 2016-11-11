@@ -1,0 +1,26 @@
+{
+  apps: [
+    {
+      name: "DP-WEB-APP",
+      script: "npm start",
+      env_production: {
+        NODE_ENV: "production"
+      },
+      env_development: {
+        NODE_ENV: "development"
+      }
+    }
+  ],
+  deploy: {
+    development: {
+      key: "./pem/dp-mean.pem",
+      user: "ubuntu",
+      host: "52.5.146.255",
+      ref: "origin/dev",
+      repo: "git@bitbucket.org:cmodels/dp-web-app.git",
+      path: "/srv/dp-web-app",
+      "pre-deploy": "",
+      "post-deploy": "npm install; npm run check; npm run build; sudo pm2 startOrRestart ecosystem.json5 --env development"
+    }
+  }
+}

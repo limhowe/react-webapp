@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+// load configuration using dotenv - zero dependency module
+require('dotenv').config({ silent: true });
+
 const path = require('path');
 
 // Globals
@@ -25,7 +28,7 @@ global.webpackTools = new WebpackTools(webpackToolsConfig)
   .server(basePath, () => {
     const server = require(basePath);
 
-    server.listen(3000, () => {
+    server.listen(process.env.PORT, () => {
       console.info('Server is running!'); // eslint-disable-line
     });
   });
