@@ -7,13 +7,14 @@ export default class BaseService {
   }
 
   apiUrl(url) {
-    return `${ __APP_CONFIG__.API_URL }${ url }`;
+    // @TODO Remove adding token param once CORS is resolved :P
+    return `${ __APP_CONFIG__.API_URL }${ url }?token=${ this.headers['x-access-token'] }`;
   }
 
   setHeaders(req) {
     if (this.headers) {
-      this.headers.forEach((header) => {
-        req.set(header[0], header[1]);
+      Object.keys(this.headers).forEach((key) => {
+        req.set(key, this.headers[key]);
       });
     }
   }
