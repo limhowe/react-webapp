@@ -1,6 +1,3 @@
-// load configuration using dotenv - zero dependency module
-require('dotenv').config({ silent: true });
-
 import Koa from 'koa';
 
 const server = new Koa();
