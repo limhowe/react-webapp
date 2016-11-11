@@ -20,7 +20,7 @@
       repo: "git@bitbucket.org:cmodels/dp-web-app.git",
       path: "/srv/dp-web-app",
       "pre-deploy": "",
-      "post-deploy": "nvm use 6.9; npm install; npm run check; npm run build; sudo pm2 startOrRestart ecosystem.json5 --env development"
+      "post-deploy": "nvm use 6.9; npm install; npm run check; npm run build; pm2 startOrRestart ecosystem.json5 --env development"
     }
   }
 }
