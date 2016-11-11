@@ -1,6 +1,11 @@
 {
   "shared": {
-    "applicationName": "Dynamic Push"
+    "applicationName": "Dynamic Push",
+    "on": "On",
+    "off": "Off",
+    "date": "Date",
+    "time": "Time",
+    "edit": "Edit"
   },
   "layout": {
     "header": {
@@ -98,6 +103,48 @@
         "link": {
           "enterLink": "Enter Link"
         }
+      },
+      "scheduleDelivery": {
+        "heading": "Schedule Delivery",
+        "subtitle": "Select when users will receive Dynamic Push",
+        "next": "Next: Select Audience",
+        "back": "Back",
+        "schedule": {
+          "heading": "Schedule Delivery",
+          "subtitle": "Send DP at the designated times of the day or week",
+          "send": "Send DP",
+          "immediate": "Immediately",
+          "repeat": "Repeat",
+          "expirationDate": "Expiration Date",
+          "expirationTime": "Finish Time",
+          "useDeviceTime": "Use Device Local Time"
+        },
+        "action": {
+          "heading": "Action Triggered Delivery",
+          "subtitle": "Send DP to users when they perform an action",
+          "selectEvent": "Select Trigger Event",
+          "inactivity": "Inactivity",
+          "idleDays": "Send when app is not opened within",
+          "sendLimit": "Do not send more than",
+          "withIn": "Within"
+        }
+      },
+      "selectAudience": {
+        "heading": "Select Audience",
+        "subtitle": "Select users who will receive Dynamic Push",
+        "selectAgeGroup": "Select age group",
+        "next": "Next: Preview and Launch",
+        "back": "Back"
+      },
+      "previewAndLaunch": {
+        "heading": "Preview and Launch",
+        "campaignName": "Campaign Name",
+        "tags": "Tags",
+        "action": "Action",
+        "delivery": "Delivery",
+        "audience": "Audience",
+        "saveAsDraft": "Save as a Draft",
+        "launchNow": "Launch Now"
       }
     }
   }
