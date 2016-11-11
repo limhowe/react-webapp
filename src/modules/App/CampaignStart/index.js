@@ -434,7 +434,7 @@ export class CampaignStart extends Component {
                                       <TimePicker
                                         label={ t('campaigns.create.scheduleDelivery.schedule.expirationTime') }
                                         onChange={ this.handleChange.bind(this, 'time1') }
-                                        value={ this.state.time }
+                                        value={ this.state.time1 }
                                       />
                                     </div>
                                   </div>
@@ -468,7 +468,7 @@ export class CampaignStart extends Component {
                                     <TimePicker
                                       label={ t('shared.time') }
                                       onChange={ this.handleChange.bind(this, 'time2') }
-                                      value={ this.state.time }
+                                      value={ this.state.time2 }
                                     />
                                   </div>
                                 </div>
@@ -603,7 +603,6 @@ export class CampaignStart extends Component {
                       <ListItem
                         rightIcon="mode_edit"
                         caption={ t('campaigns.create.previewAndLaunch.audience') }
-                        legend={ this.ageGroupOptions[this.state.ageGroup-1].text }
                         onClick={ () => this.setTabIndex(4) }
                       />
                     </List>
