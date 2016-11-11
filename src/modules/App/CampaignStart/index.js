@@ -12,11 +12,6 @@ import Input from 'react-toolbox/lib/input';
 import Switch from 'react-toolbox/lib/switch';
 import TimePicker from 'react-toolbox/lib/time_picker';
 
-// import styles from '../../../styles';
-const styles = {};
-
-import classnames from 'classnames';
-
 export class CampaignStart extends Component {
   displayName: 'New Campaign';
   state = {
@@ -178,16 +173,12 @@ export class CampaignStart extends Component {
   }
 
   render() {
-    const className = classnames(styles['campaigns_list']);
-    const pageHeaderClassName = classnames(styles['page_header']);
-    const formFieldClassName = classnames(styles['form-field']);
-    const formButtonsClassName = classnames(styles['form-buttons']);
     const min_datetime = new Date();
     const { t } = this.props;
 
     return (
-      <div className={ className }>
-        <div className={ pageHeaderClassName }>
+      <div className="campaigns_list">
+        <div className="page_header">
           <h2>
             { t('campaigns.create.heading') }
           </h2>
@@ -196,13 +187,13 @@ export class CampaignStart extends Component {
           <Tabs index={ this.state.tabIndex } onChange={ this.handleTabIndexChange } fixed>
             <Tab label={ t('campaigns.create.nav.start') }>
               <div>
-                <h3 className={ classnames(styles['tab-heading']) }>{ t('campaigns.create.start.heading') }</h3>
-                <div className={ classnames(styles['row'])  }>
-                  <div className={ classnames(styles['col-xs-12'], styles['col-md-7']) }>
-                    <div className={ formFieldClassName }>
+                <h3 className="tab-heading">{ t('campaigns.create.start.heading') }</h3>
+                <div className="row">
+                  <div className="col-xs-12 col-md-7">
+                    <div className="form-field">
                       <Input type="text" label={ t('campaigns.create.start.name') } name="name" value={ this.state.name } onChange={ this.handleChange.bind(this, 'name') } />
                     </div>
-                    <div className={ formFieldClassName }>
+                    <div className="form-field">
                       {
                         this.state.chip1 ? null : (
                           <Chip deletable onDeleteClick={ this.handleDeleteClick.bind(this, 'chip1') }>Sales</Chip>
@@ -221,7 +212,7 @@ export class CampaignStart extends Component {
                     </div>
                   </div>
                 </div>
-                <div className={ formFieldClassName }>
+                <div className="form-field">
                   <Checkbox
                     checked={ this.state.check1 }
                     label={ t('campaigns.create.start.android') }
@@ -233,22 +224,22 @@ export class CampaignStart extends Component {
                     onChange={ this.handleChange.bind(this, 'check2') }
                   />
                 </div>
-                <div className={ formButtonsClassName }>
+                <div className="form-buttons">
                   <Button onClick={ () => this.setTabIndex(1) } label={ t('campaigns.create.start.next') } raised primary />
                 </div>
               </div>
             </Tab>
             <Tab label={ t('campaigns.create.nav.createPush') }>
               <div>
-                <h3 className={ classnames(styles['tab-heading']) }>{ t('campaigns.create.createPush.heading') }</h3>
+                <h3 className="tab-heading">{ t('campaigns.create.createPush.heading') }</h3>
                 <span>{ t('campaigns.create.createPush.addAnimation') }</span>
-                <div><small className={ classnames(styles['text-muted']) }>{ t('campaigns.create.createPush.addAnimationNote') }</small></div>
-                <div className={ classnames(styles['row'])  }>
-                  <div className={ classnames(styles['col-xs-12'], styles['col-md-7']) }>
-                    <div className={ classnames(styles['row'])  }>
-                      <div className={ classnames(styles['col-md-8']) }>
-                        <div className={ classnames(styles['panel']) }>
-                          <List selectable ripple className={ classnames(styles['no-margin']) }>
+                <div><small className="text-muted">{ t('campaigns.create.createPush.addAnimationNote') }</small></div>
+                <div className="row">
+                  <div className="col-xs-12 col-md-7">
+                    <div className="row">
+                      <div className="col-md-8">
+                        <div className="panel">
+                          <List selectable ripple className="no-margin">
                             <ListItem
                               leftIcon="file_upload"
                               caption={ t('campaigns.create.createPush.uploadAnimation') }
@@ -257,9 +248,9 @@ export class CampaignStart extends Component {
                           </List>
                         </div>
                       </div>
-                      <div className={ classnames(styles['col-md-4']) }>
-                        <div className={ classnames(styles['panel']) }>
-                          <List selectable ripple className={ classnames(styles['no-margin']) }>
+                      <div className="col-md-4">
+                        <div className="panel">
+                          <List selectable ripple className="no-margin">
                             <ListItem
                               caption={ t('campaigns.create.createPush.createAnimation') }
                               legend={ t('campaigns.create.createPush.createAnimationNote') }
@@ -268,8 +259,8 @@ export class CampaignStart extends Component {
                         </div>
                       </div>
                     </div>
-                    <div className={ classnames(styles['panel']) }>
-                      <List selectable ripple className={ classnames(styles['no-margin']) }>
+                    <div className="panel">
+                      <List selectable ripple className="no-margin">
                         <ListItem
                           rightIcon="add"
                           caption={ t('campaigns.create.createPush.setDuration.heading') }
@@ -278,8 +269,8 @@ export class CampaignStart extends Component {
                       </List>
                       {
                         this.state.toggleSetDuration ? (
-                          <div className={ classnames(styles['row'])  }>
-                            <div className={ classnames(styles['col-xs-12'], styles['col-lg-6']) }>
+                          <div className="row">
+                            <div className="col-xs-12 col-lg-6">
                               <label>{ t('campaigns.create.createPush.setDuration.loops') }</label>
                               <Dropdown
                                 allowBlank={ false }
@@ -299,15 +290,15 @@ export class CampaignStart extends Component {
                                 value={ this.state.delaySelected }
                               />
                             </div>
-                            <div className={ classnames(styles['col-xs-12'], styles['col-lg-6'], styles['c-container__center']) }>
+                            <div className="col-xs-12 col-lg-6 c-container__center">
                               <Button label={ t('campaigns.create.createPush.preview') } raised primary />
                             </div>
                           </div>
                         ) : null
                       }
                     </div>
-                    <div className={ classnames(styles['panel']) }>
-                      <List selectable ripple className={ classnames(styles['no-margin']) }>
+                    <div className="panel">
+                      <List selectable ripple className="no-margin">
                         <ListItem
                           rightIcon="add"
                           caption={ t('campaigns.create.createPush.addPushNotification.heading') }
@@ -318,7 +309,7 @@ export class CampaignStart extends Component {
                         this.state.toggleAddPushNotification ? (
                           <div>
                             <Input type="text" multiline label={ t('campaigns.create.createPush.addPushNotification.enterNotification') } rows={ 3 } value={ this.state.pushText } onChange={ this.handleChange.bind(this, 'pushText') } />
-                            <small className={ classnames(styles['text-muted']) }>{ t('campaigns.create.createPush.addPushNotification.forAndroidOnly') }</small>
+                            <small className="text-muted">{ t('campaigns.create.createPush.addPushNotification.forAndroidOnly') }</small>
                             <Dropdown
                               allowBlank={ false }
                               source={ this.screenLocations }
@@ -331,12 +322,12 @@ export class CampaignStart extends Component {
                         ) : null
                       }
                     </div>
-                    <div className={ formButtonsClassName }>
+                    <div className="form-buttons">
                       <Button icon="chevron_left" onClick={ () => this.setTabIndex(0) } label={ t('campaigns.create.createPush.back') } raised />
                       <Button onClick={ () => this.setTabIndex(2) } label={ t('campaigns.create.createPush.next') } raised primary />
                     </div>
                   </div>
-                  <div className={ classnames(styles['col-xs'], styles['col-md-5']) }>
+                  <div className="col-md-5">
                     <h4>Mobile Phone Preview</h4>
                     <img src="https://placeimg.com/300/500/tech" />
                   </div>
@@ -345,8 +336,8 @@ export class CampaignStart extends Component {
             </Tab>
             <Tab label={ t('campaigns.create.nav.addAction') }>
               <div>
-                <h3 className={ classnames(styles['tab-heading']) }>{ t('campaigns.create.addAction.heading') }</h3>
-                <div><small className={ classnames(styles['text-muted']) }>{ t('campaigns.create.addAction.subtitle') }</small></div>
+                <h3 className="tab-heading">{ t('campaigns.create.addAction.heading') }</h3>
+                <div><small className="text-muted">{ t('campaigns.create.addAction.subtitle') }</small></div>
                 <Dropdown
                   allowBlank={ false }
                   source={ this.appActions }
@@ -357,23 +348,23 @@ export class CampaignStart extends Component {
                 />
                 {
                   this.state.appAction === 1 ? (
-                    <div className={ classnames(styles['row'])  }>
-                      <div className={ classnames(styles['col-xs-12'], styles['col-lg-5']) }>
+                    <div className="row">
+                      <div className="col-xs-12 col-lg-5">
                         <img src="https://placeimg.com/300/500/tech" />
                       </div>
-                      <div className={ classnames(styles['col-xs-12'], styles['col-lg-7']) }>
+                      <div className="col-xs-12 col-lg-7">
                         <div>
                           <Dropzone onDrop={ this.onDrop }>
                             <div>Try dropping some files here, or click to select files to upload.</div>
                           </Dropzone>
                         </div>
-                        <div className={ formFieldClassName }>
+                        <div className="form-field">
                           <Input type="text" label={ t('campaigns.create.addAction.template.headline') } name="headline" value={ this.state.headline } onChange={ this.handleChange.bind(this, 'headline') } />
                         </div>
-                        <div className={ formFieldClassName }>
+                        <div className="form-field">
                           <Input type="text" multiline label={ t('campaigns.create.addAction.template.content') } name="content" value={ this.state.content } rows={ 3 } onChange={ this.handleChange.bind(this, 'content') } />
                         </div>
-                        <div className={ formFieldClassName }>
+                        <div className="form-field">
                           <label>{ t('campaigns.create.addAction.template.callToAction') }</label>
                           <Input type="text" label={ t('campaigns.create.addAction.template.buttonLabel') } name="buttonLabel" value={ this.state.buttonLabel } onChange={ this.handleChange.bind(this, 'buttonLabel') } />
                           <Input type="text" label={ t('campaigns.create.addAction.template.buttonLink') } name="buttonLink" value={ this.state.buttonLink } onChange={ this.handleChange.bind(this, 'buttonLink') } />
@@ -381,14 +372,14 @@ export class CampaignStart extends Component {
                       </div>
                     </div>
                   ) : (
-                  <div className={ classnames(styles['row']) }>
-                    <div className={ classnames(styles['col-md-6']) }>
+                  <div className="row">
+                    <div className="col-md-6">
                       <Input type="text" label={ t('campaigns.create.addAction.link.enterLink') } name="enterLink" value={ this.state.actionLink } onChange={ this.handleChange.bind(this, 'actionLink') } />
                     </div>
                   </div>
                   )
                 }
-                <div className={ formButtonsClassName }>
+                <div className="form-buttons">
                   <Button icon="chevron_left" onClick={ () => this.setTabIndex(1) } label={ t('campaigns.create.addAction.back') } raised />
                   <Button onClick={ () => this.setTabIndex(3) } label={ t('campaigns.create.addAction.next') } raised primary />
                 </div>
@@ -396,20 +387,20 @@ export class CampaignStart extends Component {
             </Tab>
             <Tab label={ t('campaigns.create.nav.scheduleDelivery') }>
               <div>
-                <h3 className={ classnames(styles['tab-heading']) }>{ t('campaigns.create.scheduleDelivery.heading') }</h3>
-                <div><small className={ classnames(styles['text-muted']) }>{ t('campaigns.create.scheduleDelivery.subtitle') }</small></div>
-                <div className={ classnames(styles['row']) }>
-                  <div className={ classnames(styles['col-md-5']) }>
-                    <div className={ classnames(styles['panel']) }>
+                <h3 className="tab-heading">{ t('campaigns.create.scheduleDelivery.heading') }</h3>
+                <div><small className="text-muted">{ t('campaigns.create.scheduleDelivery.subtitle') }</small></div>
+                <div className="row">
+                  <div className="col-md-5">
+                    <div className="panel">
                       <Switch
                         checked={ this.state.scheduleDeliverySwitch }
                         label={ t('campaigns.create.scheduleDelivery.schedule.heading') }
                         onChange={ this.handleChange.bind(this, 'scheduleDeliverySwitch') }
                       />
-                      <small className={ classnames(styles['text-muted']) }>{ t('campaigns.create.scheduleDelivery.schedule.subtitle') }</small>
+                      <small className="text-muted">{ t('campaigns.create.scheduleDelivery.schedule.subtitle') }</small>
                       {
                         this.state.scheduleDeliverySwitch === true ? (
-                          <div className={ classnames(styles['margin-t-40']) }>
+                          <div className="margin-t-40">
                             {/* <label>{ t('campaigns.create.scheduleDelivery.schedule.send') }</label> */}
                             <Dropdown
                               allowBlank={ false }
@@ -422,8 +413,8 @@ export class CampaignStart extends Component {
                             {
                               this.state.sendDPSchedule === 1 ? (
                                 <div>
-                                  <div className={ classnames(styles['row']) }>
-                                    <div className={ classnames(styles['col-md-6']) }>
+                                  <div className="row">
+                                    <div className="col-md-6">
                                       <DatePicker
                                         label={ t('campaigns.create.scheduleDelivery.schedule.expirationDate') }
                                         minDate={ min_datetime }
@@ -432,7 +423,7 @@ export class CampaignStart extends Component {
                                         sundayFirstDayOfWeek
                                       />
                                     </div>
-                                    <div className={ classnames(styles['col-md-6']) }>
+                                    <div className="col-md-6">
                                       <TimePicker
                                         label={ t('campaigns.create.scheduleDelivery.schedule.expirationTime') }
                                         onChange={ this.handleChange.bind(this, 'time1') }
@@ -456,8 +447,8 @@ export class CampaignStart extends Component {
                                   template={ this.dropDownItemTextTemplate }
                                   value={ this.state.sendDPRepeat }
                                 />
-                                <div className={ classnames(styles['row']) }>
-                                  <div className={ classnames(styles['col-md-6']) }>
+                                <div className="row">
+                                  <div className="col-md-6">
                                     <DatePicker
                                       label={ t('shared.date') }
                                       minDate={ min_datetime }
@@ -466,7 +457,7 @@ export class CampaignStart extends Component {
                                       sundayFirstDayOfWeek
                                     />
                                   </div>
-                                  <div className={ classnames(styles['col-md-6']) }>
+                                  <div className="col-md-6">
                                     <TimePicker
                                       label={ t('shared.time') }
                                       onChange={ this.handleChange.bind(this, 'time2') }
@@ -487,17 +478,17 @@ export class CampaignStart extends Component {
                       }
                     </div>
                   </div>
-                  <div className={ classnames(styles['col-md-5']) }>
-                    <div className={ classnames(styles['panel']) }>
+                  <div className="col-md-5">
+                    <div className="panel">
                       <Switch
                         checked={ this.state.triggerDeliverySwitch }
                         label={ t('campaigns.create.scheduleDelivery.action.heading') }
                         onChange={ this.handleChange.bind(this, 'triggerDeliverySwitch') }
                       />
-                      <small className={ classnames(styles['text-muted']) }>{ t('campaigns.create.scheduleDelivery.action.subtitle') }</small>
+                      <small className="text-muted">{ t('campaigns.create.scheduleDelivery.action.subtitle') }</small>
                       {
                         this.state.triggerDeliverySwitch === true ? (
-                          <div className={ classnames(styles['margin-t-40']) }>
+                          <div className="margin-t-40">
                             <Dropdown
                               allowBlank={ false }
                               source={ this.triggerEventOptions }
@@ -517,8 +508,8 @@ export class CampaignStart extends Component {
                                     template={ this.dropDownItemTextTemplate }
                                     value={ this.state.appInactiveDays }
                                   />
-                                  <div className={ classnames(styles['row']) }>
-                                    <div className={ classnames(styles['col-md-6']) }>
+                                  <div className="row">
+                                    <div className="col-md-6">
                                       <Dropdown
                                         allowBlank={ false }
                                         source={ this.numberDPsOptions }
@@ -528,7 +519,7 @@ export class CampaignStart extends Component {
                                         value={ this.state.numberDP }
                                       />
                                     </div>
-                                    <div className={ classnames(styles['col-md-6']) }>
+                                    <div className="col-md-6">
                                       <Dropdown
                                         allowBlank={ false }
                                         source={ this.daysOptions }
@@ -548,7 +539,7 @@ export class CampaignStart extends Component {
                     </div>
                   </div>
                 </div>
-                <div className={ formButtonsClassName }>
+                <div className="form-buttons">
                   <Button icon="chevron_left" onClick={ () => this.setTabIndex(2) } label={ t('campaigns.create.scheduleDelivery.back') } raised />
                   <Button onClick={ () => this.setTabIndex(4) } label={ t('campaigns.create.scheduleDelivery.next') } raised primary />
                 </div>
@@ -556,8 +547,8 @@ export class CampaignStart extends Component {
             </Tab>
             <Tab label={ t('campaigns.create.nav.selectAudience') }>
               <div>
-                <h3 className={ classnames(styles['tab-heading']) }>{ t('campaigns.create.selectAudience.heading') }</h3>
-                <div><small className={ classnames(styles['text-muted']) }>{ t('campaigns.create.selectAudience.subtitle') }</small></div>
+                <h3 className="tab-heading">{ t('campaigns.create.selectAudience.heading') }</h3>
+                <div><small className="text-muted">{ t('campaigns.create.selectAudience.subtitle') }</small></div>
                 <Dropdown
                   allowBlank={ false }
                   source={ this.ageGroupOptions }
@@ -566,7 +557,7 @@ export class CampaignStart extends Component {
                   template={ this.dropDownItemTextTemplate }
                   value={ this.state.ageGroup }
                 />
-                <div className={ formButtonsClassName }>
+                <div className="form-buttons">
                   <Button icon="chevron_left" onClick={ () => this.setTabIndex(3) } label={ t('campaigns.create.selectAudience.back') } raised />
                   <Button onClick={ () => this.setTabIndex(5) } label={ t('campaigns.create.selectAudience.next') } raised primary />
                 </div>
@@ -574,9 +565,9 @@ export class CampaignStart extends Component {
             </Tab>
             <Tab label={ t('campaigns.create.nav.previewAndLaunch') }>
               <div>
-                <h3 className={ classnames(styles['tab-heading']) }>{ t('campaigns.create.previewAndLaunch.heading') }</h3>
-                <div className={ classnames(styles['row']) }>
-                  <div className={ classnames(styles['col-md-6']) }>
+                <h3 className="tab-heading">{ t('campaigns.create.previewAndLaunch.heading') }</h3>
+                <div className="row">
+                  <div className="col-md-6">
                     <List selectable ripple>
                       <ListItem
                         rightIcon="mode_edit"
@@ -609,12 +600,12 @@ export class CampaignStart extends Component {
                       />
                     </List>
                   </div>
-                  <div className={ classnames(styles['col-md-6']) }>
+                  <div className="col-md-6">
                     <h4>Mobile Phone Preview</h4>
                     <img src="https://placeimg.com/300/500/tech" />
                   </div>
                 </div>
-                <div className={ formButtonsClassName }>
+                <div className="form-buttons">
                   <Button icon="save" onClick={ () => this.handleSaveDraft() } label={ t('campaigns.create.previewAndLaunch.saveAsDraft') } raised accent />
                   <Button icon="done_all" onClick={ () => this.handleSave() } label={ t('campaigns.create.previewAndLaunch.launchNow') } raised primary />
                 </div>

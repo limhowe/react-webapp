@@ -20,7 +20,7 @@ class AppLayout extends Component {
         <Header />
         <Layout>
           <NavDrawer />
-          <Panel>
+          <Panel className="scrollY">
             <div>
               <div className="c-container c-container__center">
                 { loaded ? children : (<ProgressBar mode="indeterminate" type="circular" multicolor />) }
