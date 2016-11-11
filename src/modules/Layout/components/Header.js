@@ -30,9 +30,9 @@ export class Header extends Component {
       <AppBar title={ t('shared.applicationName') } leftIcon="menu" onLeftIconClick={ toggle }>
         {
           isLoggedIn ?
-          (<Navigation horizontal>
-            <Button label={ t('layout.header.logout') } onClick={ logout } icon="exit_to_app" />
-          </Navigation>) :
+            (<Navigation horizontal>
+              <Button label={ t('layout.header.logout') } onClick={ logout } icon="exit_to_app" />
+            </Navigation>) :
           (<Navigation horizontal>
             <Link href="/app" label={ t('layout.header.home') } />
             <Link href="/app" label={ t('layout.header.pricing') } />

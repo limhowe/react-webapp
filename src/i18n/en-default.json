@@ -1,6 +1,11 @@
 {
   "shared": {
-    "applicationName": "Dynamic Push"
+    "applicationName": "Dynamic Push",
+    "on": "On",
+    "off": "Off",
+    "date": "Date",
+    "time": "Time",
+    "edit": "Edit"
   },
   "layout": {
     "header": {
@@ -11,6 +16,136 @@
       "blog": "Blog",
       "login": "Login",
       "logout": "Logout"
+    },
+    "navbar": {
+      "dashboard": "Dashboard",
+      "campaigns": "Campaigns",
+      "audience": "Audience",
+      "reports": "Reports",
+      "analytics": "Analytics",
+      "revenueGoals": "Revenue Goals",
+      "settings": "Settings"
+    }
+  },
+  "campaigns": {
+    "list": {
+      "heading": "Campaigns",
+      "newCampaign": "Create a New Campaign",
+      "inProgress": "In Progress",
+      "scheduled": "Scheduled",
+      "paused": "Paused",
+      "completed": "Completed",
+      "all": "All"
+    },
+    "create": {
+      "heading": "Create a Campaign",
+      "nav": {
+        "start": "Start",
+        "createPush": "Create Dynamic Push",
+        "addAction": "Add Action",
+        "scheduleDelivery": "Schedule Delivery",
+        "selectAudience": "Select Audience",
+        "previewAndLaunch": "Preview and Launch"
+      },
+      "start": {
+        "heading": "Start a Campaign",
+        "name": "Campaign Name",
+        "tags": "Add Tags",
+        "platform": "Select Platform",
+        "android": "Android",
+        "apple": "Apple",
+        "next": "Next: Create Dynamic Push"
+      },
+      "createPush": {
+        "heading": "Create Dynamic Push",
+        "addAnimation": "Add Dynamic Push Animation",
+        "addAnimationNote": "Animation will be displayed only on the Android Phones",
+        "uploadAnimation": "Upload Animation",
+        "uploadAnimationNote": "Animation should be in GIF format and not exceed 5k.",
+        "replaceAnimation": "Replace Animation",
+        "replaceAnimationNote": "Animation should be in GIF format and not exceed 5k.",
+        "createAnimation": "Create Animation",
+        "createAnimationNote": "Ue GIF maker to create animation",
+        "preview": "Preview",
+        "next": "Next: Select Action",
+        "back": "Back",
+        "setDuration": {
+          "heading": "Set Duration for the Animation",
+          "loops": "Loops",
+          "loopsNote": "How many times animation will repeat",
+          "delay": "Delay",
+          "delayNote": "Pause between loops",
+          "totalDuration": "Total Duration"
+        },
+        "addPushNotification": {
+          "heading":  "Add Dynamic Push Notification",
+          "enterNotification": "Enter Notification Text",
+          "selectScreenLocation": "Select Location on the Screen",
+          "forAndroidOnly": "* For the Android phones only"
+        }
+      },
+      "addAction": {
+        "heading": "Add Action",
+        "subtitle": "Select desired action for the app to take when a user clicks on Dynamic Push notification.",
+        "enterLink": "Enter Link",
+        "next": "Next: Select Delivery",
+        "back": "Back",
+        "template": {
+          "createTemplate": "Create a New Template",
+          "templateEditor": "Template Editor",
+          "imageOrAnimation": "Image or Animation",
+          "headline": "Headline",
+          "content": "Content",
+          "callToAction": "Call to Action/Button",
+          "buttonLabel": "Button Label",
+          "buttonLink": "Enter Link"
+        },
+        "link": {
+          "enterLink": "Enter Link"
+        }
+      },
+      "scheduleDelivery": {
+        "heading": "Schedule Delivery",
+        "subtitle": "Select when users will receive Dynamic Push",
+        "next": "Next: Select Audience",
+        "back": "Back",
+        "schedule": {
+          "heading": "Schedule Delivery",
+          "subtitle": "Send DP at the designated times of the day or week",
+          "send": "Send DP",
+          "immediate": "Immediately",
+          "repeat": "Repeat",
+          "expirationDate": "Expiration Date",
+          "expirationTime": "Finish Time",
+          "useDeviceTime": "Use Device Local Time"
+        },
+        "action": {
+          "heading": "Action Triggered Delivery",
+          "subtitle": "Send DP to users when they perform an action",
+          "selectEvent": "Select Trigger Event",
+          "inactivity": "Inactivity",
+          "idleDays": "Send when app is not opened within",
+          "sendLimit": "Do not send more than",
+          "withIn": "Within"
+        }
+      },
+      "selectAudience": {
+        "heading": "Select Audience",
+        "subtitle": "Select users who will receive Dynamic Push",
+        "selectAgeGroup": "Select age group",
+        "next": "Next: Preview and Launch",
+        "back": "Back"
+      },
+      "previewAndLaunch": {
+        "heading": "Preview and Launch",
+        "campaignName": "Campaign Name",
+        "tags": "Tags",
+        "action": "Action",
+        "delivery": "Delivery",
+        "audience": "Audience",
+        "saveAsDraft": "Save as a Draft",
+        "launchNow": "Launch Now"
+      }
     }
   }
 }

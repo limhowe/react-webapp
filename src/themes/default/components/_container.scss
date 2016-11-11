@@ -1,5 +1,5 @@
 .c-container {
-  padding: 0 $unit * 2;
+  padding: $unit * 4;
 }
 
 .c-container__small {
@@ -10,8 +10,18 @@
   }
 }
 
+.margin-t-40 {
+  margin-top: 40px;
+}
+
 .c-container__center {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.panel {
+  border: 1px solid #f1f1f1;
+  padding: 15px;
+  margin-top: 15px;
 }
