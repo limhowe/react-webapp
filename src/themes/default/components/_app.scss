@@ -5,79 +5,6 @@
   outline: 0;
 }
 
-// abbr,
-// address,
-// article,
-// aside,
-// audio,
-// b,
-// blockquote,
-// body,
-// caption,
-// cite,
-// code,
-// dd,
-// del,
-// dfn,
-// dialog,
-// div,
-// dl,
-// dt,
-// em,
-// fieldset,
-// figure,
-// footer,
-// form,
-// h1,
-// h2,
-// h3,
-// h4,
-// h5,
-// h6,
-// header,
-// hgroup,
-// hr,
-// html,
-// i,
-// iframe,
-// img,
-// ins,
-// kbd,
-// label,
-// legend,
-// li,
-// mark,
-// menu,
-// nav,
-// object,
-// ol,
-// p,
-// pre,
-// q,
-// samp,
-// section,
-// small,
-// span,
-// strong,
-// sub,
-// sup,
-// table,
-// tbody,
-// td,
-// tfoot,
-// th,
-// thead,
-// time,
-// tr,
-// ul,
-// var,
-// video{
-//   padding:0;
-//   margin:0;
-//   border:0;
-//
-// }
-
 html {
   box-sizing: border-box;
   font: 400 100%/1.5 -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /* stylelint-disable-line value-keyword-case */
@@ -99,23 +26,4 @@ a {
 
 ul {
   padding: 0;
-}
-
-.no-margin {
-  margin: 0;
-}
-
-.text-muted {
-  color: #222222;
-  opacity: 0.5;
-  padding-bottom: 18px;
-}
-
-.pull-right {
-  float: right;
-}
-
-.form-field {
-  padding-top: 8px;
-  padding-bottom: 8px;
 }

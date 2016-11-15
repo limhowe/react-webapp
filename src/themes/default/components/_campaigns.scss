@@ -1,3 +1,5 @@
+/* @TODO needs refactoring on this file */
+
 .campaigns_list {
   width: 100%;
 }
@@ -12,4 +14,34 @@
     height: 50px;
     margin-right: 24px;
   }
+}
+
+.margin-t-40 {
+  margin-top: 40px;
+}
+
+.panel {
+  border: 1px solid #f1f1f1;
+  padding: 15px;
+  margin-top: 15px;
+}
+
+
+.no-margin {
+  margin: 0;
+}
+
+.text-muted {
+  color: #222222;
+  opacity: 0.5;
+  padding-bottom: 18px;
+}
+
+.pull-right {
+  float: right;
+}
+
+.form-field {
+  padding-top: 8px;
+  padding-bottom: 8px;
 }

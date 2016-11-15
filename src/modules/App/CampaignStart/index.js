@@ -12,7 +12,9 @@ import Input from 'react-toolbox/lib/input';
 import Switch from 'react-toolbox/lib/switch';
 import TimePicker from 'react-toolbox/lib/time_picker';
 
-import styles from '../../../styles';
+// import styles from '../../../styles';
+const styles = {};
+
 import classnames from 'classnames';
 
 export class CampaignStart extends Component {

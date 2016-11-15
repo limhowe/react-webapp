@@ -1,7 +1,14 @@
 // ------------------------------------------
 // contains shared components used everywhere
 // ------------------------------------------
-@import "./components/app";
-@import "./components/grid";
-@import "./components/container";
-@import "./components/campaigns";
+:global {
+  @import "./components/app";
+  @import "./components/container";
+  @import "./components/campaigns";
+  @import "./components/layout";
+
+  // imported bootstrap grid system
+  @import "../../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/variables";
+  @import "../../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/mixins";
+  @import "../../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/grid";
+}

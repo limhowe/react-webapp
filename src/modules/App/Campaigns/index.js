@@ -5,8 +5,6 @@ import { push } from 'react-router-redux';
 import { Tab, Tabs } from 'react-toolbox';
 import { translate } from 'react-i18next';
 import Table from 'react-toolbox/lib/table';
-import styles from '../../../styles';
-import classnames from 'classnames';
 
 const CampaignModel = {
   animation: { type: String },
@@ -53,17 +51,13 @@ export class Campaigns extends Component {
   };
 
   render() {
-    const className = classnames(styles['campaigns_list']);
-    const pageHeaderClassName = classnames(styles['page_header']);
-    const pageHeaderBtnClassName = classnames(styles['pull-right']);
-
     const { t, start } = this.props;
     return (
-      <div className={ className }>
-        <div className={ pageHeaderClassName }>
+      <div className="campaigns_list">
+        <div className="page_header">
           <h2>
             { t('campaigns.list.heading') }
-            <Button className={ pageHeaderBtnClassName } onClick={ start } label={ t('campaigns.list.newCampaign') } raised primary />
+            <Button className="pull-right" onClick={ start } label={ t('campaigns.list.newCampaign') } raised primary />
           </h2>
         </div>
         <section>

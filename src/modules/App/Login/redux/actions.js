@@ -25,14 +25,15 @@ export const AUTH_SIGNOUT_SUCCESS = 'auth/signout/succes';
 export const AUTH_SIGNOUT_ERROR = 'auth/signout/error';
 
 export const authSignoutRequest = createAction(AUTH_SIGNOUT_REQUEST, () => {
+
+
   return (dispatch, getState) => {
-    const authService = new AuthService(dispatch, getState);
-    authService.signout({
-      SUCCESS: AUTH_SIGNOUT_SUCCESS,
-      ERROR: AUTH_SIGNOUT_ERROR
-    }).then(() => {
-      dispatch(push('/app/login'));
+    // no need for log out api call since we are using JWT
+    dispatch({
+      type: AUTH_SIGNOUT_SUCCESS,
+      payload: null
     });
+    dispatch(push('/app/login'));
   };
 });
 

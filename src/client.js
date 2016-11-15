@@ -8,6 +8,9 @@ import configureStore from './redux/store';
 import configureRoutes from './routes';
 import i18n from './i18n';
 
+// importing styles only once!
+import styles from './styles'; // eslint-disable-line
+
 const store = configureStore(window.__INITIAL_STATE__);
 const routes = configureRoutes(store);
 
