@@ -6,6 +6,8 @@ import { Tab, Tabs } from 'react-toolbox';
 import { translate } from 'react-i18next';
 import Table from 'react-toolbox/lib/table';
 
+import { campaignsListRequest } from './redux/actions';
+
 const CampaignModel = {
   animation: { type: String },
   name: { type: String },
@@ -39,7 +41,8 @@ export class Campaigns extends Component {
   };
   props: {
     t: Function,
-    start: Function
+    start: Function,
+    load: Function
   };
 
   handleTabIndexChange = (index) => {
@@ -51,12 +54,13 @@ export class Campaigns extends Component {
   };
 
   render() {
-    const { t, start } = this.props;
+    const { t, start, load } = this.props;
     return (
       <div className="campaigns_list">
         <div className="page_header">
           <h2>
             { t('campaigns.list.heading') }
+            <Button className="pull-right" onClick={ load } label="Load Campaigns" raised accent />
             <Button className="pull-right" onClick={ start } label={ t('campaigns.list.newCampaign') } raised primary />
           </h2>
         </div>
@@ -89,11 +93,15 @@ export class Campaigns extends Component {
 }
 
 
-const mapStatesToProps = () => ({
-});
+const mapStatesToProps = () => ({});
 
 const mapDispatchToProps = (dispatch) => ({
-  start: () => dispatch(push('/app/campaigns/start'))
+  start: () => {
+    dispatch(push('/app/campaigns/start'))
+  },
+  load: () => {
+    dispatch(campaignsListRequest('5825cfd1d3932754c70fada7'));
+  }
 });
 
 export default translate()(connect(mapStatesToProps, mapDispatchToProps)(Campaigns));
