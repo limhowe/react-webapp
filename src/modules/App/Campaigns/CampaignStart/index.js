@@ -13,7 +13,9 @@ import Input from 'react-toolbox/lib/input';
 import Switch from 'react-toolbox/lib/switch';
 import TimePicker from 'react-toolbox/lib/time_picker';
 
-import { campaignCreateRequest, campaignUpdateRequest, campaignScheduleRequest } from './redux/actions';
+import { push } from 'react-router-redux';
+import { showNotification } from '../../../Layout/redux/actions';
+import { campaignCreateRequest, campaignUpdateRequest, campaignScheduleRequest } from '../redux/actions';
 
 export class CampaignStart extends Component {
   displayName: 'New Campaign';
@@ -705,9 +707,7 @@ const mapDispatchToProps = (dispatch) => ({
       if (campaign && campaign._id) {
         dispatch(campaignUpdateRequest('5825cfd1d3932754c70fada7', campaign._id, payload));
       }
-      return;
     }
-
   },
   launch: (campaign, state) => {
     const payload = {
@@ -715,7 +715,10 @@ const mapDispatchToProps = (dispatch) => ({
       isPaused: false
     };
     if (campaign && campaign._id) {
-      dispatch(campaignUpdateRequest('5825cfd1d3932754c70fada7', campaign._id, payload));
+      dispatch(campaignUpdateRequest('5825cfd1d3932754c70fada7', campaign._id, payload)).then(() => {
+        dispatch(showNotification('success', `Great, the campaign [${ campaign.title }] is just launched.`));
+        dispatch(push('/app/campaigns'));
+      });
     }
   }
 });
