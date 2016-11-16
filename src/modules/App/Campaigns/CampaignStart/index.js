@@ -36,6 +36,7 @@ export class CampaignStart extends Component {
     deliveryScheduleSwitch: true,
     deliveryActionSwitch: false,
     sendDPSchedule: 'immediate',
+    sendDPRepeat: 'daily',
     triggerEvent: 1
   };
   props: {
@@ -44,7 +45,8 @@ export class CampaignStart extends Component {
     setPush: Function,
     setAction: Function,
     setDeliverySchedule: Function,
-    launch: Function
+    launch: Function,
+    campaign: Object
   };
 
   handleTabIndexChange = (index) => {
@@ -55,10 +57,6 @@ export class CampaignStart extends Component {
     this.setState({ tabIndex: index });
   };
 
-  handleActive = () => {
-    console.log('Special one activated');
-  };
-
   handleChange = (name, value) => {
     this.setState({ ...this.state, [name]: value });
   };
@@ -66,14 +64,6 @@ export class CampaignStart extends Component {
   handleDeleteClick = (field) => {
     this.setState({ [field]: false });
   };
-
-  handleSaveDraft = () => {
-    console.log('Save as Draft');
-  }
-
-  handleSave = () => {
-    console.log(this.state);
-  }
 
   loopCounts = [
     { value: 1 },
@@ -121,9 +111,9 @@ export class CampaignStart extends Component {
   ];
 
   sendDPRepeatOptions = [
-    { value: 1, text: 'Daily' },
-    { value: 2, text: 'Weekly' },
-    { value: 3, text: 'Bi-Weekly' }
+    { value: 'daily', text: 'Daily' },
+    { value: 'weekly', text: 'Weekly' },
+    { value: 'monthly', text: 'Monthly' }
   ];
 
   triggerEventOptions = [
@@ -180,8 +170,8 @@ export class CampaignStart extends Component {
   }
 
   onDrop = (acceptedFiles, rejectedFiles) => {
-    console.log('Accepted files: ', acceptedFiles);
-    console.log('Rejected files: ', rejectedFiles);
+    console.log('Accepted files: ', acceptedFiles); // eslint-disable-line
+    console.log('Rejected files: ', rejectedFiles); // eslint-disable-line
   }
 
   render() {
@@ -203,7 +193,7 @@ export class CampaignStart extends Component {
                 <div className="row">
                   <div className="col-xs-12 col-md-7">
                     <div className="form-field">
-                      <Input type="text" label={ t('campaigns.create.start.name') } name="title" value={ this.state.title } onChange={ this.handleChange.bind(this, 'title') } />
+                      <Input type="text" label={ t('campaigns.create.start.name') } name="title" value={ this.state.title } onChange={ (...args) => this.handleChange('title', ...args)  } />
                     </div>
                     <div className="form-field">
                       {
@@ -231,7 +221,7 @@ export class CampaignStart extends Component {
                     onChange={ this.handleChange.bind(this, 'checkAndroid') }
                   />
                   <Checkbox
-                    checked={this.state.checkIOS}
+                    checked={ this.state.checkIOS }
                     label={ t('campaigns.create.start.apple') }
                     onChange={ this.handleChange.bind(this, 'checkIOS') }
                   />
@@ -336,7 +326,7 @@ export class CampaignStart extends Component {
                     </div>
                     <div className="form-buttons">
                       <Button icon="chevron_left" onClick={ () => this.setTabIndex(0) } label={ t('campaigns.create.createPush.back') } raised />
-                      <Button onClick={ () => { setPush(this.props.campaign, this.state); this.setTabIndex(2) } } label={ t('campaigns.create.createPush.next') } raised primary />
+                      <Button onClick={ () => { setPush(this.props.campaign, this.state); this.setTabIndex(2); } } label={ t('campaigns.create.createPush.next') } raised primary />
                     </div>
                   </div>
                   <div className="col-md-5">
@@ -425,29 +415,11 @@ export class CampaignStart extends Component {
                             {
                               this.state.sendDPSchedule === 'immediate' ? (
                                 <div>
-                                  <div className="row">
-                                    <div className="col-md-6">
-                                      <DatePicker
-                                        label={ t('campaigns.create.scheduleDelivery.schedule.expirationDate') }
-                                        minDate={ min_datetime }
-                                        onChange={ this.handleChange.bind(this, 'date1') }
-                                        value={ this.state.date1 }
-                                        sundayFirstDayOfWeek
-                                      />
-                                    </div>
-                                    <div className="col-md-6">
-                                      <TimePicker
-                                        label={ t('campaigns.create.scheduleDelivery.schedule.expirationTime') }
-                                        onChange={ this.handleChange.bind(this, 'time1') }
-                                        value={ this.state.time1 }
-                                      />
-                                    </div>
-                                  </div>
-                                  <Checkbox
+                                  {/* <Checkbox
                                     checked={ this.state.useDeviceTime1 }
                                     label={ t('campaigns.create.scheduleDelivery.schedule.useDeviceTime') }
                                     onChange={ this.handleChange.bind(this, 'useDeviceTime1') }
-                                  />
+                                  /> */}
                                 </div>
                               ) : (
                               <div>
@@ -460,20 +432,20 @@ export class CampaignStart extends Component {
                                   value={ this.state.sendDPRepeat }
                                 />
                                 <div className="row">
-                                  <div className="col-md-6">
+                                  <div className="col-lg-6">
                                     <DatePicker
                                       label={ t('shared.date') }
                                       minDate={ min_datetime }
-                                      onChange={ this.handleChange.bind(this, 'date2') }
-                                      value={ this.state.date2 }
+                                      onChange={ this.handleChange.bind(this, 'scheduleDate') }
+                                      value={ this.state.scheduleDate }
                                       sundayFirstDayOfWeek
                                     />
                                   </div>
-                                  <div className="col-md-6">
+                                  <div className="col-lg-6">
                                     <TimePicker
                                       label={ t('shared.time') }
-                                      onChange={ this.handleChange.bind(this, 'time2') }
-                                      value={ this.state.time2 }
+                                      onChange={ this.handleChange.bind(this, 'scheduleTime') }
+                                      value={ this.state.scheduleTime }
                                     />
                                   </div>
                                 </div>
@@ -619,7 +591,7 @@ export class CampaignStart extends Component {
                 </div>
                 <div className="form-buttons">
                   <Button icon="save" onClick={ () => this.handleSaveDraft() } label={ t('campaigns.create.previewAndLaunch.saveAsDraft') } raised accent />
-                  <Button icon="done_all" onClick={ () => launch(this.props.campaign, this.state) } label={ t('campaigns.create.previewAndLaunch.launchNow') } raised primary />
+                  <Button icon="done_all" onClick={ () => launch(this.props.campaign) } label={ t('campaigns.create.previewAndLaunch.launchNow') } raised primary />
                 </div>
               </div>
             </Tab>
@@ -690,9 +662,19 @@ const mapDispatchToProps = (dispatch) => ({
   setDeliverySchedule: (campaign, state) => {
     if (state.deliveryScheduleSwitch) {
       const deliverySchedule = {
-        frequency: state.sendDPSchedule,
-        expiryDate: state.date1
+        status: 'ready',
+        frequency: state.sendDPSchedule
       };
+
+      if (state.sendDPSchedule === 'immediate') {
+        deliverySchedule.repeat = 'once';
+      } else {
+        const sendDate = state.scheduleDate;
+        const sendTime = state.scheduleTime;
+        const scheduleDateTime = `${ sendDate.getFullYear() }-${ `00${ (sendDate.getMonth() + 1) }`.slice(-2) }-${ `00${ sendDate.getDate() }`.slice(-2) } ${ `00${ sendTime.getHours() }`.slice(-2) }:${ `00${ sendTime.getMinutes() }`.slice(-2) }:00`;
+        deliverySchedule.repeat = state.sendDPRepeat;
+        deliverySchedule.sendDate = scheduleDateTime;
+      }
       if (campaign && campaign._id) {
         dispatch(campaignScheduleRequest('5825cfd1d3932754c70fada7', campaign._id, deliverySchedule));
       }
@@ -709,7 +691,7 @@ const mapDispatchToProps = (dispatch) => ({
       }
     }
   },
-  launch: (campaign, state) => {
+  launch: (campaign) => {
     const payload = {
       isActive: true,
       isPaused: false

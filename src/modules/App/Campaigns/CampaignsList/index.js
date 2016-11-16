@@ -44,7 +44,7 @@ export class Campaigns extends Component {
   }
 
   handleActive = () => {
-    console.log('Special one activated');
+    // console.log('Special one activated');
   }
 
   render() {
