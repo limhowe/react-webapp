@@ -2,7 +2,7 @@ import ResourceService from './ResourceService';
 
 export default class ApplicationService extends ResourceService {
   constructor(...args) {
-    super(...args, 'applications');
+    super('applications', ...args);
   }
 
   uploadPem(id, fileName, passPhrase, formData, ...args) {

@@ -1,14 +1,14 @@
 import request from 'superagent';
-import reduxStore from '../redux/clientSyncedStore';
-import { showNotification } from '../redux/actions';
+import { showNotification } from '../modules/Layout/redux/actions';
 
 export default class BaseService {
-  constructor() {
-    this.store = reduxStore;
+  constructor(dispatch, state) {
+    this.dispatch = dispatch;
+    this.state = state;
   }
 
   apiUrl(url) {
-    return `${ __APP_CONFIG__.API_URL }${ url }`;
+    return `${ __CLIENT__ ? __APP_CONFIG__.API_URL : process.env.API_URL }${ url }`;
   }
 
   setHeaders(req) {
@@ -27,7 +27,7 @@ export default class BaseService {
         status // eslint-disable-line
       }
     } = err;
-    reduxStore.dispatch(showNotification('error', body.error || body.message || 'Unknown Error'));
+    this.dispatch(showNotification('error', body.error || body.message || 'Unknown Error'));
     // @TODO show notification by dispatching notificaiton action
   }
 
@@ -36,7 +36,7 @@ export default class BaseService {
     return new Promise((resolve, reject) => {
       req.then((resp) => {
         if (SUCCESS) {
-          reduxStore.dispatch({
+          this.dispatch({
             type: SUCCESS,
             payload: resp.body
           });
@@ -44,13 +44,13 @@ export default class BaseService {
 
         // show success message if set in additional params
         if (additionalParams.successMessage) {
-          reduxStore.dispatch(showNotification('success', additionalParams.successMessage));
+          this.dispatch(showNotification('success', additionalParams.successMessage));
         }
         resolve(resp.body);
       }).catch((err) => {
         this._checkError(err);
         if (ERROR) {
-          reduxStore.dispatch({
+          this.dispatch({
             type: ERROR,
             payload: err && err.response && err.response.body ? err.response.body : err
           });

@@ -8,8 +8,8 @@ export const AUTH_SIGNIN_SUCCESS = 'auth/signin/succes';
 export const AUTH_SIGNIN_ERROR = 'auth/signin/error';
 
 export const authSigninRequest = createAction(AUTH_SIGNIN_REQUEST, (authData) => {
-  return (dispatch) => {
-    const authService = new AuthService();
+  return (dispatch, getState) => {
+    const authService = new AuthService(dispatch, getState());
     authService.signin(authData, {
       SUCCESS: AUTH_SIGNIN_SUCCESS,
       ERROR: AUTH_SIGNIN_ERROR
