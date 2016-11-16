@@ -7,7 +7,6 @@ import { translate } from 'react-i18next';
 import Table from 'react-toolbox/lib/table';
 
 import { campaignsListRequest } from './redux/actions';
-import CampaignService from '../../../api-services/CampaignService';
 
 const CampaignModel = {
   _id: { type: String },
@@ -20,45 +19,36 @@ const CampaignModel = {
   created: {
     type: Date,
     title: 'Created'
-  },
+  }
 };
 
 export class Campaigns extends Component {
-  displayName: 'Campaigns';
+  displayName: 'Campaigns'
   state = {
     tabIndex: 0,
     selected: [],
     source: []
-  };
+  }
+  componentWillMount() {
+    this.props.loadCampaigns();
+  }
   props: {
+    campaigns: Array<any>,
     t: Function,
     start: Function,
-    load: Function
-  };
-
-  componentWillMount() {
-    this.loadCampaigns();
+    loadCampaigns: Function
   }
-
-  loadCampaigns = () => {
-    const campaignService = new CampaignService(this.props.dispatch, () => this.props.state );
-    campaignService.list('5825cfd1d3932754c70fada7', {
-    }).then((response) => {
-      this.setState({ source: response });
-    });
-  };
 
   handleTabIndexChange = (index) => {
     this.setState({ tabIndex: index });
-    this.loadCampaigns();
-  };
+  }
 
   handleActive = () => {
     console.log('Special one activated');
-  };
+  }
 
   render() {
-    const { t, start, load } = this.props;
+    const { campaigns, t, start } = this.props;
     return (
       <div className="campaigns_list">
         <div className="page_header">
@@ -73,7 +63,7 @@ export class Campaigns extends Component {
               <Table
                 model={ CampaignModel }
                 selectable={ false }
-                source={ this.state.source }
+                source={ campaigns }
               />
             </Tab>
             <Tab label={ t('campaigns.list.scheduled') }>
@@ -95,14 +85,13 @@ export class Campaigns extends Component {
   }
 }
 
-
-const mapStatesToProps = (state) => ({ state });
+const mapStatesToProps = ({ campaign: { campaigns } }) => ({
+  campaigns
+});
 
 const mapDispatchToProps = (dispatch) => ({
-  start: () => {
-    dispatch(push('/app/campaigns/start'))
-  },
-  dispatch
+  loadCampaigns: () => dispatch(campaignsListRequest('5825cfd1d3932754c70fada7')),
+  start: () => dispatch(push('/app/campaigns/start'))
 });
 
 export default translate()(connect(mapStatesToProps, mapDispatchToProps)(Campaigns));

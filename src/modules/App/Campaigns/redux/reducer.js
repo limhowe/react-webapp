@@ -6,7 +6,7 @@ import {
 } from './actions';
 
 export const initialState = {
-  user: null,
+  campaigns: [],
   error: ''
 };
 
@@ -17,10 +17,10 @@ export default handleActions({
   }),
   [CAMPAIGNS_LIST_SUCCESS]: (state, action) => ({
     ...state,
-    user: action.payload
+    campaigns: action.payload
   }),
   [CAMPAIGNS_LIST_ERROR]: (state, action) => ({
     ...state,
     error: action.payload
   })
-});
+}, initialState);
