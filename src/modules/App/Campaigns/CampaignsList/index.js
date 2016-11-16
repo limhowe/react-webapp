@@ -9,7 +9,6 @@ import Table from 'react-toolbox/lib/table';
 import { campaignsListRequest } from '../redux/actions';
 
 const CampaignModel = {
-  _id: { type: String },
   title: { type: String },
   message: { type: String },
   tags: { type: String },
