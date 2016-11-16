@@ -44,7 +44,7 @@ if (__DEV__) {
       rules: [
         {
           test: /\.js$/,
-          loader: 'babel',
+          loader: 'babel-loader',
           query: {
             presets: ['react', ['es2015', { modules: false }], 'stage-0'],
             plugins: ['react-hot-loader/babel']
@@ -54,14 +54,14 @@ if (__DEV__) {
         {
           test: /\.scss$/,
           loaders: [
-            'style',
-            'css?modules&localIdentName=[local]__[hash:base64:4]&importLoaders=1&sourceMap',
-            'postcss',
-            'sass?sourceMap'
+            'style-loader',
+            'css-loader?modules&localIdentName=[local]__[hash:base64:4]&importLoaders=1&sourceMap',
+            'postcss-loader',
+            'sass-loader?sourceMap'
           ]
         }, {
           test: /\.json$/,
-          loader: 'json'
+          loader: 'json-loader'
         }
       ]
     },
@@ -118,7 +118,7 @@ if (__PROD__) {
       rules: [
         {
           test: /\.js$/,
-          loader: 'babel',
+          loader: 'babel-loader',
           query: {
             presets: ['react', ['es2015', { modules: false }], 'stage-0']
           },
@@ -127,16 +127,16 @@ if (__PROD__) {
         {
           test: /\.scss$/,
           loader: ExtractTextPlugin.extract({
-            fallbackLoader: 'style',
+            fallbackLoader: 'style-loader',
             loader: [
-              'css?modules&localIdentName=[hash:base64:4]&importLoaders=1&sourceMap',
-              'postcss',
-              'sass?sourceMap'
+              'css-loader?modules&localIdentName=[hash:base64:4]&importLoaders=1&sourceMap',
+              'postcss-loader',
+              'sass-loader?sourceMap'
             ]
           })
         }, {
           test: /\.json$/,
-          loader: 'json'
+          loader: 'json-loader'
         }
       ]
     },

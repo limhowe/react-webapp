@@ -1,8 +1,8 @@
 import BaseAuthorizedService from './BaseAuthorizedService';
 
 export default class ResourceService extends BaseAuthorizedService {
-  constructor(resource) {
-    super();
+  constructor(resource, ...args) {
+    super(...args);
     this.resource = resource;
   }
 
