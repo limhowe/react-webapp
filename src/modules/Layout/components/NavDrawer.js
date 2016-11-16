@@ -6,14 +6,21 @@ import { translate } from 'react-i18next';
 import Navigation from 'react-toolbox/lib/navigation';
 import Link from 'react-toolbox/lib/link';
 
+import { appListRequest } from '../../App/Applications/redux/actions';
 
 export class SideBar extends Component {
   static displayName = 'NavDrawer';
+
+  componentWillMount() {
+    this.props.listApp();
+  }
+
   props: {
     active: bool,
     hide: Function,
     user: ?Object,
     t: Function,
+    listApp: Function
   };
 
   render() {
@@ -48,7 +55,8 @@ const mapStatesToProps = ({ layout: { navDrawerActive }, auth: { user } }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  hide: () => dispatch(hideNavDrawer())
+  hide: () => dispatch(hideNavDrawer()),
+  listApp: () => dispatch(appListRequest())
 });
 
 export default translate()(connect(mapStatesToProps, mapDispatchToProps)(SideBar));

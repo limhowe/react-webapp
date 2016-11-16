@@ -1,9 +1,10 @@
 import request from 'superagent';
+import reduxStore from '../redux/clientSyncedStore';
 import { showNotification } from '../redux/actions';
 
 export default class BaseService {
-  constructor(dispatch) {
-    this.dispatch = dispatch;
+  constructor() {
+    this.store = reduxStore;
   }
 
   apiUrl(url) {
@@ -12,8 +13,8 @@ export default class BaseService {
 
   setHeaders(req) {
     if (this.headers) {
-      this.headers.forEach((header) => {
-        req.set(header[0], header[1]);
+      Object.keys(this.headers).forEach((key) => {
+        req.set(key, this.headers[key]);
       });
     }
   }
@@ -26,25 +27,30 @@ export default class BaseService {
         status // eslint-disable-line
       }
     } = err;
-    this.dispatch(showNotification('error', body.error || body.message || 'Unknown Error'));
+    reduxStore.dispatch(showNotification('error', body.error || body.message || 'Unknown Error'));
     // @TODO show notification by dispatching notificaiton action
   }
 
-  _call(req, actionTypes) {
+  _call(req, actionTypes = {}, additionalParams = {}) {
     const { SUCCESS, ERROR } = actionTypes;
     return new Promise((resolve, reject) => {
       req.then((resp) => {
         if (SUCCESS) {
-          this.dispatch({
+          reduxStore.dispatch({
             type: SUCCESS,
             payload: resp.body
           });
+        }
+
+        // show success message if set in additional params
+        if (additionalParams.successMessage) {
+          reduxStore.dispatch(showNotification('success', additionalParams.successMessage));
         }
         resolve(resp.body);
       }).catch((err) => {
         this._checkError(err);
         if (ERROR) {
-          this.dispatch({
+          reduxStore.dispatch({
             type: ERROR,
             payload: err && err.response && err.response.body ? err.response.body : err
           });
@@ -54,29 +60,29 @@ export default class BaseService {
     });
   }
 
-  _get(url, actionTypes) {
+  _get(url, ...args) {
     const req = request.get(this.apiUrl(url));
     this.setHeaders(req);
-    return this._call(req, actionTypes);
+    return this._call(req, ...args);
   }
 
-  _post(url, data, actionTypes) {
+  _post(url, data, ...args) {
     const req = request.post(this.apiUrl(url));
     this.setHeaders(req);
     req.send(data);
-    return this._call(req, actionTypes);
+    return this._call(req, ...args);
   }
 
-  _put(url, data, actionTypes) {
+  _put(url, data, ...args) {
     const req = request.put(this.apiUrl(url));
     this.setHeaders(req);
     req.send(data);
-    return this._call(req, actionTypes);
+    return this._call(req, ...args);
   }
 
-  _delete(url, actionTypes) {
+  _delete(url, ...args) {
     const req = request.delete(this.apiUrl(url));
     this.setHeaders(req);
-    return this._call(req, actionTypes);
+    return this._call(req, ...args);
   }
 }

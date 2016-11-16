@@ -4,14 +4,13 @@ import { Router, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
 
-import configureStore from './redux/store';
 import configureRoutes from './routes';
 import i18n from './i18n';
 
 // importing styles only once!
 import styles from './styles'; // eslint-disable-line
+import store from './redux/clientSyncedStore';
 
-const store = configureStore(window.__INITIAL_STATE__);
 const routes = configureRoutes(store);
 
 if (__DEV__) {
