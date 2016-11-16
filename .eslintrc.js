@@ -152,7 +152,7 @@ module.exports = {
     // disallow the use of eval()-like methods
     'no-implied-eval': 2,
     // disallow this keywords outside of classes or class-like objects
-    'no-invalid-this': 2,
+    'no-invalid-this': 0,
     // disallow the use of the __iterator__ property
     'no-iterator': 2,
     // disallow labeled statements
@@ -578,7 +578,7 @@ module.exports = {
     // limit maximum of props on a single line in JSX
     'react/jsx-max-props-per-line': 0,
     // prevent usage of .bind() and arrow functions in JSX props
-    'react/jsx-no-bind': 2,
+    'react/jsx-no-bind': 0,
     // prevent comments from being inserted as text nodes
     'react/jsx-no-comment-textnodes': 2,
     // prevent duplicate props in JSX
