@@ -1,19 +1,20 @@
 import request from 'superagent';
-import { showNotification } from '../redux/actions';
+import { showNotification } from '../modules/Layout/redux/actions';
 
 export default class BaseService {
-  constructor(dispatch) {
+  constructor(dispatch, state) {
     this.dispatch = dispatch;
+    this.state = state;
   }
 
   apiUrl(url) {
-    return `${ __APP_CONFIG__.API_URL }${ url }`;
+    return `${ __CLIENT__ ? __APP_CONFIG__.API_URL : process.env.API_URL }${ url }`;
   }
 
   setHeaders(req) {
     if (this.headers) {
-      this.headers.forEach((header) => {
-        req.set(header[0], header[1]);
+      Object.keys(this.headers).forEach((key) => {
+        req.set(key, this.headers[key]);
       });
     }
   }
@@ -30,7 +31,7 @@ export default class BaseService {
     // @TODO show notification by dispatching notificaiton action
   }
 
-  _call(req, actionTypes) {
+  _call(req, actionTypes = {}, additionalParams = {}) {
     const { SUCCESS, ERROR } = actionTypes;
     return new Promise((resolve, reject) => {
       req.then((resp) => {
@@ -39,6 +40,11 @@ export default class BaseService {
             type: SUCCESS,
             payload: resp.body
           });
+        }
+
+        // show success message if set in additional params
+        if (additionalParams.successMessage) {
+          this.dispatch(showNotification('success', additionalParams.successMessage));
         }
         resolve(resp.body);
       }).catch((err) => {
@@ -54,29 +60,29 @@ export default class BaseService {
     });
   }
 
-  _get(url, actionTypes) {
+  _get(url, ...args) {
     const req = request.get(this.apiUrl(url));
     this.setHeaders(req);
-    return this._call(req, actionTypes);
+    return this._call(req, ...args);
   }
 
-  _post(url, data, actionTypes) {
+  _post(url, data, ...args) {
     const req = request.post(this.apiUrl(url));
     this.setHeaders(req);
     req.send(data);
-    return this._call(req, actionTypes);
+    return this._call(req, ...args);
   }
 
-  _put(url, data, actionTypes) {
+  _put(url, data, ...args) {
     const req = request.put(this.apiUrl(url));
     this.setHeaders(req);
     req.send(data);
-    return this._call(req, actionTypes);
+    return this._call(req, ...args);
   }
 
-  _delete(url, actionTypes) {
+  _delete(url, ...args) {
     const req = request.delete(this.apiUrl(url));
     this.setHeaders(req);
-    return this._call(req, actionTypes);
+    return this._call(req, ...args);
   }
 }

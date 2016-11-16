@@ -15,6 +15,22 @@ class AppLayout extends Component {
 
   render() {
     const { children, loaded } = this.props;
+    if (!loaded) {
+      return (
+        <div className="layout">
+          <Layout>
+            <Panel>
+              <div>
+                <div className="c-container c-container__center">
+                  <ProgressBar mode="indeterminate" type="circular" multicolor />
+                </div>
+              </div>
+            </Panel>
+          </Layout>
+        </div>
+      );
+    }
+
     return (
       <div className="layout">
         <Header />
@@ -23,7 +39,7 @@ class AppLayout extends Component {
           <Panel>
             <div>
               <div className="c-container c-container__center">
-                { loaded ? children : (<ProgressBar mode="indeterminate" type="circular" multicolor />) }
+                { children }
               </div>
             </div>
           </Panel>
