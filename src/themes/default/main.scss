@@ -7,6 +7,8 @@
   @import "./components/campaigns";
   @import "./components/layout";
 
+  @import "./utilities/display";
+
   // imported bootstrap grid system
   @import "../../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/variables";
   @import "../../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/mixins";

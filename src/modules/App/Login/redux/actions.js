@@ -8,8 +8,8 @@ export const AUTH_SIGNIN_SUCCESS = 'auth/signin/succes';
 export const AUTH_SIGNIN_ERROR = 'auth/signin/error';
 
 export const authSigninRequest = createAction(AUTH_SIGNIN_REQUEST, (authData) => {
-  return (dispatch, getState) => {
-    const authService = new AuthService(dispatch, getState);
+  return (dispatch) => {
+    const authService = new AuthService();
     authService.signin(authData, {
       SUCCESS: AUTH_SIGNIN_SUCCESS,
       ERROR: AUTH_SIGNIN_ERROR
@@ -25,9 +25,7 @@ export const AUTH_SIGNOUT_SUCCESS = 'auth/signout/succes';
 export const AUTH_SIGNOUT_ERROR = 'auth/signout/error';
 
 export const authSignoutRequest = createAction(AUTH_SIGNOUT_REQUEST, () => {
-
-
-  return (dispatch, getState) => {
+  return (dispatch) => {
     // no need for log out api call since we are using JWT
     dispatch({
       type: AUTH_SIGNOUT_SUCCESS,
