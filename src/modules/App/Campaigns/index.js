@@ -7,37 +7,28 @@ import { translate } from 'react-i18next';
 import Table from 'react-toolbox/lib/table';
 
 import { campaignsListRequest } from './redux/actions';
+import CampaignService from '../../../api-services/CampaignService';
 
 const CampaignModel = {
-  animation: { type: String },
-  name: { type: String },
-  save_date: {
+  _id: { type: String },
+  title: { type: String },
+  message: { type: String },
+  tags: { type: String },
+  loopDelay: { type: Number },
+  loopCount: { type: Number },
+  isActive: { type: Boolean, title: 'Active' },
+  created: {
     type: Date,
-    title: 'Save Date'
+    title: 'Created'
   },
-  end_date: {
-    type: Date,
-    title: 'End Date'
-  },
-  audience: { type: Number },
-  number: { type: Number },
-  last_sent: {
-    type: Date,
-    title: 'Last Sent'
-  }
 };
-
-const campaigns = [
-  { name: '20% off Sony electronics', save_date: new Date(2016, 12, 10), end_date: new Date(2016, 12, 23), audience: '1.3K lapsed users', number: 1000, last_sent: new Date(2016, 12, 23, 12, 5, 29) },
-  { name: 'Halloween Sale', save_date: new Date(2016, 11, 15), end_date: new Date(2016, 11, 30), audience: '2.1K lapsed users', number: 1000, last_sent: new Date(2016, 11, 8, 4, 15, 12) }
-];
 
 export class Campaigns extends Component {
   displayName: 'Campaigns';
   state = {
     tabIndex: 0,
     selected: [],
-    source: campaigns
+    source: []
   };
   props: {
     t: Function,
@@ -45,8 +36,21 @@ export class Campaigns extends Component {
     load: Function
   };
 
+  componentWillMount() {
+    this.loadCampaigns();
+  }
+
+  loadCampaigns = () => {
+    const campaignService = new CampaignService(this.props.dispatch, () => this.props.state );
+    campaignService.list('5825cfd1d3932754c70fada7', {
+    }).then((response) => {
+      this.setState({ source: response });
+    });
+  };
+
   handleTabIndexChange = (index) => {
     this.setState({ tabIndex: index });
+    this.loadCampaigns();
   };
 
   handleActive = () => {
@@ -60,7 +64,6 @@ export class Campaigns extends Component {
         <div className="page_header">
           <h2>
             { t('campaigns.list.heading') }
-            <Button className="pull-right" onClick={ load } label="Load Campaigns" raised accent />
             <Button className="pull-right" onClick={ start } label={ t('campaigns.list.newCampaign') } raised primary />
           </h2>
         </div>
@@ -93,15 +96,13 @@ export class Campaigns extends Component {
 }
 
 
-const mapStatesToProps = () => ({});
+const mapStatesToProps = (state) => ({ state });
 
 const mapDispatchToProps = (dispatch) => ({
   start: () => {
     dispatch(push('/app/campaigns/start'))
   },
-  load: () => {
-    dispatch(campaignsListRequest('5825cfd1d3932754c70fada7'));
-  }
+  dispatch
 });
 
 export default translate()(connect(mapStatesToProps, mapDispatchToProps)(Campaigns));

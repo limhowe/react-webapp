@@ -4,6 +4,7 @@ import { reducer as formReducer } from 'redux-form';
 
 import auth from '../modules/App/Login/redux/reducer';
 import layout from '../modules/Layout/redux/reducer';
+import campaignReducer from '../modules/App/CampaignStart/redux/reducer';
 import persist from './reducers/persistReducer';
 
 const reducer = combineReducers({
@@ -11,7 +12,8 @@ const reducer = combineReducers({
   layout,
   persist,
   form: formReducer,
-  routing: routerReducer
+  routing: routerReducer,
+  campaign: campaignReducer
 });
 
 export default reducer;

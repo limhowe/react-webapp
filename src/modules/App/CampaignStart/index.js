@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Button, IconButton } from 'react-toolbox/lib/button';
-import { List, ListItem, ListSubHeader, ListDivider, ListCheckbox } from 'react-toolbox/lib/list';
+import { Button } from 'react-toolbox/lib/button';
+import { connect } from 'react-redux';
+import { List, ListItem } from 'react-toolbox/lib/list';
 import { Tab, Tabs } from 'react-toolbox';
 import { translate } from 'react-i18next';
 import Checkbox from 'react-toolbox/lib/checkbox';
@@ -12,27 +13,36 @@ import Input from 'react-toolbox/lib/input';
 import Switch from 'react-toolbox/lib/switch';
 import TimePicker from 'react-toolbox/lib/time_picker';
 
+import { campaignCreateRequest, campaignUpdateRequest, campaignScheduleRequest } from './redux/actions';
+
 export class CampaignStart extends Component {
   displayName: 'New Campaign';
   state = {
     tabIndex: 0,
-    name: '',
-    chip1: false,
-    chip2: false,
-    chip3: false,
-    check1: true,
-    check2: false,
-    pushText: '',
-    appAction: 1,
+    title: '',
+    chip1: true,
+    chip2: true,
+    chip3: true,
+    checkAndroid: true,
+    checkIOS: false,
+    message: '',
+    messagePosition: 'center',
+    appAction: 'url',
+    actionLink: '',
     toggleSetDuration: false,
     toggleAddPushNotification: false,
-    scheduleDeliverySwitch: true,
-    triggerDeliverySwitch: false,
-    sendDPSchedule: 1,
+    deliveryScheduleSwitch: true,
+    deliveryActionSwitch: false,
+    sendDPSchedule: 'immediate',
     triggerEvent: 1
   };
   props: {
-    t: Function
+    t: Function,
+    create: Function,
+    setPush: Function,
+    setAction: Function,
+    setDeliverySchedule: Function,
+    launch: Function
   };
 
   handleTabIndexChange = (index) => {
@@ -52,7 +62,7 @@ export class CampaignStart extends Component {
   };
 
   handleDeleteClick = (field) => {
-    this.setState({ [field]: true });
+    this.setState({ [field]: false });
   };
 
   handleSaveDraft = () => {
@@ -63,18 +73,24 @@ export class CampaignStart extends Component {
     console.log(this.state);
   }
 
-  loops = [
-    { value: 1, text: '1' },
+  loopCounts = [
+    { value: 1 },
     { value: 2 },
     { value: 3 },
-    { value: 4 }
+    { value: 4 },
+    { value: 5 },
+    { value: 10 },
+    { value: 15 },
+    { value: 30 },
+    { value: 50 }
   ];
 
-  delays = [
-    { value: '10 secs' },
-    { value: '15 secs' },
-    { value: '30 secs' },
-    { value: '1 min' }
+  loopDelays = [
+    { value: 10, text: '10 secs' },
+    { value: 15, text: '15 secs' },
+    { value: 30, text: '30 secs' },
+    { value: 60, text: '1 min' },
+    { value: 300, text: '5 mins' }
   ];
 
   toggleSetDuration = () => {
@@ -85,27 +101,21 @@ export class CampaignStart extends Component {
     this.setState({ toggleAddPushNotification: !this.state.toggleAddPushNotification });
   }
 
-  screenLocations = [
-    { value: 'Top Left' },
-    { value: 'Top Center' },
-    { value: 'Top Right' },
-    { value: 'Middle Left' },
-    { value: 'Center' },
-    { value: 'Middle Right' },
-    { value: 'Bottom Left' },
-    { value: 'Bottom Center' },
-    { value: 'Bottom Right' }
+  messagePositions = [
+    { value: 'top', text: 'Top' },
+    { value: 'center', text: 'Center' },
+    { value: 'bottom', text: 'Bottom' }
   ];
 
   appActions = [
-    { value: 1, text: 'Display In App Message' },
-    { value: 2, text: 'Link to the Page Inside the app' },
-    { value: 3, text: 'Link to URL' }
+    { value: 'inAppMessage', text: 'Display In App Message' },
+    { value: 'deepLink', text: 'Link to the Page Inside the app' },
+    { value: 'url', text: 'Link to URL' }
   ];
 
   sendDPScheduleOptions = [
-    { value: 1, text: 'Immediately' },
-    { value: 2, text: 'At a Designated Time' }
+    { value: 'immediate', text: 'Immediately' },
+    { value: 'scheduled', text: 'At a Designated Time' }
   ];
 
   sendDPRepeatOptions = [
@@ -174,7 +184,7 @@ export class CampaignStart extends Component {
 
   render() {
     const min_datetime = new Date();
-    const { t } = this.props;
+    const { t, create, setPush, setAction, setDeliverySchedule, launch } = this.props;
 
     return (
       <div className="campaigns_list">
@@ -191,41 +201,41 @@ export class CampaignStart extends Component {
                 <div className="row">
                   <div className="col-xs-12 col-md-7">
                     <div className="form-field">
-                      <Input type="text" label={ t('campaigns.create.start.name') } name="name" value={ this.state.name } onChange={ this.handleChange.bind(this, 'name') } />
+                      <Input type="text" label={ t('campaigns.create.start.name') } name="title" value={ this.state.title } onChange={ this.handleChange.bind(this, 'title') } />
                     </div>
                     <div className="form-field">
                       {
-                        this.state.chip1 ? null : (
+                        this.state.chip1 ? (
                           <Chip deletable onDeleteClick={ this.handleDeleteClick.bind(this, 'chip1') }>Sales</Chip>
-                        )
+                        ) : null
                       }
                       {
-                        this.state.chip2 ? null : (
+                        this.state.chip2 ? (
                           <Chip deletable onDeleteClick={ this.handleDeleteClick.bind(this, 'chip2') }>Marketing</Chip>
-                        )
+                        ) : null
                       }
                       {
-                        this.state.chip3 ? null : (
+                        this.state.chip3 ? (
                           <Chip deletable onDeleteClick={ this.handleDeleteClick.bind(this, 'chip3') }>Finance</Chip>
-                        )
+                        ) : null
                       }
                     </div>
                   </div>
                 </div>
                 <div className="form-field">
                   <Checkbox
-                    checked={ this.state.check1 }
+                    checked={ this.state.checkAndroid }
                     label={ t('campaigns.create.start.android') }
-                    onChange={ this.handleChange.bind(this, 'check1') }
+                    onChange={ this.handleChange.bind(this, 'checkAndroid') }
                   />
                   <Checkbox
-                    checked={this.state.check2}
+                    checked={this.state.checkIOS}
                     label={ t('campaigns.create.start.apple') }
-                    onChange={ this.handleChange.bind(this, 'check2') }
+                    onChange={ this.handleChange.bind(this, 'checkIOS') }
                   />
                 </div>
                 <div className="form-buttons">
-                  <Button onClick={ () => this.setTabIndex(1) } label={ t('campaigns.create.start.next') } raised primary />
+                  <Button onClick={ () => { create(this.state); this.setTabIndex(1); } } label={ t('campaigns.create.start.next') } raised primary />
                 </div>
               </div>
             </Tab>
@@ -274,20 +284,20 @@ export class CampaignStart extends Component {
                               <label>{ t('campaigns.create.createPush.setDuration.loops') }</label>
                               <Dropdown
                                 allowBlank={ false }
-                                source={ this.loops }
-                                onChange={ this.handleChange.bind(this, 'loopsSelected') }
+                                source={ this.loopCounts }
+                                onChange={ this.handleChange.bind(this, 'loopCount') }
                                 label={ t('campaigns.create.createPush.setDuration.loopsNote') }
                                 template={ this.dropDownItemTemplate }
-                                value={ this.state.loopsSelected }
+                                value={ this.state.loopCount }
                               />
                               <label>{ t('campaigns.create.createPush.setDuration.delay') }</label>
                               <Dropdown
                                 allowBlank={ false }
-                                source={ this.delays }
-                                onChange={ this.handleChange.bind(this, 'delaySelected') }
+                                source={ this.loopDelays }
+                                onChange={ this.handleChange.bind(this, 'loopDelay') }
                                 label={ t('campaigns.create.createPush.setDuration.delayNote') }
-                                template={ this.dropDownItemTemplate }
-                                value={ this.state.delaySelected }
+                                template={ this.dropDownItemTextTemplate }
+                                value={ this.state.loopDelay }
                               />
                             </div>
                             <div className="col-xs-12 col-lg-6 c-container__center">
@@ -308,15 +318,15 @@ export class CampaignStart extends Component {
                       {
                         this.state.toggleAddPushNotification ? (
                           <div>
-                            <Input type="text" multiline label={ t('campaigns.create.createPush.addPushNotification.enterNotification') } rows={ 3 } value={ this.state.pushText } onChange={ this.handleChange.bind(this, 'pushText') } />
+                            <Input type="text" multiline label={ t('campaigns.create.createPush.addPushNotification.enterNotification') } rows={ 3 } value={ this.state.message } onChange={ this.handleChange.bind(this, 'message') } />
                             <small className="text-muted">{ t('campaigns.create.createPush.addPushNotification.forAndroidOnly') }</small>
                             <Dropdown
                               allowBlank={ false }
-                              source={ this.screenLocations }
-                              onChange={ this.handleChange.bind(this, 'screenLocationSelected') }
+                              source={ this.messagePositions }
+                              onChange={ this.handleChange.bind(this, 'messagePosition') }
                               label={ t('campaigns.create.createPush.addPushNotification.selectScreenLocation') }
-                              template={ this.dropDownItemTemplate }
-                              value={ this.state.screenLocationSelected }
+                              template={ this.dropDownItemTextTemplate }
+                              value={ this.state.messagePosition }
                             />
                           </div>
                         ) : null
@@ -324,7 +334,7 @@ export class CampaignStart extends Component {
                     </div>
                     <div className="form-buttons">
                       <Button icon="chevron_left" onClick={ () => this.setTabIndex(0) } label={ t('campaigns.create.createPush.back') } raised />
-                      <Button onClick={ () => this.setTabIndex(2) } label={ t('campaigns.create.createPush.next') } raised primary />
+                      <Button onClick={ () => { setPush(this.props.campaign, this.state); this.setTabIndex(2) } } label={ t('campaigns.create.createPush.next') } raised primary />
                     </div>
                   </div>
                   <div className="col-md-5">
@@ -347,7 +357,7 @@ export class CampaignStart extends Component {
                   value={ this.state.appAction }
                 />
                 {
-                  this.state.appAction === 1 ? (
+                  this.state.appAction === 'inAppMessage' ? (
                     <div className="row">
                       <div className="col-xs-12 col-lg-5">
                         <img src="https://placeimg.com/300/500/tech" />
@@ -374,14 +384,14 @@ export class CampaignStart extends Component {
                   ) : (
                   <div className="row">
                     <div className="col-md-6">
-                      <Input type="text" label={ t('campaigns.create.addAction.link.enterLink') } name="enterLink" value={ this.state.actionLink } onChange={ this.handleChange.bind(this, 'actionLink') } />
+                      <Input type="text" label={ t('campaigns.create.addAction.link.enterLink') } name="actionLink" value={ this.state.actionLink } onChange={ this.handleChange.bind(this, 'actionLink') } />
                     </div>
                   </div>
                   )
                 }
                 <div className="form-buttons">
                   <Button icon="chevron_left" onClick={ () => this.setTabIndex(1) } label={ t('campaigns.create.addAction.back') } raised />
-                  <Button onClick={ () => this.setTabIndex(3) } label={ t('campaigns.create.addAction.next') } raised primary />
+                  <Button onClick={ () => { setAction(this.props.campaign, this.state); this.setTabIndex(3); } } label={ t('campaigns.create.addAction.next') } raised primary />
                 </div>
               </div>
             </Tab>
@@ -393,13 +403,13 @@ export class CampaignStart extends Component {
                   <div className="col-md-5">
                     <div className="panel">
                       <Switch
-                        checked={ this.state.scheduleDeliverySwitch }
+                        checked={ this.state.deliveryScheduleSwitch }
                         label={ t('campaigns.create.scheduleDelivery.schedule.heading') }
-                        onChange={ this.handleChange.bind(this, 'scheduleDeliverySwitch') }
+                        onChange={ this.handleChange.bind(this, 'deliveryScheduleSwitch') }
                       />
                       <small className="text-muted">{ t('campaigns.create.scheduleDelivery.schedule.subtitle') }</small>
                       {
-                        this.state.scheduleDeliverySwitch === true ? (
+                        this.state.deliveryScheduleSwitch === true ? (
                           <div className="margin-t-40">
                             {/* <label>{ t('campaigns.create.scheduleDelivery.schedule.send') }</label> */}
                             <Dropdown
@@ -411,7 +421,7 @@ export class CampaignStart extends Component {
                               value={ this.state.sendDPSchedule }
                             />
                             {
-                              this.state.sendDPSchedule === 1 ? (
+                              this.state.sendDPSchedule === 'immediate' ? (
                                 <div>
                                   <div className="row">
                                     <div className="col-md-6">
@@ -419,7 +429,7 @@ export class CampaignStart extends Component {
                                         label={ t('campaigns.create.scheduleDelivery.schedule.expirationDate') }
                                         minDate={ min_datetime }
                                         onChange={ this.handleChange.bind(this, 'date1') }
-                                        value={ this.state.date2 }
+                                        value={ this.state.date1 }
                                         sundayFirstDayOfWeek
                                       />
                                     </div>
@@ -481,13 +491,13 @@ export class CampaignStart extends Component {
                   <div className="col-md-5">
                     <div className="panel">
                       <Switch
-                        checked={ this.state.triggerDeliverySwitch }
+                        checked={ this.state.deliveryActionSwitch }
                         label={ t('campaigns.create.scheduleDelivery.action.heading') }
-                        onChange={ this.handleChange.bind(this, 'triggerDeliverySwitch') }
+                        onChange={ this.handleChange.bind(this, 'deliveryActionSwitch') }
                       />
                       <small className="text-muted">{ t('campaigns.create.scheduleDelivery.action.subtitle') }</small>
                       {
-                        this.state.triggerDeliverySwitch === true ? (
+                        this.state.deliveryActionSwitch === true ? (
                           <div className="margin-t-40">
                             <Dropdown
                               allowBlank={ false }
@@ -503,30 +513,30 @@ export class CampaignStart extends Component {
                                   <Dropdown
                                     allowBlank={ false }
                                     source={ this.appInactiveDaysOptions }
-                                    onChange={ this.handleChange.bind(this, 'appInactiveDays') }
+                                    onChange={ this.handleChange.bind(this, 'inactiveDays') }
                                     label={ t('campaigns.create.scheduleDelivery.action.idleDays') }
                                     template={ this.dropDownItemTextTemplate }
-                                    value={ this.state.appInactiveDays }
+                                    value={ this.state.inactiveDays }
                                   />
                                   <div className="row">
                                     <div className="col-md-6">
                                       <Dropdown
                                         allowBlank={ false }
                                         source={ this.numberDPsOptions }
-                                        onChange={ this.handleChange.bind(this, 'numberDP') }
+                                        onChange={ this.handleChange.bind(this, 'dpLimit') }
                                         label={ t('campaigns.create.scheduleDelivery.action.sendLimit') }
                                         template={ this.dropDownItemTextTemplate }
-                                        value={ this.state.numberDP }
+                                        value={ this.state.dpLimit }
                                       />
                                     </div>
                                     <div className="col-md-6">
                                       <Dropdown
                                         allowBlank={ false }
                                         source={ this.daysOptions }
-                                        onChange={ this.handleChange.bind(this, 'days') }
+                                        onChange={ this.handleChange.bind(this, 'dayLimit') }
                                         label={ t('campaigns.create.scheduleDelivery.action.withIn') }
                                         template={ this.dropDownItemTextTemplate }
-                                        value={ this.state.days }
+                                        value={ this.state.dayLimit }
                                       />
                                     </div>
                                   </div>
@@ -541,7 +551,7 @@ export class CampaignStart extends Component {
                 </div>
                 <div className="form-buttons">
                   <Button icon="chevron_left" onClick={ () => this.setTabIndex(2) } label={ t('campaigns.create.scheduleDelivery.back') } raised />
-                  <Button onClick={ () => this.setTabIndex(4) } label={ t('campaigns.create.scheduleDelivery.next') } raised primary />
+                  <Button onClick={ () => { setDeliverySchedule(this.props.campaign, this.state); this.setTabIndex(4); } } label={ t('campaigns.create.scheduleDelivery.next') } raised primary />
                 </div>
               </div>
             </Tab>
@@ -607,7 +617,7 @@ export class CampaignStart extends Component {
                 </div>
                 <div className="form-buttons">
                   <Button icon="save" onClick={ () => this.handleSaveDraft() } label={ t('campaigns.create.previewAndLaunch.saveAsDraft') } raised accent />
-                  <Button icon="done_all" onClick={ () => this.handleSave() } label={ t('campaigns.create.previewAndLaunch.launchNow') } raised primary />
+                  <Button icon="done_all" onClick={ () => launch(this.props.campaign, this.state) } label={ t('campaigns.create.previewAndLaunch.launchNow') } raised primary />
                 </div>
               </div>
             </Tab>
@@ -618,4 +628,97 @@ export class CampaignStart extends Component {
   }
 }
 
-export default translate()(CampaignStart);
+const mapStatesToProps = (state) => ({ campaign: state.campaign.campaign });
+
+const mapDispatchToProps = (dispatch) => ({
+  create: (state) => {
+    const payload = {
+      title: state.title,
+      tags: [],
+      platform: []
+    };
+    if (state.chip1) {
+      payload.tags.push('Sales');
+    }
+    if (state.chip2) {
+      payload.tags.push('Marketing');
+    }
+    if (state.chip3) {
+      payload.tags.push('Finance');
+    }
+
+    if (state.checkAndroid) {
+      payload.platform.push({
+        name: 'Android'
+      });
+    }
+    if (state.checkIOS) {
+      payload.platform.push({
+        name: 'iOS'
+      });
+    }
+    dispatch(campaignCreateRequest('5825cfd1d3932754c70fada7', payload));
+  },
+  setPush: (campaign, state) => {
+    const payload = {
+      loopCount: state.loopCount,
+      loopDelay: state.loopDelay,
+      messagePosition: state.messagePosition,
+      message: state.message
+    };
+    if (campaign && campaign._id) {
+      dispatch(campaignUpdateRequest('5825cfd1d3932754c70fada7', campaign._id, payload));
+    }
+  },
+  setAction: (campaign, state) => {
+    const payload = {
+      campaignType: state.appAction
+    };
+    if (payload.campaignType === 'inAppMessage') {
+      payload.url = '';
+    } else if (payload.campaignType === 'deepLink') {
+      payload.url = state.actionLink;
+    } else if (payload.campaignType === 'url') {
+      payload.url = state.actionLink;
+    }
+    if (campaign && campaign._id) {
+      dispatch(campaignUpdateRequest('5825cfd1d3932754c70fada7', campaign._id, payload));
+    }
+  },
+  setDeliverySchedule: (campaign, state) => {
+    if (state.deliveryScheduleSwitch) {
+      const deliverySchedule = {
+        frequency: state.sendDPSchedule,
+        expiryDate: state.date1
+      };
+      if (campaign && campaign._id) {
+        dispatch(campaignScheduleRequest('5825cfd1d3932754c70fada7', campaign._id, deliverySchedule));
+      }
+    }
+    if (state.deliveryActionSwitch) {
+      const payload = {};
+      payload.deliveryAction = {
+        dayLimit: state.dayLimit,
+        dpLimit: state.dpLimit,
+        inactiveDays: state.inactiveDays
+      };
+      if (campaign && campaign._id) {
+        dispatch(campaignUpdateRequest('5825cfd1d3932754c70fada7', campaign._id, payload));
+      }
+      return;
+    }
+
+  },
+  launch: (campaign, state) => {
+    const payload = {
+      isActive: true,
+      isPaused: false
+    };
+    if (campaign && campaign._id) {
+      dispatch(campaignUpdateRequest('5825cfd1d3932754c70fada7', campaign._id, payload));
+    }
+  }
+});
+
+
+export default translate()(connect(mapStatesToProps, mapDispatchToProps)(CampaignStart));
