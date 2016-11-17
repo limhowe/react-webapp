@@ -227,7 +227,7 @@ export class CampaignStart extends Component {
                   />
                 </div>
                 <div className="form-buttons">
-                  <Button onClick={ () => { create(this.state); this.setTabIndex(1); } } label={ t('campaigns.create.start.next') } raised primary />
+                  <Button onClick={ () => create(this.state, this.setTabIndex) } label={ t('campaigns.create.start.next') } raised primary />
                 </div>
               </div>
             </Tab>
@@ -326,7 +326,7 @@ export class CampaignStart extends Component {
                     </div>
                     <div className="form-buttons">
                       <Button icon="chevron_left" onClick={ () => this.setTabIndex(0) } label={ t('campaigns.create.createPush.back') } raised />
-                      <Button onClick={ () => { setPush(this.props.campaign, this.state); this.setTabIndex(2); } } label={ t('campaigns.create.createPush.next') } raised primary />
+                      <Button onClick={ () => setPush(this.props.campaign, this.state, this.setTabIndex) } label={ t('campaigns.create.createPush.next') } raised primary />
                     </div>
                   </div>
                   <div className="col-md-5">
@@ -454,6 +454,25 @@ export class CampaignStart extends Component {
                                   label={ t('campaigns.create.scheduleDelivery.schedule.useDeviceTime') }
                                   onChange={ this.handleChange.bind(this, 'useDeviceTime2') }
                                 />
+                                <h4 className="margin-t-40">{ t('campaigns.create.scheduleDelivery.schedule.expirationNote') }</h4>
+                                <div className="row">
+                                  <div className="col-lg-6">
+                                    <DatePicker
+                                      label={ t('campaigns.create.scheduleDelivery.schedule.expirationDate') }
+                                      minDate={ min_datetime }
+                                      onChange={ this.handleChange.bind(this, 'expirationDate') }
+                                      value={ this.state.expirationDate }
+                                      sundayFirstDayOfWeek
+                                    />
+                                  </div>
+                                  <div className="col-lg-6">
+                                    <TimePicker
+                                      label={ t('campaigns.create.scheduleDelivery.schedule.expirationTime') }
+                                      onChange={ this.handleChange.bind(this, 'expirationTime') }
+                                      value={ this.state.expirationTime }
+                                    />
+                                  </div>
+                                </div>
                               </div>
                               )
                             }
@@ -605,7 +624,12 @@ export class CampaignStart extends Component {
 const mapStatesToProps = (state) => ({ campaign: state.campaign.campaign });
 
 const mapDispatchToProps = (dispatch) => ({
-  create: (state) => {
+  create: (state, setTabIndex) => {
+
+    if (state.title === '') {
+      dispatch(showNotification('error', `Campaign title is required.`));
+      return;
+    }
     const payload = {
       title: state.title,
       tags: [],
@@ -632,8 +656,13 @@ const mapDispatchToProps = (dispatch) => ({
       });
     }
     dispatch(campaignCreateRequest('5825cfd1d3932754c70fada7', payload));
+    setTabIndex(1);
   },
-  setPush: (campaign, state) => {
+  setPush: (campaign, state, setTabIndex) => {
+    if (state.message === '') {
+      dispatch(showNotification('error', 'Message is required.'));
+      return;
+    }
     const payload = {
       loopCount: state.loopCount,
       loopDelay: state.loopDelay,
@@ -642,6 +671,7 @@ const mapDispatchToProps = (dispatch) => ({
     };
     if (campaign && campaign._id) {
       dispatch(campaignUpdateRequest('5825cfd1d3932754c70fada7', campaign._id, payload));
+      setTabIndex(2);
     }
   },
   setAction: (campaign, state) => {
@@ -666,16 +696,30 @@ const mapDispatchToProps = (dispatch) => ({
         frequency: state.sendDPSchedule
       };
 
+      const payload = {};
       if (state.sendDPSchedule === 'immediate') {
         deliverySchedule.repeat = 'once';
+
+        // Set expiresAt to tomorrow
+        const expiresDate = new Date();
+        expiresDate.setDate(expiresDate.getDate() + 1);
+        payload.expiresAt = expiresDate.toISOString();
       } else {
         const sendDate = state.scheduleDate;
         const sendTime = state.scheduleTime;
-        const scheduleDateTime = `${ sendDate.getFullYear() }-${ `00${ (sendDate.getMonth() + 1) }`.slice(-2) }-${ `00${ sendDate.getDate() }`.slice(-2) } ${ `00${ sendTime.getHours() }`.slice(-2) }:${ `00${ sendTime.getMinutes() }`.slice(-2) }:00`;
+        // const scheduleDateTime = `${ sendDate.getFullYear() }-${ `00${ (sendDate.getMonth() + 1) }`.slice(-2) }-${ `00${ sendDate.getDate() }`.slice(-2) } ${ `00${ sendTime.getHours() }`.slice(-2) }:${ `00${ sendTime.getMinutes() }`.slice(-2) }:00`;
+        const scheduleDateTime = new Date(Date.UTC(sendDate.getFullYear(), sendDate.getMonth(), sendDate.getDate(), sendTime.getHours(), sendTime.getMinutes())).toISOString();
+
         deliverySchedule.repeat = state.sendDPRepeat;
         deliverySchedule.sendDate = scheduleDateTime;
+
+        // Handles expiresAt
+        const expiresDate = state.expirationDate;
+        const expiresTime = state.expirationTime;
+        payload.expiresAt = new Date(Date.UTC(expiresDate.getFullYear(), expiresDate.getMonth(), expiresDate.getDate(), expiresTime.getHours(), expiresTime.getMinutes())).toISOString();
       }
       if (campaign && campaign._id) {
+        dispatch(campaignUpdateRequest('5825cfd1d3932754c70fada7', campaign._id, payload));
         dispatch(campaignScheduleRequest('5825cfd1d3932754c70fada7', campaign._id, deliverySchedule));
       }
     }
@@ -704,6 +748,5 @@ const mapDispatchToProps = (dispatch) => ({
     }
   }
 });
-
 
 export default translate()(connect(mapStatesToProps, mapDispatchToProps)(CampaignStart));

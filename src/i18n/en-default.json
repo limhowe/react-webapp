@@ -115,6 +115,7 @@
           "send": "Send DP",
           "immediate": "Immediately",
           "repeat": "Repeat",
+          "expirationNote": "Choose when the campaign should expire.",
           "expirationDate": "Expiration Date",
           "expirationTime": "Finish Time",
           "useDeviceTime": "Use Device Local Time"
