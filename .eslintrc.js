@@ -126,7 +126,7 @@ module.exports = {
     // disallow else blocks after return statements in if statements
     'no-else-return': 0,
     // disallow empty functions
-    'no-empty-function': [2, { allow: [] }],
+    'no-empty-function': [0, { allow: [] }],
     // disallow empty destructuring patterns
     'no-empty-pattern': 2,
     // disallow null comparisons without type-checking operators
@@ -152,7 +152,7 @@ module.exports = {
     // disallow the use of eval()-like methods
     'no-implied-eval': 2,
     // disallow this keywords outside of classes or class-like objects
-    'no-invalid-this': 2,
+    'no-invalid-this': 0,
     // disallow the use of the __iterator__ property
     'no-iterator': 2,
     // disallow labeled statements
