@@ -36,7 +36,7 @@ class AppLayout extends Component {
         <Header />
         <Layout>
           <NavDrawer />
-          <Panel>
+          <Panel scrollY>
             <div>
               <div className="c-container c-container__center">
                 { children }
