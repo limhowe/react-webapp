@@ -18,16 +18,12 @@ export class SideBar extends Component {
   props: {
     active: bool,
     hide: Function,
-    user: ?Object,
     t: Function,
     listApp: Function
   };
 
   render() {
-    const { active, hide, user, t } = this.props;
-    if (!user) {
-      return null;
-    }
+    const { active, hide, t } = this.props;
 
     return (
       <NavDrawer
@@ -49,9 +45,8 @@ export class SideBar extends Component {
   }
 }
 
-const mapStatesToProps = ({ layout: { navDrawerActive }, auth: { user } }) => ({
-  active: navDrawerActive,
-  user
+const mapStatesToProps = ({ layout: { navDrawerActive } }) => ({
+  active: navDrawerActive
 });
 
 const mapDispatchToProps = (dispatch) => ({

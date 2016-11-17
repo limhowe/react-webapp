@@ -10,11 +10,12 @@ class AppLayout extends Component {
   static displayName = 'AppLayout';
   props: {
     children: any,
-    loaded: bool
+    loaded: bool,
+    user: ?Object
   };
 
   render() {
-    const { children, loaded } = this.props;
+    const { children, loaded, user } = this.props;
     if (!loaded) {
       return (
         <div className="layout">
@@ -35,7 +36,7 @@ class AppLayout extends Component {
       <div className="layout">
         <Header />
         <Layout>
-          <NavDrawer />
+          { user ? <NavDrawer /> : <div /> }
           <Panel scrollY>
             <div>
               <div className="c-container c-container__center">
@@ -50,6 +51,6 @@ class AppLayout extends Component {
   }
 }
 
-const mapStatesToProps = ({ persist: { loaded } }) => ({ loaded });
+const mapStatesToProps = ({ persist: { loaded }, auth: { user } }) => ({ loaded, user });
 
 export default connect(mapStatesToProps)(AppLayout);
