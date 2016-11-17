@@ -9,7 +9,7 @@ export default class CustomTable extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.loading && nextProps.loading !== this.props.loading) {
+    if (nextProps.loading !== this.props.loading) {
       this.setState({ loading: nextProps.loading });
     }
 

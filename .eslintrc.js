@@ -126,7 +126,7 @@ module.exports = {
     // disallow else blocks after return statements in if statements
     'no-else-return': 0,
     // disallow empty functions
-    'no-empty-function': [2, { allow: [] }],
+    'no-empty-function': [0, { allow: [] }],
     // disallow empty destructuring patterns
     'no-empty-pattern': 2,
     // disallow null comparisons without type-checking operators

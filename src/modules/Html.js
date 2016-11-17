@@ -19,8 +19,11 @@ const getInitialState = state => {
 };
 
 const getConfigs = () => {
+  global.APP_NAME = process.env.APP_NAME;
+
   const json = JSON.stringify({
-    API_URL: process.env.API_URL
+    API_URL: process.env.API_URL,
+    APP_NAME: process.env.APP_NAME
   });
   return `window.__APP_CONFIG__=${ json }`;
 };

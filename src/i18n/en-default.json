@@ -5,7 +5,9 @@
     "off": "Off",
     "date": "Date",
     "time": "Time",
-    "edit": "Edit"
+    "edit": "Edit",
+    "save": "Save",
+    "cancel": "Cancel"
   },
   "layout": {
     "header": {
@@ -26,6 +28,25 @@
       "revenueGoals": "Revenue Goals",
       "settings": "Settings"
     }
+  },
+  "applications": {
+    "updateYourApp": "Update Your App",
+    "addYourApp": "Add Your App",
+    "nextRegisterYourApp": "Next: Register Your App",
+    "appName": "App Name",
+    "packageName": "Package Name",
+    "registerYourApp": "Register your App with {{applicationName}}",
+    "dpAPIKey": "DP API Key",
+    "dpAPISecret": "DP API Secret",
+    "fcmServerKey": "FCM Server Key",
+    "iOSKeyPem": "iOS Key pem file",
+    "iosCertPem": "iOS Cert pem file",
+    "apiTooltip": "Use these API key and secret to register your App with {{applicationName}}. See documentation for more information.",
+    "welcomeMessage": "Welcome to {{applicationName}}. Few more steps and you'll be ready to send your first campaign.",
+    "congratulations": "Congratulations",
+    "createCampaign": "Create a campaign",
+    "registerAnotherApp": "Register Another App",
+    "congratsMessage": "Your App has been successfully registered. Now you'red ready for your first {{applicationName}} campaign"
   },
   "campaigns": {
     "list": {
