@@ -5,6 +5,7 @@ import { AppBar, Navigation, Link, Button } from 'react-toolbox';
 import { translate } from 'react-i18next';
 
 import { toggleNavDrawer } from '../redux/actions';
+import AppSelect from './AppSelect';
 
 // https://github.com/webpack/webpack/issues/1788
 // stupid webpack issue on circular dependency
@@ -30,9 +31,10 @@ export class Header extends Component {
       <AppBar title={ t('shared.applicationName') } leftIcon="menu" onLeftIconClick={ toggle }>
         {
           isLoggedIn ?
-            (<Navigation horizontal>
+            (<div>
+              <AppSelect /> &nbsp;
               <Button label={ t('layout.header.logout') } onClick={ logout } icon="exit_to_app" />
-            </Navigation>) :
+            </div>) :
           (<Navigation horizontal>
             <Link href="/app" label={ t('layout.header.home') } />
             <Link href="/app" label={ t('layout.header.pricing') } />

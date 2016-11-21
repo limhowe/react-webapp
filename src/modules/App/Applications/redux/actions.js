@@ -9,11 +9,9 @@ export const APP_LIST_ERROR = 'application/list/error';
 export const appListRequest = createAction(APP_LIST_REQUEST, () => {
   return (dispatch, getState) => {
     const appService = new ApplicationService(dispatch, getState());
-    appService.list({
+    return appService.list({
       SUCCESS: APP_LIST_SUCCESS,
       ERROR: APP_LIST_ERROR
-    }, {
-      successMessage: 'Application list loaded.'
     });
   };
 });

@@ -26,7 +26,10 @@
       "reports": "Reports",
       "analytics": "Analytics",
       "revenueGoals": "Revenue Goals",
-      "settings": "Settings"
+      "settings": "Settings",
+      "users": "Users",
+      "devices": "Devices",
+      "events": "Events"
     }
   },
   "applications": {

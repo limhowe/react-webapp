@@ -14,15 +14,18 @@ export const hideNotification = createAction(NOTIFICATION_HIDE);
 export const NAVDRAWER_SHOW = 'layout/navdrawer/show';
 export const NAVDRAWER_HIDE = 'layout/navdrawer/hide';
 export const NAVDRAWER_TOGGLE = 'layout/navdrawer/toggle';
+export const NAVDRAWER_EXPAND_TOGGLE = 'layout/navdrawer/expand-toggle';
 
 export const showNavDrawer = createAction(NAVDRAWER_SHOW);
 export const hideNavDrawer = createAction(NAVDRAWER_HIDE);
 export const toggleNavDrawer = createAction(NAVDRAWER_TOGGLE);
+export const expandToggle = createAction(NAVDRAWER_EXPAND_TOGGLE, (item) => item);
 
 export default {
   showNotification,
   hideNotification,
   showNavDrawer,
   hideNavDrawer,
-  toggleNavDrawer
+  toggleNavDrawer,
+  expandToggle
 };
