@@ -1,0 +1,21 @@
+.c-card {
+  min-width: 170px;
+  height: 230px;
+}
+
+.c-card-body {
+  height: 200px;
+}
+
+.c-card-footer {
+  height: 30px;
+  line-height: 30px;
+  width: 100%;
+  text-align: center;
+  background-color: $gray-lightest;
+}
+
+.c-card-highlight {
+  font-weight: 500;
+  font-size: $xlarge-font-size * 1.5;
+}

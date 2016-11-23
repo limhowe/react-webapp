@@ -3,11 +3,16 @@
 // ------------------------------------------
 :global {
   @import "./components/app";
+  @import "./components/card";
   @import "./components/container";
   @import "./components/campaigns";
   @import "./components/layout";
+  @import "./components/misc";
 
+  @import "./utilities/color";
   @import "./utilities/display";
+  @import "./utilities/font";
+  @import "./utilities/margin";
   @import "./utilities/position";
 
   // imported bootstrap grid system

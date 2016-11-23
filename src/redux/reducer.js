@@ -6,6 +6,7 @@ import auth from '../modules/App/Login/redux/reducer';
 import layout from '../modules/Layout/redux/reducer';
 import application from '../modules/App/Applications/redux/reducer';
 import campaign from '../modules/App/Campaigns/redux/reducer';
+import analytics from '../modules/App/Analytics/redux/reducer';
 import persist from './reducers/persistReducer';
 
 const reducer = combineReducers({
@@ -14,6 +15,7 @@ const reducer = combineReducers({
   persist,
   application,
   campaign,
+  analytics,
   form: formReducer,
   routing: routerReducer
 });
