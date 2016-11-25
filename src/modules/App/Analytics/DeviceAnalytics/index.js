@@ -27,7 +27,19 @@ export class DeviceAnalytics extends Component {
       return null;
     }
 
-    const pieChartData = {};
+    const pieChartData = {
+      Android: {
+        optIn: [{ value: 0 }, { value: 0 }],
+        uninstalled: [{ value: 0 }, { value: 0 }],
+        optOut: [{ value: 0 }, { value: 0 }]
+      },
+      iOS: {
+        optIn: [{ value: 0 }, { value: 0 }],
+        uninstalled: [{ value: 0 }, { value: 0 }],
+        optOut: [{ value: 0 }, { value: 0 }]
+      }
+    };
+
     Object.keys(deviceData).map((p) => {
       pieChartData[p] = {
         optIn: [{

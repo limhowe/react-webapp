@@ -19,9 +19,9 @@ export const getDeviceAnalytics = createAction(GET_DEVICE_ANALYTICS_REQUEST, () 
 });
 
 // user analytics
-export const GET_AUDIENCES_ANALYTICS_REQUEST = 'analytics/device/request';
-export const GET_AUDIENCES_ANALYTICS_SUCCESS = 'analytics/device/success';
-export const GET_AUDIENCES_ANALYTICS_ERROR = 'analytics/device/error';
+export const GET_AUDIENCES_ANALYTICS_REQUEST = 'analytics/audiences/request';
+export const GET_AUDIENCES_ANALYTICS_SUCCESS = 'analytics/audiences/success';
+export const GET_AUDIENCES_ANALYTICS_ERROR = 'analytics/audiences/error';
 
 export const getAudiences = createAction(GET_AUDIENCES_ANALYTICS_REQUEST, (segmentId, offset, limit) => {
   return (dispatch, getState) => {
