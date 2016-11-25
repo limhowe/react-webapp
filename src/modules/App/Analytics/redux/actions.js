@@ -17,3 +17,24 @@ export const getDeviceAnalytics = createAction(GET_DEVICE_ANALYTICS_REQUEST, () 
     });
   };
 });
+
+// user analytics
+export const GET_AUDIENCES_ANALYTICS_REQUEST = 'analytics/device/request';
+export const GET_AUDIENCES_ANALYTICS_SUCCESS = 'analytics/device/success';
+export const GET_AUDIENCES_ANALYTICS_ERROR = 'analytics/device/error';
+
+export const getAudiences = createAction(GET_AUDIENCES_ANALYTICS_REQUEST, (segmentId, offset, limit) => {
+  return (dispatch, getState) => {
+    const state = getState();
+    const { application: { currentApp: { _id: appId } } } = state;
+    const service = new AnalyticsService(appId, dispatch, getState());
+    return service.getAudiences({
+      segmentId,
+      offset,
+      limit
+    }, {
+      SUCCESS: GET_AUDIENCES_ANALYTICS_SUCCESS,
+      ERROR: GET_AUDIENCES_ANALYTICS_ERROR
+    });
+  };
+});

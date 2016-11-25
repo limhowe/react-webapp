@@ -13,7 +13,8 @@ import {
   NotFound,
   ApplicationList,
   ApplicationEdit,
-  DeviceAnalytics
+  DeviceAnalytics,
+  UserAnalytics
 } from './modules';
 
 // On server we want to fetch all data for the current route before rendering
@@ -61,6 +62,7 @@ const configureRoutes = (store: Object) => { // eslint-disable-line react/displa
         <Route path="campaigns" component={ CampaignsList } />
         <Route path="campaigns/start" component={ CampaignStart } />
         <Route path="analytics/devices" component={ DeviceAnalytics } />
+        <Route path="analytics/users" component={ UserAnalytics } />
       </Route>
       <Route path="*" component={ NotFound } />
     </Route>

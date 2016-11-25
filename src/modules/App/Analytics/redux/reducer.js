@@ -2,12 +2,16 @@ import { handleActions } from 'redux-actions';
 import {
   GET_DEVICE_ANALYTICS_REQUEST,
   GET_DEVICE_ANALYTICS_SUCCESS,
-  GET_DEVICE_ANALYTICS_ERROR
+  GET_DEVICE_ANALYTICS_ERROR,
+  GET_AUDIENCES_ANALYTICS_REQUEST,
+  GET_AUDIENCES_ANALYTICS_SUCCESS,
+  GET_AUDIENCES_ANALYTICS_ERROR
 } from './actions';
 
 export const initialState = {
   loading: false,
-  data: {
+  audiences: [],
+  deviceData: {
     iOS: {
       optIn: 0,
       optOut: 0,
@@ -84,6 +88,20 @@ export default handleActions({
     deviceData: dataReducer(action)
   }),
   [GET_DEVICE_ANALYTICS_ERROR]: (state) => ({
+    ...state,
+    loading: false
+  }),
+  [GET_AUDIENCES_ANALYTICS_REQUEST]: (state) => ({
+    ...state,
+    audiences: [],
+    loading: true
+  }),
+  [GET_AUDIENCES_ANALYTICS_SUCCESS]: (state, action) => ({
+    ...state,
+    loading: false,
+    audiences: action.payload
+  }),
+  [GET_AUDIENCES_ANALYTICS_ERROR]: (state) => ({
     ...state,
     loading: false
   })

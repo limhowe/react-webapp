@@ -11,7 +11,7 @@ export default class AnalyticsService extends BaseAuthorizedService {
   }
 
   getAudiences(params, ...args) {
-    const { offset, limit } = params; // @TODO implement segmentId
-    return this._get(`/applications/${ this.appId }/analytics/getAudiences?offset=${ offset || 0 }&limit=${ limit || 20 }`, ...args);
+    const { offset, limit, segmentId } = params;
+    return this._get(`/applications/${ this.appId }/analytics/getAudiences?offset=${ offset || 0 }&limit=${ limit || 10 }&segmentId=${ segmentId || '' }`, ...args);
   }
 }
