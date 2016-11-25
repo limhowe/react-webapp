@@ -693,7 +693,8 @@ const mapDispatchToProps = (dispatch) => ({
     if (state.deliveryScheduleSwitch) {
       const deliverySchedule = {
         status: 'ready',
-        frequency: state.sendDPSchedule
+        frequency: state.sendDPSchedule,
+        timeZone: 'America/New_York'
       };
 
       const payload = {};
