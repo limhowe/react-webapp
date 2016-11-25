@@ -75,6 +75,8 @@
         "heading": "Start a Campaign",
         "name": "Campaign Name",
         "tags": "Add Tags",
+        "newTag": "New Tag",
+        "addTag": "Add",
         "platform": "Select Platform",
         "android": "Android",
         "apple": "Apple",

@@ -6,9 +6,11 @@ export const CAMPAIGNS_LIST_REQUEST = 'campaigns/list/request';
 export const CAMPAIGNS_LIST_SUCCESS = 'campaigns/list/success';
 export const CAMPAIGNS_LIST_ERROR = 'campaigns/list/error';
 
-export const campaignsListRequest = createAction(CAMPAIGNS_LIST_REQUEST, (application_id) => {
+export const campaignsListRequest = createAction(CAMPAIGNS_LIST_REQUEST, () => {
   return (dispatch, getState) => {
-    const campaignService = new CampaignService(application_id, dispatch, getState());
+    const state = getState();
+    const { application: { currentApp: { _id: appId } } } = state;
+    const campaignService = new CampaignService(appId, dispatch, getState());
     campaignService.list({
       SUCCESS: CAMPAIGNS_LIST_SUCCESS,
       ERROR: CAMPAIGNS_LIST_ERROR
@@ -21,9 +23,11 @@ export const CAMPAIGN_CREATE_REQUEST = 'campaigns/create/request';
 export const CAMPAIGN_CREATE_SUCCESS = 'campaigns/create/success';
 export const CAMPAIGN_CREATE_ERROR = 'campaigns/create/error';
 
-export const campaignCreateRequest = createAction(CAMPAIGN_CREATE_REQUEST, (application_id, data) => {
+export const campaignCreateRequest = createAction(CAMPAIGN_CREATE_REQUEST, (data) => {
   return (dispatch, getState) => {
-    const campaignService = new CampaignService(application_id, dispatch, getState());
+    const state = getState();
+    const { application: { currentApp: { _id: appId } } } = state;
+    const campaignService = new CampaignService(appId, dispatch, getState());
     campaignService.create(data, {
       SUCCESS: CAMPAIGN_CREATE_SUCCESS,
       ERROR: CAMPAIGN_CREATE_ERROR
@@ -38,9 +42,11 @@ export const CAMPAIGN_UPDATE_REQUEST = 'campaigns/update/request';
 export const CAMPAIGN_UPDATE_SUCCESS = 'campaigns/update/success';
 export const CAMPAIGN_UPDATE_ERROR = 'campaigns/update/error';
 
-export const campaignUpdateRequest = createAction(CAMPAIGN_UPDATE_REQUEST, (application_id, campaign_id, data) => {
+export const campaignUpdateRequest = createAction(CAMPAIGN_UPDATE_REQUEST, (campaign_id, data) => {
   return (dispatch, getState) => {
-    const campaignService = new CampaignService(application_id, dispatch, getState());
+    const state = getState();
+    const { application: { currentApp: { _id: appId } } } = state;
+    const campaignService = new CampaignService(appId, dispatch, getState());
     return campaignService.update(campaign_id, data, {
       SUCCESS: CAMPAIGN_UPDATE_SUCCESS,
       ERROR: CAMPAIGN_UPDATE_ERROR
@@ -53,9 +59,11 @@ export const CAMPAIGN_SCHEDULE_REQUEST = 'campaigns/schedule/request';
 export const CAMPAIGN_SCHEDULE_SUCCESS = 'campaigns/schedule/success';
 export const CAMPAIGN_SCHEDULE_ERROR = 'campaigns/schedule/error';
 
-export const campaignScheduleRequest = createAction(CAMPAIGN_SCHEDULE_REQUEST, (application_id, campaign_id, data) => {
+export const campaignScheduleRequest = createAction(CAMPAIGN_SCHEDULE_REQUEST, (campaign_id, data) => {
   return (dispatch, getState) => {
-    const campaignService = new CampaignService(application_id, dispatch, getState());
+    const state = getState();
+    const { application: { currentApp: { _id: appId } } } = state;
+    const campaignService = new CampaignService(appId, dispatch, getState());
     campaignService.schedule(campaign_id, data, {
       SUCCESS: CAMPAIGN_SCHEDULE_SUCCESS,
       ERROR: CAMPAIGN_SCHEDULE_ERROR

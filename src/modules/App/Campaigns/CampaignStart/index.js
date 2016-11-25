@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from 'react-toolbox/lib/button';
+import { CardActions } from 'react-toolbox/lib/card';
 import { connect } from 'react-redux';
 import { List, ListItem } from 'react-toolbox/lib/list';
 import { Tab, Tabs } from 'react-toolbox';
@@ -22,9 +23,6 @@ export class CampaignStart extends Component {
   state = {
     tabIndex: 0,
     title: '',
-    chip1: true,
-    chip2: true,
-    chip3: true,
     checkAndroid: true,
     checkIOS: false,
     message: '',
@@ -37,7 +35,9 @@ export class CampaignStart extends Component {
     deliveryActionSwitch: false,
     sendDPSchedule: 'immediate',
     sendDPRepeat: 'daily',
-    triggerEvent: 1
+    triggerEvent: 1,
+    tags: ['Sales', 'Marketing', 'Finance'],
+    newtag: ''
   };
   props: {
     t: Function,
@@ -61,8 +61,25 @@ export class CampaignStart extends Component {
     this.setState({ ...this.state, [name]: value });
   };
 
-  handleDeleteClick = (field) => {
-    this.setState({ [field]: false });
+  handleDeleteTag = (index) => {
+    const { tags } = this.state;
+    tags.splice(index, 1);
+    this.setState({
+      tags
+    });
+  };
+
+  handleNewTag = () => {
+    const { tags, newtag } = this.state;
+    if (newtag === '') {
+      return;
+    } else {
+      tags.push(newtag);
+      this.setState({
+        tags,
+        newtag: ''
+      });
+    }
   };
 
   loopCounts = [
@@ -177,6 +194,7 @@ export class CampaignStart extends Component {
   render() {
     const min_datetime = new Date();
     const { t, create, setPush, setAction, setDeliverySchedule, launch } = this.props;
+    const { tags } = this.state;
 
     return (
       <div className="campaigns_list">
@@ -197,20 +215,16 @@ export class CampaignStart extends Component {
                     </div>
                     <div className="form-field">
                       {
-                        this.state.chip1 ? (
-                          <Chip deletable onDeleteClick={ this.handleDeleteClick.bind(this, 'chip1') }>Sales</Chip>
-                        ) : null
+                        tags.map((tag, index) => (
+                          <Chip key={ index } deletable onDeleteClick={ this.handleDeleteTag.bind(this, index) }>{ tag }</Chip>
+                        ))
                       }
-                      {
-                        this.state.chip2 ? (
-                          <Chip deletable onDeleteClick={ this.handleDeleteClick.bind(this, 'chip2') }>Marketing</Chip>
-                        ) : null
-                      }
-                      {
-                        this.state.chip3 ? (
-                          <Chip deletable onDeleteClick={ this.handleDeleteClick.bind(this, 'chip3') }>Finance</Chip>
-                        ) : null
-                      }
+                    </div>
+                    <div className="form-field">
+                      <CardActions>
+                        <Input type="text" label={ t('campaigns.create.start.newTag') } name="newtag" value={ this.state.newtag } onChange={ (...args) => this.handleChange('newtag', ...args)  } />
+                        <Button onClick={ this.handleNewTag.bind(this) } icon="add" label={ t('campaigns.create.start.addTag') } raised accent />
+                      </CardActions>
                     </div>
                   </div>
                 </div>
@@ -241,13 +255,27 @@ export class CampaignStart extends Component {
                     <div className="row">
                       <div className="col-md-8">
                         <div className="panel">
-                          <List selectable ripple className="no-margin">
+                          <Dropzone onDrop={ this.onDrop }>
                             <ListItem
                               leftIcon="file_upload"
                               caption={ t('campaigns.create.createPush.uploadAnimation') }
                               legend={ t('campaigns.create.createPush.uploadAnimationNote') }
                             />
-                          </List>
+                          </Dropzone>
+                          {/* <List selectable ripple className="no-margin">
+                            <Dropzone onDrop={ this.onDrop }>
+                            <ListItem
+                            leftIcon="file_upload"
+                            caption={ t('campaigns.create.createPush.uploadAnimation') }
+                            legend={ t('campaigns.create.createPush.uploadAnimationNote') }
+                            />
+                            </Dropzone>
+                            <ListItem
+                            leftIcon="file_upload"
+                            caption={ t('campaigns.create.createPush.uploadAnimation') }
+                            legend={ t('campaigns.create.createPush.uploadAnimationNote') }
+                            />
+                          </List> */}
                         </div>
                       </div>
                       <div className="col-md-4">
@@ -632,18 +660,9 @@ const mapDispatchToProps = (dispatch) => ({
     }
     const payload = {
       title: state.title,
-      tags: [],
+      tags: state.tags,
       platform: []
     };
-    if (state.chip1) {
-      payload.tags.push('Sales');
-    }
-    if (state.chip2) {
-      payload.tags.push('Marketing');
-    }
-    if (state.chip3) {
-      payload.tags.push('Finance');
-    }
 
     if (state.checkAndroid) {
       payload.platform.push({
@@ -655,7 +674,7 @@ const mapDispatchToProps = (dispatch) => ({
         name: 'iOS'
       });
     }
-    dispatch(campaignCreateRequest('5825cfd1d3932754c70fada7', payload));
+    dispatch(campaignCreateRequest(payload));
     setTabIndex(1);
   },
   setPush: (campaign, state, setTabIndex) => {
@@ -670,7 +689,7 @@ const mapDispatchToProps = (dispatch) => ({
       message: state.message
     };
     if (campaign && campaign._id) {
-      dispatch(campaignUpdateRequest('5825cfd1d3932754c70fada7', campaign._id, payload));
+      dispatch(campaignUpdateRequest(campaign._id, payload));
       setTabIndex(2);
     }
   },
@@ -686,7 +705,7 @@ const mapDispatchToProps = (dispatch) => ({
       payload.url = state.actionLink;
     }
     if (campaign && campaign._id) {
-      dispatch(campaignUpdateRequest('5825cfd1d3932754c70fada7', campaign._id, payload));
+      dispatch(campaignUpdateRequest(campaign._id, payload));
     }
   },
   setDeliverySchedule: (campaign, state) => {
@@ -720,8 +739,8 @@ const mapDispatchToProps = (dispatch) => ({
         payload.expiresAt = new Date(Date.UTC(expiresDate.getFullYear(), expiresDate.getMonth(), expiresDate.getDate(), expiresTime.getHours(), expiresTime.getMinutes())).toISOString();
       }
       if (campaign && campaign._id) {
-        dispatch(campaignUpdateRequest('5825cfd1d3932754c70fada7', campaign._id, payload));
-        dispatch(campaignScheduleRequest('5825cfd1d3932754c70fada7', campaign._id, deliverySchedule));
+        dispatch(campaignUpdateRequest(campaign._id, payload));
+        dispatch(campaignScheduleRequest(campaign._id, deliverySchedule));
       }
     }
     if (state.deliveryActionSwitch) {
@@ -732,7 +751,7 @@ const mapDispatchToProps = (dispatch) => ({
         inactiveDays: state.inactiveDays
       };
       if (campaign && campaign._id) {
-        dispatch(campaignUpdateRequest('5825cfd1d3932754c70fada7', campaign._id, payload));
+        dispatch(campaignUpdateRequest(campaign._id, payload));
       }
     }
   },
@@ -742,7 +761,7 @@ const mapDispatchToProps = (dispatch) => ({
       isPaused: false
     };
     if (campaign && campaign._id) {
-      dispatch(campaignUpdateRequest('5825cfd1d3932754c70fada7', campaign._id, payload)).then(() => {
+      dispatch(campaignUpdateRequest(campaign._id, payload)).then(() => {
         dispatch(showNotification('success', `Great, the campaign [${ campaign.title }] is just launched.`));
         dispatch(push('/app/campaigns'));
       });
