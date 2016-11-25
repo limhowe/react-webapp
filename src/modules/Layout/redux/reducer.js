@@ -4,12 +4,14 @@ import {
   NOTIFICATION_HIDE,
   NAVDRAWER_SHOW,
   NAVDRAWER_HIDE,
-  NAVDRAWER_TOGGLE
+  NAVDRAWER_TOGGLE,
+  NAVDRAWER_EXPAND_TOGGLE
 } from './actions';
 
 export const initialState = {
   notification: {},
-  navDrawerActive: false
+  navDrawerActive: false,
+  expandStatus: {}
 };
 
 export default handleActions({
@@ -32,5 +34,11 @@ export default handleActions({
   [NAVDRAWER_TOGGLE]: (state) => ({
     ...state,
     navDrawerActive: !state.navDrawerActive
+  }),
+  [NAVDRAWER_EXPAND_TOGGLE]: (state, action) => ({
+    ...state,
+    expandStatus: {
+      [action.payload]: !state.expandStatus[action.payload]
+    }
   })
 }, initialState);

@@ -41,7 +41,8 @@ export default handleActions({
   [APP_LIST_SUCCESS]: (state, action) => ({
     ...state,
     applications: action.payload,
-    loading: false
+    loading: false,
+    currentApp: state.currentApp ? state.currentApp : (action.payload && action.payload.length ? action.payload[0] : null)
   }),
   [APP_LIST_ERROR]: (state) => ({
     ...state,

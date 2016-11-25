@@ -2,7 +2,19 @@
 import React from 'react';
 import { IndexRoute, Route } from 'react-router';
 
-import { AppLayout, MainLayout, Home, Login, Dashboard, CampaignsList, CampaignStart, NotFound, ApplicationList, ApplicationEdit } from './modules';
+import {
+  AppLayout,
+  MainLayout,
+  Home,
+  Login,
+  Dashboard,
+  CampaignsList,
+  CampaignStart,
+  NotFound,
+  ApplicationList,
+  ApplicationEdit,
+  DeviceAnalytics
+} from './modules';
 
 // On server we want to fetch all data for the current route before rendering
 const fetchData = store => (nextState, replace, callback) => {
@@ -48,6 +60,7 @@ const configureRoutes = (store: Object) => { // eslint-disable-line react/displa
         <Route path="applications/:appId" component={ ApplicationEdit } />
         <Route path="campaigns" component={ CampaignsList } />
         <Route path="campaigns/start" component={ CampaignStart } />
+        <Route path="analytics/devices" component={ DeviceAnalytics } />
       </Route>
       <Route path="*" component={ NotFound } />
     </Route>

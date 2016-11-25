@@ -24,7 +24,7 @@ const configureStore = (initialState) => {
   const store = composedStore(reducer, initialState);
   persistStore(store, {
     storage: localForage,
-    whitelist: ['auth']
+    whitelist: ['auth', 'application']
   });
   return store;
 };
