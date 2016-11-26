@@ -4,13 +4,19 @@ import {
   GET_DEVICE_ANALYTICS_SUCCESS,
   GET_DEVICE_ANALYTICS_ERROR,
   GET_AUDIENCES_ANALYTICS_REQUEST,
+  GET_AUDIENCES_ANALYTICS_MORE_REQUEST,
   GET_AUDIENCES_ANALYTICS_SUCCESS,
-  GET_AUDIENCES_ANALYTICS_ERROR
+  GET_AUDIENCES_ANALYTICS_MORE_SUCCESS,
+  GET_AUDIENCES_ANALYTICS_ERROR,
+  GET_AUDIENCE_COUNT_REQUEST,
+  GET_AUDIENCE_COUNT_SUCCESS,
+  GET_AUDIENCE_COUNT_ERROR
 } from './actions';
 
 export const initialState = {
   loading: false,
   audiences: [],
+  audienceCounts: {},
   deviceData: {
     iOS: {
       optIn: 0,
@@ -63,6 +69,14 @@ const dataReducer = ({ payload }) => {
   return result;
 };
 
+const countReducer = (state, { payload }) => ({
+  ...state,
+  audienceCounts: {
+    ...state.audienceCounts,
+    ...payload
+  }
+});
+
 export default handleActions({
   [GET_DEVICE_ANALYTICS_REQUEST]: (state) => ({
     ...state,
@@ -96,13 +110,25 @@ export default handleActions({
     audiences: [],
     loading: true
   }),
+  [GET_AUDIENCES_ANALYTICS_MORE_REQUEST]: (state) => ({
+    ...state,
+    loading: true
+  }),
   [GET_AUDIENCES_ANALYTICS_SUCCESS]: (state, action) => ({
     ...state,
     loading: false,
     audiences: action.payload
   }),
+  [GET_AUDIENCES_ANALYTICS_MORE_SUCCESS]: (state, action) => ({
+    ...state,
+    loading: false,
+    audiences: [...state.audiences, ...action.payload]
+  }),
   [GET_AUDIENCES_ANALYTICS_ERROR]: (state) => ({
     ...state,
     loading: false
-  })
+  }),
+  [GET_AUDIENCE_COUNT_REQUEST]: (state) => state,
+  [GET_AUDIENCE_COUNT_SUCCESS]: (state, action) => countReducer(state, action),
+  [GET_AUDIENCE_COUNT_ERROR]: (state) => state
 }, initialState);
