@@ -73,8 +73,29 @@ export const campaignScheduleRequest = createAction(CAMPAIGN_SCHEDULE_REQUEST, (
   };
 });
 
+// campaign schedule
+export const CAMPAIGN_IMAGE_REQUEST = 'campaigns/image/request';
+export const CAMPAIGN_IMAGE_SUCCESS = 'campaigns/image/success';
+export const CAMPAIGN_IMAGE_ERROR = 'campaigns/image/error';
+
+export const campaignImageRequest = createAction(CAMPAIGN_IMAGE_REQUEST, (campaign_id, data) => {
+  return (dispatch, getState) => {
+    const state = getState();
+    const { application: { currentApp: { _id: appId } } } = state;
+    const campaignService = new CampaignService(appId, dispatch, getState());
+    campaignService.uploadImage(campaign_id, data, {
+      SUCCESS: CAMPAIGN_IMAGE_SUCCESS,
+      ERROR: CAMPAIGN_IMAGE_ERROR
+    }, {
+      successMessage: 'Awesome, the image is added for the campaign.'
+    });
+  };
+});
+
 export default {
   campaignsListRequest,
   campaignCreateRequest,
-  campaignUpdateRequest
+  campaignUpdateRequest,
+  campaignScheduleRequest,
+  campaignImageRequest
 };

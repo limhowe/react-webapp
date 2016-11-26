@@ -16,7 +16,7 @@ import TimePicker from 'react-toolbox/lib/time_picker';
 
 import { push } from 'react-router-redux';
 import { showNotification } from '../../../Layout/redux/actions';
-import { campaignCreateRequest, campaignUpdateRequest, campaignScheduleRequest } from '../redux/actions';
+import { campaignCreateRequest, campaignUpdateRequest, campaignScheduleRequest, campaignImageRequest } from '../redux/actions';
 
 export class CampaignStart extends Component {
   displayName: 'New Campaign';
@@ -43,6 +43,7 @@ export class CampaignStart extends Component {
     t: Function,
     create: Function,
     setPush: Function,
+    uploadImage: Function,
     setAction: Function,
     setDeliverySchedule: Function,
     launch: Function,
@@ -50,7 +51,9 @@ export class CampaignStart extends Component {
   };
 
   handleTabIndexChange = (index) => {
+    // if (this.props.campaign) {
     this.setState({ tabIndex: index });
+    // }
   };
 
   setTabIndex = (index) => {
@@ -78,6 +81,16 @@ export class CampaignStart extends Component {
       this.setState({
         tags,
         newtag: ''
+      });
+    }
+  };
+
+  onDrop = (files) => {
+    if (files.length === 0) {
+      return;
+    } else {
+      this.setState({
+        image: files[0]
       });
     }
   };
@@ -186,14 +199,9 @@ export class CampaignStart extends Component {
     );
   }
 
-  onDrop = (acceptedFiles, rejectedFiles) => {
-    console.log('Accepted files: ', acceptedFiles); // eslint-disable-line
-    console.log('Rejected files: ', rejectedFiles); // eslint-disable-line
-  }
-
   render() {
     const min_datetime = new Date();
-    const { t, create, setPush, setAction, setDeliverySchedule, launch } = this.props;
+    const { t, create, setPush, uploadImage, setAction, setDeliverySchedule, launch } = this.props;
     const { tags } = this.state;
 
     return (
@@ -223,7 +231,7 @@ export class CampaignStart extends Component {
                     <div className="form-field">
                       <CardActions>
                         <Input type="text" label={ t('campaigns.create.start.newTag') } name="newtag" value={ this.state.newtag } onChange={ (...args) => this.handleChange('newtag', ...args)  } />
-                        <Button onClick={ this.handleNewTag.bind(this) } icon="add" label={ t('campaigns.create.start.addTag') } raised accent />
+                        <Button onClick={ this.handleNewTag.bind(this) } icon="add" label={ t('campaigns.create.start.addTag') } raised mini />
                       </CardActions>
                     </div>
                   </div>
@@ -255,27 +263,23 @@ export class CampaignStart extends Component {
                     <div className="row">
                       <div className="col-md-8">
                         <div className="panel">
-                          <Dropzone onDrop={ this.onDrop }>
-                            <ListItem
-                              leftIcon="file_upload"
-                              caption={ t('campaigns.create.createPush.uploadAnimation') }
-                              legend={ t('campaigns.create.createPush.uploadAnimationNote') }
-                            />
+                          <Dropzone onDrop={ this.onDrop } accept="image/gif" className="img-dropzone">
+                            <List selectable ripple className="no-margin">
+                              <ListItem
+                                leftIcon="file_upload"
+                                caption={ t('campaigns.create.createPush.chooseAnimation') }
+                                legend={ t('campaigns.create.createPush.chooseAnimationNote') }
+                              />
+                            </List>
+                            {
+                              this.state.image ? (
+                                <img className="img-preview"  src={ this.state.image.preview } />
+                              ) : null
+                            }
                           </Dropzone>
-                          {/* <List selectable ripple className="no-margin">
-                            <Dropzone onDrop={ this.onDrop }>
-                            <ListItem
-                            leftIcon="file_upload"
-                            caption={ t('campaigns.create.createPush.uploadAnimation') }
-                            legend={ t('campaigns.create.createPush.uploadAnimationNote') }
-                            />
-                            </Dropzone>
-                            <ListItem
-                            leftIcon="file_upload"
-                            caption={ t('campaigns.create.createPush.uploadAnimation') }
-                            legend={ t('campaigns.create.createPush.uploadAnimationNote') }
-                            />
-                          </List> */}
+                          <div className="text-right">
+                            <Button onClick={ () => uploadImage(this.props.campaign, this.state) } disabled={ !this.state.image } label={ t('campaigns.create.createPush.uploadNow') } raised accent mini />
+                          </div>
                         </div>
                       </div>
                       <div className="col-md-4">
@@ -691,6 +695,15 @@ const mapDispatchToProps = (dispatch) => ({
     if (campaign && campaign._id) {
       dispatch(campaignUpdateRequest(campaign._id, payload));
       setTabIndex(2);
+    }
+  },
+  uploadImage: (campaign, state) => {
+    if (state.image) {
+      const payload = new FormData();
+      payload.append('image', state.image);
+      dispatch(campaignImageRequest(campaign._id, payload));
+    } else {
+      dispatch(showNotification('error', `You need to choose the image.`));
     }
   },
   setAction: (campaign, state) => {
