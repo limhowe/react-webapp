@@ -89,7 +89,7 @@ const mapStatesToProps = ({ campaign: { campaigns } }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  loadCampaigns: () => dispatch(campaignsListRequest('5825cfd1d3932754c70fada7')),
+  loadCampaigns: () => dispatch(campaignsListRequest()),
   start: () => dispatch(push('/app/campaigns/start'))
 });
 

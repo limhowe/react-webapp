@@ -9,4 +9,8 @@ export default class CampaignService extends ResourceService {
   schedule(id, ...args) {
     return this._put(`/${ this.resource }/${ id }/schedule`, ...args);
   }
+
+  uploadImage(id, ...args) {
+    return this._post(`/${ this.resource }/${ id }/image`, ...args);
+  }
 }
