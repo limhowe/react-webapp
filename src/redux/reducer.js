@@ -8,6 +8,7 @@ import application from '../modules/App/Applications/redux/reducer';
 import campaign from '../modules/App/Campaigns/redux/reducer';
 import analytics from '../modules/App/Analytics/redux/reducer';
 import segments from '../modules/App/Segments/redux/reducer';
+import customEvents from '../modules/App/CustomEvents/redux/reducer';
 import persist from './reducers/persistReducer';
 
 const reducer = combineReducers({
@@ -18,6 +19,7 @@ const reducer = combineReducers({
   campaign,
   analytics,
   segments,
+  customEvents,
   form: formReducer,
   routing: routerReducer
 });
