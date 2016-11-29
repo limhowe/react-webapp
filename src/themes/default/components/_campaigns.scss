@@ -76,6 +76,9 @@ table.table-campaigns {
         .img-preview {
           max-width: 60px;
         }
+        &.actions {
+          min-width: 120px;
+        }
       }
     }
   }

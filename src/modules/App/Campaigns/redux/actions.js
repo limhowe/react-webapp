@@ -54,6 +54,25 @@ export const campaignUpdateRequest = createAction(CAMPAIGN_UPDATE_REQUEST, (camp
   };
 });
 
+// campaign delete
+export const CAMPAIGN_DELETE_REQUEST = 'campaigns/update/request';
+export const CAMPAIGN_DELETE_SUCCESS = 'campaigns/update/success';
+export const CAMPAIGN_DELETE_ERROR = 'campaigns/update/error';
+
+export const campaignDeleteRequest = createAction(CAMPAIGN_DELETE_REQUEST, (campaign_id) => {
+  return (dispatch, getState) => {
+    const state = getState();
+    const { application: { currentApp: { _id: appId } } } = state;
+    const campaignService = new CampaignService(appId, dispatch, getState());
+    return campaignService.delete(campaign_id, {
+      SUCCESS: CAMPAIGN_DELETE_SUCCESS,
+      ERROR: CAMPAIGN_DELETE_ERROR
+    }, {
+      successMessage: 'Campaign is deleted.'
+    });
+  };
+});
+
 // campaign schedule
 export const CAMPAIGN_SCHEDULE_REQUEST = 'campaigns/schedule/request';
 export const CAMPAIGN_SCHEDULE_SUCCESS = 'campaigns/schedule/success';

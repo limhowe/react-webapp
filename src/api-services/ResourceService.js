@@ -15,7 +15,7 @@ export default class ResourceService extends BaseAuthorizedService {
   }
 
   delete(id, ...args) {
-    return this._delete(`/${ this.resource }`, ...args);
+    return this._delete(`/${ this.resource }/${ id }`, ...args);
   }
 
   read(id, ...args) {

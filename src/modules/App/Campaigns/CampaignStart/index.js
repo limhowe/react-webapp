@@ -51,9 +51,9 @@ export class CampaignStart extends Component {
   };
 
   handleTabIndexChange = (index) => {
-    // if (this.props.campaign) {
-    this.setState({ tabIndex: index });
-    // }
+    if (this.props.campaign) {
+      this.setState({ tabIndex: index });
+    }
   };
 
   setTabIndex = (index) => {

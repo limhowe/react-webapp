@@ -3,12 +3,15 @@ import { connect } from 'react-redux';
 import { Button, IconButton } from 'react-toolbox/lib/button';
 import { push } from 'react-router-redux';
 import { Tab, Tabs } from 'react-toolbox';
-import Tooltip from 'react-toolbox/lib/tooltip';
 import { translate } from 'react-i18next';
+import Dialog from 'react-toolbox/lib/dialog';
+import Tooltip from 'react-toolbox/lib/tooltip';
+
 import styles from './styles.scss';
 
-import { campaignsListRequest } from '../redux/actions';
-const TooltipIconButton = Tooltip(IconButton);
+import { campaignsListRequest, campaignUpdateRequest, campaignDeleteRequest } from '../redux/actions';
+const TooltipIconButton = new Tooltip(IconButton);
+
 /*
 const CampaignModel = {
   title: { type: String },
@@ -32,7 +35,8 @@ export class Campaigns extends Component {
     tabIndex: 0,
     tableFilter: 'inProgress',
     selected: [],
-    source: []
+    source: [],
+    deleteConfirmToggle: false
   }
   componentWillMount() {
     this.props.loadCampaigns();
@@ -41,7 +45,10 @@ export class Campaigns extends Component {
     campaigns: Array<any>,
     t: Function,
     start: Function,
-    loadCampaigns: Function
+    loadCampaigns: Function,
+    pauseCampaign: Function,
+    resumeCampaign: Function,
+    deleteCampaign: Function
   }
 
   handleTabIndexChange = (index) => {
@@ -59,10 +66,6 @@ export class Campaigns extends Component {
     this.setState({ tableFilter });
   }
 
-  handleActive = () => {
-    // console.log('Special one activated');
-  }
-
   getCampaigns = () => {
     return this.props.campaigns.filter((campaign) => {
       if (this.state.tableFilter === 'inProgress') {
@@ -78,8 +81,23 @@ export class Campaigns extends Component {
     });
   }
 
+  toggleDeleteConfirmDialog = (campaign) => {
+    this.setState({ campaign });
+    this.setState({ deleteConfirmToggle: !this.state.deleteConfirmToggle });
+  }
+
+  deleteCampaign = () => {
+    this.props.deleteCampaign(this.state.campaign);
+    this.setState({ deleteConfirmToggle: false });
+  }
+
+  deleteCampaignDialogActions = [
+    { label: 'Cancel', onClick: this.toggleDeleteConfirmDialog },
+    { label: 'Delete', onClick: this.deleteCampaign }
+  ];
+
   render() {
-    const { t, start } = this.props;
+    const { t, start, pauseCampaign, resumeCampaign } = this.props;
     return (
       <div className="campaigns_list">
         <div className="page_header">
@@ -135,33 +153,42 @@ export class Campaigns extends Component {
                     <td>{ campaign.message }</td>
                     <td>{ campaign.tags }</td>
                     <td>{ campaign.created }</td>
-                    <td className="text-right">
+                    <td className="text-right actions">
                       {
                         campaign.isActive ? (
-                          <TooltipIconButton icon="remove_red_eye" floating primary tooltip={ t('campaigns.list.actions.results') } />
+                          <TooltipIconButton icon="remove_red_eye" primary tooltip={ t('campaigns.list.actions.results') } />
                         ) : null
                       }
                       {
                         !campaign.isActive ? (
-                          <TooltipIconButton icon="mode_edit" floating primary tooltip={ t('campaigns.list.actions.edit') } />
+                          <TooltipIconButton icon="mode_edit" primary tooltip={ t('campaigns.list.actions.edit') } />
                         ) : null
                       }
                       {
                         campaign.isPaused ?
                         (
-                          <TooltipIconButton icon="play_arrow" floating primary tooltip={ t('campaigns.list.actions.resume') } />
+                          <TooltipIconButton icon="play_arrow" onClick={ () => resumeCampaign(campaign) } primary tooltip={ t('campaigns.list.actions.resume') } />
                         ) :
                         (
-                        <TooltipIconButton icon="pause" floating primary tooltip={ t('campaigns.list.actions.pause') } />
+                        <TooltipIconButton icon="pause" onClick={ () => pauseCampaign(campaign) } primary tooltip={ t('campaigns.list.actions.pause') } />
                         )
                       }
-                      <TooltipIconButton icon="delete" floating primary tooltip={ t('campaigns.list.actions.delete') } />
+                      <TooltipIconButton icon="delete" onClick={ this.toggleDeleteConfirmDialog.bind(this, campaign) } primary tooltip={ t('campaigns.list.actions.delete') } />
                     </td>
                   </tr>
                 ))
               }
             </tbody>
           </table>
+          <Dialog
+            actions={ this.deleteCampaignDialogActions }
+            active={ this.state.deleteConfirmToggle }
+            onEscKeyDown={ this.toggleDeleteConfirmDialog }
+            onOverlayClick={ this.toggleDeleteConfirmDialog }
+            title={ t('campaigns.deleteDialog.title') }
+          >
+            <p>{ t('campaigns.deleteDialog.question') }</p>
+          </Dialog>
         </section>
       </div>
     );
@@ -174,7 +201,22 @@ const mapStatesToProps = ({ campaign: { campaigns } }) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   loadCampaigns: () => dispatch(campaignsListRequest()),
-  start: () => dispatch(push('/app/campaigns/start'))
+  start: () => dispatch(push('/app/campaigns/start')),
+  pauseCampaign: (campaign) => {
+    const payload = {
+      isPaused: true
+    };
+    dispatch(campaignUpdateRequest(campaign._id, payload)).then(() => dispatch(campaignsListRequest()));
+  },
+  resumeCampaign: (campaign) => {
+    const payload = {
+      isPaused: false
+    };
+    dispatch(campaignUpdateRequest(campaign._id, payload)).then(() => dispatch(campaignsListRequest()));
+  },
+  deleteCampaign: (campaign) => {
+    dispatch(campaignDeleteRequest(campaign._id)).then(() => dispatch(campaignsListRequest()));
+  }
 });
 
 export default translate()(connect(mapStatesToProps, mapDispatchToProps)(Campaigns));

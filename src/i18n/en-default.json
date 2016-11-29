@@ -6,6 +6,7 @@
     "date": "Date",
     "time": "Time",
     "edit": "Edit",
+    "delete": "Delete",
     "save": "Save",
     "cancel": "Cancel"
   },
@@ -181,6 +182,10 @@
         "saveAsDraft": "Save as a Draft",
         "launchNow": "Launch Now"
       }
+    },
+    "deleteDialog": {
+      "title": "Delete Campaign",
+      "question": "Are you sure to want to delete this campaign ?"
     }
   }
 }
