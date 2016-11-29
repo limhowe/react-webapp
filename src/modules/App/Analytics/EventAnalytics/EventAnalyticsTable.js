@@ -13,6 +13,7 @@ export class EventAnalyticsTable extends Component {
     loading: bool,
     selectedEvents: Object,
     labels: Array<string>,
+    eventAnalytics: Object,
     formattedData: Array<Object>
   }
 
@@ -31,9 +32,11 @@ export class EventAnalyticsTable extends Component {
       if (selectedEvents[eventId].selected) {
         const dataSeries = formattedData[eventId];
         const d = {};
-        Object.keys(dataSeries).forEach((key) => {
-          d[key] = (<span className={ styles[`color-${ index + 1 }`] }>{ `${ dataSeries[key] }` }</span>);
-        });
+        if (dataSeries) {
+          Object.keys(dataSeries).forEach((key) => {
+            d[key] = (<span className={ styles[`color-${ index + 1 }`] }>{ `${ dataSeries[key] }` }</span>);
+          });
+        }
         d.event = (<span className={ styles[`color-${ index + 1 }`] }>{ selectedEvents[eventId].name }</span>);
         source.push(d);
       }
@@ -48,10 +51,11 @@ export class EventAnalyticsTable extends Component {
 }
 
 const mapStatesToProps = (state) => {
-  const { analytics: { eventAnalyticsLoading, selectedEvents } } = state;
+  const { analytics: { eventAnalyticsLoading, selectedEvents, eventAnalytics } } = state;
   return {
     selectedEvents,
     loading: eventAnalyticsLoading,
+    eventAnalytics,
     formattedData: formattedEventAnalytics(state),
     labels: getEventAnalyticsLabels(state)
   };

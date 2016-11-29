@@ -114,7 +114,10 @@ export const UPDATE_EVENT_ANALYTICS_FILTER = 'analytics/event/update-filter';
 export const updateEventAnalyticsFilter = createAction(UPDATE_EVENT_ANALYTICS_FILTER, (key, value) => ({ key, value }));
 export const changeEventAnalyticsFilter = createAction(CHANGE_EVENT_ANALYTICS_FILTER, (key, value) => {
   return (dispatch, getState) => {
-    dispatch(updateEventAnalyticsFilter(key, value));
+    if (key) {
+      dispatch(updateEventAnalyticsFilter(key, value));
+    }
+
     const state = getState();
     const { analytics: { eventAnalyticsFilter, selectedEvents } } = state;
     const eventIds = Object.keys(selectedEvents);
@@ -123,3 +126,6 @@ export const changeEventAnalyticsFilter = createAction(CHANGE_EVENT_ANALYTICS_FI
     }
   };
 });
+
+export const CHANGE_CHART_TYPE = 'analytics/event/chart-type-change';
+export const changeChartType = createAction(CHANGE_CHART_TYPE, (type) => type);

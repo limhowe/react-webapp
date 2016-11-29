@@ -28,6 +28,7 @@ export class EventAnalyticsFilter extends Component {
       this.props.removeCustomEvent(value);
     } else {
       this.props.addCustomEvent(_.find(this.props.customEvents, { _id: value }));
+      this.props.changeEventAnalyticsFilter();
     }
   }
 

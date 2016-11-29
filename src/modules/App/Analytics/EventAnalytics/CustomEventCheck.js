@@ -30,7 +30,7 @@ export class CustomEventCheck extends Component {
   render() {
     return (
       <div>
-        <h4>Displayig Events:</h4>
+        <h4>Displaying Events:</h4>
         { this.renderCheckboxes() }
       </div>
     );

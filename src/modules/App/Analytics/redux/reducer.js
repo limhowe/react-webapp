@@ -20,7 +20,8 @@ import {
   GET_EVENT_ANALYTICS_SUCCESS,
   GET_EVENT_ANALYTICS_ERROR,
   CHANGE_EVENT_ANALYTICS_FILTER,
-  UPDATE_EVENT_ANALYTICS_FILTER
+  UPDATE_EVENT_ANALYTICS_FILTER,
+  CHANGE_CHART_TYPE
 } from './actions';
 
 export const initialState = {
@@ -43,13 +44,14 @@ export const initialState = {
   },
   selectedEvents: {},
   eventAnalyticsLoading: false,
-  eventAnalytics: [],
+  eventAnalytics: {},
   eventAnalyticsFilter: {
     segmentId: '',
     startDate: '',
     endDate: '',
     groupBy: 'day'
-  }
+  },
+  chartType: 'line'
 };
 
 const dataReducer = ({ payload }) => {
@@ -187,12 +189,19 @@ export default handleActions({
     ...state,
     eventAnalyticsLoading: false
   }),
-  [CHANGE_EVENT_ANALYTICS_FILTER]: (state) => state,
+  [CHANGE_EVENT_ANALYTICS_FILTER]: (state) => ({
+    ...state,
+    eventAnalyticsLoading: true
+  }),
   [UPDATE_EVENT_ANALYTICS_FILTER]: (state, { payload }) => ({
     ...state,
     eventAnalyticsFilter: {
       ...state.eventAnalyticsFilter,
       [payload.key]: payload.value
     }
+  }),
+  [CHANGE_CHART_TYPE]: (state, { payload }) => ({
+    ...state,
+    chartType: payload
   })
 }, initialState);

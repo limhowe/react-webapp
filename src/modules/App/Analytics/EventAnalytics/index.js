@@ -7,29 +7,25 @@ import ButtonGroup from '../../../../components/ButtonGroup';
 import CustomEventCheck from './CustomEventCheck';
 import EventAnalyticsFilter from './EventAnalyticsFilter';
 import EventAnalyticsTable from './EventAnalyticsTable';
+import EventChart from './EventChart';
+
 import { segmentListRequest } from '../../Segments/redux/actions';
 import { customEventListRequest } from '../../CustomEvents/redux/actions';
+import { changeChartType } from '../redux/actions';
 
 export class EventAnalytics extends Component {
   displayName: 'EventAnalytics'
-  state = {
-    chartType: 'line'
-  }
 
   componentWillMount() {
     this.props.listSegments();
     this.props.listCustomEvents();
   }
 
-  valueChangeHandler = (field) => {
-    return (val) => this.setState({
-      [field]: val
-    });
-  }
-
   props: {
     listSegments: Function,
     listCustomEvents: Function,
+    changeChartType: Function,
+    chartType: string,
     loading: bool
   }
 
@@ -42,7 +38,7 @@ export class EventAnalytics extends Component {
       );
     }
 
-    const buttonSources = [{ icon: 'insert_chart', value: 'line' }, { icon: 'show_chart', value: 'area' }, { icon: 'pie_chart', value: 'pie' }];
+    const buttonSources = [{ icon: 'show_chart', value: 'line' }, { icon: 'insert_chart', value: 'bar' }, { icon: 'pie_chart', value: 'pie' }];
 
     return (
       <div className="c-container__large">
@@ -53,8 +49,11 @@ export class EventAnalytics extends Component {
             <CustomEventCheck />
           </div>
           <div className="col-lg-4">
-            <ButtonGroup source={ buttonSources } onChange={ this.valueChangeHandler('chartType') } value={ this.state.chartType } />
+            <ButtonGroup source={ buttonSources } onChange={ this.props.changeChartType } value={ this.props.chartType } />
           </div>
+        </div>
+        <div className="row u-margin-bottom-lg">
+          <EventChart />
         </div>
         <div className="row">
           <EventAnalyticsTable />
@@ -64,13 +63,15 @@ export class EventAnalytics extends Component {
   }
 }
 
-const mapStatesToProps = ({ segments: { listLoading }, customEvents: { listLoading: eventLoading } }) => ({
-  loading: listLoading || eventLoading
+const mapStatesToProps = ({ analytics: { chartType }, segments: { listLoading }, customEvents: { listLoading: eventLoading } }) => ({
+  loading: listLoading || eventLoading,
+  chartType
 });
 
 const mapDispatchToProps = (dispatch) => ({
   listSegments: () => dispatch(segmentListRequest()),
-  listCustomEvents: () => dispatch(customEventListRequest())
+  listCustomEvents: () => dispatch(customEventListRequest()),
+  changeChartType: (chartType) => dispatch(changeChartType(chartType))
 });
 
 export default translate()(
