@@ -1,0 +1,13 @@
+.tabs {
+  .navigation {
+    .label {
+      border-top: 2px solid $tab-navigation-border-color;
+      &.active {
+        border-top: 2px solid $blue-dark;
+      }
+      &:hover {
+        // border-top: 2px solid $blue-dark;
+      }
+    }
+  }
+}

@@ -59,7 +59,14 @@
       "scheduled": "Scheduled",
       "paused": "Paused",
       "completed": "Completed",
-      "all": "All"
+      "all": "All",
+      "actions": {
+        "results": "View Results",
+        "edit": "Edit",
+        "pause": "Pause",
+        "resume": "Resume Campaign",
+        "delete": "Delete"
+      }
     },
     "create": {
       "heading": "Create a Campaign",

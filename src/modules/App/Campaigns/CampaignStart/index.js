@@ -273,7 +273,7 @@ export class CampaignStart extends Component {
                             </List>
                             {
                               this.state.image ? (
-                                <img className="img-preview"  src={ this.state.image.preview } />
+                                <img className="img-preview" src={ this.state.image.preview } />
                               ) : null
                             }
                           </Dropzone>

@@ -55,3 +55,29 @@
   width: 100%;
   max-width: 100%;
 }
+
+table.table-campaigns {
+  width: 100%;
+  border-collapse: collapse;
+  thead {
+    border-bottom: 2px solid $table-border-header;
+    tr {
+      th {
+        padding: 10px 2px;
+      }
+    }
+  }
+  tbody {
+    tr {
+      border-bottom: 1px solid $table-border-header;
+      td {
+        font-size: 14px;
+        padding: 6px 4px;
+        .img-preview {
+          max-width: 60px;
+        }
+      }
+    }
+  }
+
+}
