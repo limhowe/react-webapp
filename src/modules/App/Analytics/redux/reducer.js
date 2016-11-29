@@ -1,4 +1,6 @@
 import { handleActions } from 'redux-actions';
+import _ from 'lodash';
+
 import {
   GET_DEVICE_ANALYTICS_REQUEST,
   GET_DEVICE_ANALYTICS_SUCCESS,
@@ -10,7 +12,15 @@ import {
   GET_AUDIENCES_ANALYTICS_ERROR,
   GET_AUDIENCE_COUNT_REQUEST,
   GET_AUDIENCE_COUNT_SUCCESS,
-  GET_AUDIENCE_COUNT_ERROR
+  GET_AUDIENCE_COUNT_ERROR,
+  TOGGLE_CUSTOM_EVENT,
+  ADD_CUSTOM_EVENT,
+  REMOVE_CUSTOM_EVENT,
+  GET_EVENT_ANALYTICS_REQUEST,
+  GET_EVENT_ANALYTICS_SUCCESS,
+  GET_EVENT_ANALYTICS_ERROR,
+  CHANGE_EVENT_ANALYTICS_FILTER,
+  UPDATE_EVENT_ANALYTICS_FILTER
 } from './actions';
 
 export const initialState = {
@@ -30,6 +40,15 @@ export const initialState = {
       uninstalled: 0,
       total: 0
     }
+  },
+  selectedEvents: {},
+  eventAnalyticsLoading: false,
+  eventAnalytics: {},
+  eventAnalyticsFilter: {
+    segmentId: '',
+    startDate: '',
+    endDate: '',
+    groupBy: 'day'
   }
 };
 
@@ -130,5 +149,49 @@ export default handleActions({
   }),
   [GET_AUDIENCE_COUNT_REQUEST]: (state) => state,
   [GET_AUDIENCE_COUNT_SUCCESS]: (state, action) => countReducer(state, action),
-  [GET_AUDIENCE_COUNT_ERROR]: (state) => state
+  [GET_AUDIENCE_COUNT_ERROR]: (state) => state,
+  [TOGGLE_CUSTOM_EVENT]: (state, action) => ({
+    ...state,
+    selectedEvents: {
+      ...state.selectedEvents,
+      [action.payload]: {
+        ...state.selectedEvents[action.payload],
+        selected: !state.selectedEvents[action.payload].selected
+      }
+    }
+  }),
+  [ADD_CUSTOM_EVENT]: (state, { payload }) => ({
+    ...state,
+    selectedEvents: {
+      ...state.selectedEvents,
+      [payload._id]: {
+        ...payload,
+        selected: true
+      }
+    }
+  }),
+  [REMOVE_CUSTOM_EVENT]: (state, { payload }) => ({
+    ...state,
+    selectedEvents: _.omit(state.selectedEvents, payload)
+  }),
+  [GET_EVENT_ANALYTICS_REQUEST]: (state) => ({
+    ...state,
+    eventAnalyticsLoading: true
+  }),
+  [GET_EVENT_ANALYTICS_SUCCESS]: (state) => ({
+    ...state,
+    eventAnalyticsLoading: false
+  }),
+  [GET_EVENT_ANALYTICS_ERROR]: (state) => ({
+    ...state,
+    eventAnalyticsLoading: false
+  }),
+  [CHANGE_EVENT_ANALYTICS_FILTER]: (state) => state,
+  [UPDATE_EVENT_ANALYTICS_FILTER]: (state, { payload }) => ({
+    ...state,
+    eventAnalyticsFilter: {
+      ...state.eventAnalyticsFilter,
+      [payload.key]: payload.value
+    }
+  })
 }, initialState);

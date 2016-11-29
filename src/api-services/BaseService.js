@@ -11,6 +11,14 @@ export default class BaseService {
     return `${ __CLIENT__ ? __APP_CONFIG__.API_URL : process.env.API_URL }${ url }`;
   }
 
+  makeQueryString(params) {
+    const resultArr = [];
+    Object.keys(params).forEach((key) => {
+      resultArr.push(`${ key }=${ params[key] }`);
+    });
+    return resultArr.join('&');
+  }
+
   setHeaders(req) {
     if (this.headers) {
       Object.keys(this.headers).forEach((key) => {

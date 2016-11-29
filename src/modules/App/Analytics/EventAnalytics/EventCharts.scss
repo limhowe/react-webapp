@@ -1,0 +1,17 @@
+$color-list: #3366CC, #DC3912, #FF9900, #109618, #990099, #3B3EAC, #0099C6, #DD4477, #66AA00, #B82E2E, #316395;
+
+
+@for $i from 1 through length($color-list) {
+  .checkbox-color-#{$i} {
+    .check {
+      &.checked {
+        background-color: nth($color-list, $i);
+        border-color: nth($color-list, $i);
+      }
+    }
+  }
+
+  .color-#{$i} {
+    color: nth($color-list, $i);
+  }
+}

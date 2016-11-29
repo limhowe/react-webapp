@@ -74,3 +74,48 @@ export const getAudienceCount = createAction(GET_AUDIENCE_COUNT_REQUEST, (segmen
     });
   };
 });
+
+// event analytics
+export const TOGGLE_CUSTOM_EVENT = 'analytics/event/toggle';
+export const ADD_CUSTOM_EVENT = 'analytics/event/add';
+export const REMOVE_CUSTOM_EVENT = 'analytics/event/remove';
+
+export const toggleCustomEvent = createAction(TOGGLE_CUSTOM_EVENT, (id) => id);
+export const addCustomEvent = createAction(ADD_CUSTOM_EVENT, (customEvent) => customEvent);
+export const removeCustomEvent = createAction(REMOVE_CUSTOM_EVENT, (id) => id);
+
+export const GET_EVENT_ANALYTICS_REQUEST = 'analytics/event-analytics/request';
+export const GET_EVENT_ANALYTICS_SUCCESS = 'analytics/event-analytics/success';
+export const GET_EVENT_ANALYTICS_ERROR = 'analytics/event-analytics/error';
+
+export const getEventAnalytics = createAction(GET_EVENT_ANALYTICS_REQUEST, (eventIds, params) => {
+  return (dispatch, getState) => {
+    const state = getState();
+    const { application: { currentApp: { _id: appId } } } = state;
+    const service = new AnalyticsService(appId, dispatch, getState());
+    const promises = eventIds.map((eventId) => service.getEventAnalytics({ ...params, eventId }));
+    return Promise.all(promises).then((result) => {
+      dispatch({
+        type: GET_EVENT_ANALYTICS_SUCCESS,
+        payload: result
+      });
+    }).catch((err) => {
+      dispatch({ type: GET_EVENT_ANALYTICS_ERROR, payload: err });
+    });
+  };
+});
+
+export const CHANGE_EVENT_ANALYTICS_FILTER = 'analytics/event/change-filter';
+export const UPDATE_EVENT_ANALYTICS_FILTER = 'analytics/event/update-filter';
+export const updateEventAnalyticsFilter = createAction(UPDATE_EVENT_ANALYTICS_FILTER, (key, value) => ({ key, value }));
+export const changeEventAnalyticsFilter = createAction(CHANGE_EVENT_ANALYTICS_FILTER, (key, value) => {
+  return (dispatch, getState) => {
+    dispatch(updateEventAnalyticsFilter(key, value));
+    const state = getState();
+    const { analytics: { eventAnalyticsFilter, selectedEvents } } = state;
+    const eventIds = Object.keys(selectedEvents);
+    if (eventIds.length) {
+      dispatch(getEventAnalytics(eventIds, eventAnalyticsFilter));
+    }
+  };
+});
