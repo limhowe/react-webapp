@@ -6,6 +6,7 @@ import { ProgressBar } from 'react-toolbox';
 import ButtonGroup from '../../../../components/ButtonGroup';
 import CustomEventCheck from './CustomEventCheck';
 import EventAnalyticsFilter from './EventAnalyticsFilter';
+import EventAnalyticsTable from './EventAnalyticsTable';
 import { segmentListRequest } from '../../Segments/redux/actions';
 import { customEventListRequest } from '../../CustomEvents/redux/actions';
 
@@ -54,6 +55,9 @@ export class EventAnalytics extends Component {
           <div className="col-lg-4">
             <ButtonGroup source={ buttonSources } onChange={ this.valueChangeHandler('chartType') } value={ this.state.chartType } />
           </div>
+        </div>
+        <div className="row">
+          <EventAnalyticsTable />
         </div>
       </div>
     );

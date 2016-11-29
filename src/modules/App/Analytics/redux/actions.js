@@ -95,9 +95,13 @@ export const getEventAnalytics = createAction(GET_EVENT_ANALYTICS_REQUEST, (even
     const service = new AnalyticsService(appId, dispatch, getState());
     const promises = eventIds.map((eventId) => service.getEventAnalytics({ ...params, eventId }));
     return Promise.all(promises).then((result) => {
+      const data = {};
+      eventIds.forEach((id, index) => {
+        data[id] = result[index];
+      });
       dispatch({
         type: GET_EVENT_ANALYTICS_SUCCESS,
-        payload: result
+        payload: data
       });
     }).catch((err) => {
       dispatch({ type: GET_EVENT_ANALYTICS_ERROR, payload: err });

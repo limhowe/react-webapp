@@ -59,6 +59,7 @@
     "redux-fsa-thunk": "0.0.2",
     "redux-persist": "^4.0.0-alpha7",
     "redux-thunk": "^2.1.0",
+    "reselect": "^2.5.4",
     "superagent": "^2.3.0",
     "webpack-isomorphic-tools": "^2.5.7"
   },

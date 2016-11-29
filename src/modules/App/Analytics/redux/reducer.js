@@ -43,7 +43,7 @@ export const initialState = {
   },
   selectedEvents: {},
   eventAnalyticsLoading: false,
-  eventAnalytics: {},
+  eventAnalytics: [],
   eventAnalyticsFilter: {
     segmentId: '',
     startDate: '',
@@ -178,8 +178,9 @@ export default handleActions({
     ...state,
     eventAnalyticsLoading: true
   }),
-  [GET_EVENT_ANALYTICS_SUCCESS]: (state) => ({
+  [GET_EVENT_ANALYTICS_SUCCESS]: (state, action) => ({
     ...state,
+    eventAnalytics: action.payload,
     eventAnalyticsLoading: false
   }),
   [GET_EVENT_ANALYTICS_ERROR]: (state) => ({
