@@ -3,9 +3,13 @@ import { Table, ProgressBar } from 'react-toolbox';
 
 export default class CustomTable extends Component {
   displayName: 'Table'
-  state = {
-    loading: false,
-    source: []
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: props.loading,
+      source: props.source
+    };
   }
 
   componentWillReceiveProps(nextProps) {
@@ -22,6 +26,7 @@ export default class CustomTable extends Component {
 
   props: {
     loading: bool,
+    source: Array<Object>,
     model: {
       [key: string]: Object
     }
