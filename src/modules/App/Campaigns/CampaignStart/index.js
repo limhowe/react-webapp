@@ -14,6 +14,8 @@ import Input from 'react-toolbox/lib/input';
 import Switch from 'react-toolbox/lib/switch';
 import TimePicker from 'react-toolbox/lib/time_picker';
 
+import styles from '../theme/styles.scss';
+
 import { push } from 'react-router-redux';
 import { showNotification } from '../../../Layout/redux/actions';
 import { campaignCreateRequest, campaignUpdateRequest, campaignScheduleRequest, campaignImageRequest } from '../redux/actions';
@@ -91,6 +93,8 @@ export class CampaignStart extends Component {
     } else {
       this.setState({
         image: files[0]
+      }, () => {
+        this.props.uploadImage(this.props.campaign, this.state);
       });
     }
   };
@@ -201,7 +205,7 @@ export class CampaignStart extends Component {
 
   render() {
     const min_datetime = new Date();
-    const { t, create, setPush, uploadImage, setAction, setDeliverySchedule, launch } = this.props;
+    const { t, create, setPush, setAction, setDeliverySchedule, launch } = this.props;
     const { tags } = this.state;
 
     return (
@@ -212,7 +216,12 @@ export class CampaignStart extends Component {
           </h2>
         </div>
         <div>
-          <Tabs index={ this.state.tabIndex } onChange={ this.handleTabIndexChange } fixed>
+          <Tabs
+            index={ this.state.tabIndex }
+            onChange={ this.handleTabIndexChange }
+            theme={ styles }
+            fixed
+          >
             <Tab label={ t('campaigns.create.nav.start') }>
               <div>
                 <h3 className="tab-heading">{ t('campaigns.create.start.heading') }</h3>
@@ -271,15 +280,11 @@ export class CampaignStart extends Component {
                                 legend={ t('campaigns.create.createPush.chooseAnimationNote') }
                               />
                             </List>
-                            {
-                              this.state.image ? (
-                                <img className="img-preview" src={ this.state.image.preview } />
-                              ) : null
-                            }
                           </Dropzone>
-                          <div className="text-right">
+                          <label>{ this.state.uploadingStatus }</label>
+                          {/* <div className="text-right">
                             <Button onClick={ () => uploadImage(this.props.campaign, this.state) } disabled={ !this.state.image } label={ t('campaigns.create.createPush.uploadNow') } raised accent mini />
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                       <div className="col-md-4">
@@ -362,8 +367,14 @@ export class CampaignStart extends Component {
                     </div>
                   </div>
                   <div className="col-md-5">
-                    <h4>Mobile Phone Preview</h4>
-                    <img src="https://placeimg.com/300/500/tech" />
+                    <h4 className="text-center">Mobile Phone Preview</h4>
+                    <div className="mobile-preview">
+                      {
+                        this.state.image ? (
+                          <img className="animation-preview on-mobile" src={ this.state.image.preview } />
+                        ) : null
+                      }
+                    </div>
                   </div>
                 </div>
               </div>
@@ -699,9 +710,12 @@ const mapDispatchToProps = (dispatch) => ({
   },
   uploadImage: (campaign, state) => {
     if (state.image) {
+      state.uploadingStatus = 'Uploading animation...';
       const payload = new FormData();
       payload.append('image', state.image);
-      dispatch(campaignImageRequest(campaign._id, payload));
+      dispatch(campaignImageRequest(campaign._id, payload)).then(() => {
+        state.uploadingStatus = 'Uploading done !';
+      });
     } else {
       dispatch(showNotification('error', `You need to choose the image.`));
     }

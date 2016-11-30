@@ -7,7 +7,7 @@ import { translate } from 'react-i18next';
 import Dialog from 'react-toolbox/lib/dialog';
 import Tooltip from 'react-toolbox/lib/tooltip';
 
-import styles from './styles.scss';
+import styles from '../theme/styles.scss';
 
 import { campaignsListRequest, campaignUpdateRequest, campaignDeleteRequest } from '../redux/actions';
 const TooltipIconButton = new Tooltip(IconButton);
@@ -145,7 +145,7 @@ export class Campaigns extends Component {
                     <td>
                       {
                         campaign.animation ? (
-                          <img className="img-preview"  src={ campaign.animation.url } />
+                          <img className="animation-preview"  src={ campaign.animation.url } />
                         ) : null
                       }
                     </td>
