@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { LineChart, XAxis, YAxis, Tooltip, Legend, Line, CartesianGrid, BarChart, Bar } from 'recharts';
+import { LineChart, XAxis, YAxis, Tooltip, Legend, Line, CartesianGrid, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 import { formattedEventAnalytics, getEventAnalyticsLabels } from '../redux/selector';
 import colors from './colors';
 
@@ -24,6 +24,22 @@ export class EventChart extends Component {
       });
       return data;
     });
+  }
+
+  accumulate() {
+    const { formattedData, selectedEvents } = this.props;
+    const result = [];
+    Object.keys(selectedEvents).forEach((eventId) => {
+      const sum = Object.keys(formattedData[eventId]).reduce((total, key) => (formattedData[eventId][key] + total), 0);
+
+      if (selectedEvents[eventId].selected) {
+        result.push({
+          name: selectedEvents[eventId].name,
+          value: sum
+        });
+      }
+    });
+    return result;
   }
 
   renderLineChart() {
@@ -73,7 +89,23 @@ export class EventChart extends Component {
   }
 
   renderPieChart() {
-
+    const { selectedEvents } = this.props;
+    const source = this.accumulate();
+    const cells = [];
+    Object.keys(selectedEvents).forEach((eventId, index) => {
+      if (selectedEvents[eventId].selected) {
+        cells.push(<Cell key={ eventId } fill={ colors[index] } />);
+      }
+    });
+    return (
+      <PieChart width={ 800 } height={ 300 }>
+        <Pie data={ source } cx={ 200 } cy={ 150 } innerRadius={ 40 } outerRadius={ 80 } paddingAngle={ 3 } fill={ colors[0] } label>
+          { cells }
+        </Pie>
+        <Tooltip />
+        <Legend />
+      </PieChart>
+    );
   }
 
   render() {
@@ -86,6 +118,7 @@ export class EventChart extends Component {
       <div>
         { chartType === 'line' ? this.renderLineChart() : null }
         { chartType === 'bar' ? this.renderBarChart() : null }
+        { chartType === 'pie' ? this.renderPieChart() : null }
       </div>
     );
   }

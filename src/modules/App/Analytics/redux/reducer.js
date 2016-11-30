@@ -178,6 +178,7 @@ export default handleActions({
   }),
   [GET_EVENT_ANALYTICS_REQUEST]: (state) => ({
     ...state,
+    eventAnalytics: {},
     eventAnalyticsLoading: true
   }),
   [GET_EVENT_ANALYTICS_SUCCESS]: (state, action) => ({

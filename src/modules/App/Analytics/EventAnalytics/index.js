@@ -49,7 +49,7 @@ export class EventAnalytics extends Component {
             <CustomEventCheck />
           </div>
           <div className="col-lg-4">
-            <ButtonGroup source={ buttonSources } onChange={ this.props.changeChartType } value={ this.props.chartType } />
+            <ButtonGroup className="text-right u-padding-top-lg" source={ buttonSources } onChange={ this.props.changeChartType } value={ this.props.chartType } />
           </div>
         </div>
         <div className="row u-margin-bottom-lg">

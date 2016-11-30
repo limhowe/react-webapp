@@ -21,6 +21,7 @@ export default class ButtonGroup extends Component {
   props: {
     source: Array<Object>,
     onChange: Function,
+    className: string,
     value: string
   }
 
@@ -46,7 +47,7 @@ export default class ButtonGroup extends Component {
 
   render() {
     return (
-      <div>
+      <div className={ this.props.className }>
         { this.renderButtons() }
       </div>
     );
