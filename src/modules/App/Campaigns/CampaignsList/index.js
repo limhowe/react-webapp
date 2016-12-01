@@ -12,23 +12,6 @@ import styles from '../theme/styles.scss';
 import { campaignsListRequest, campaignUpdateRequest, campaignDeleteRequest } from '../redux/actions';
 const TooltipIconButton = new Tooltip(IconButton);
 
-/*
-const CampaignModel = {
-  title: { type: String },
-  animation: {
-    url: { type: String }
-  },
-  message: { type: String },
-  tags: { type: String },
-  loopDelay: { type: Number },
-  loopCount: { type: Number },
-  created: {
-    type: Date,
-    title: 'Created'
-  }
-};
-*/
-
 export class Campaigns extends Component {
   displayName: 'Campaigns'
   state = {
@@ -46,8 +29,7 @@ export class Campaigns extends Component {
     t: Function,
     start: Function,
     loadCampaigns: Function,
-    pauseCampaign: Function,
-    resumeCampaign: Function,
+    updateCampaign: Function,
     deleteCampaign: Function
   }
 
@@ -81,14 +63,27 @@ export class Campaigns extends Component {
     });
   }
 
+  pauseCampaign = (campaign) => {
+    const payload = {
+      isPaused: true
+    };
+    this.props.updateCampaign(campaign, payload).then(() => {
+      this.props.loadCampaigns();
+    });
+  }
+
+  resumeCampaign = (campaign) => {
+    const payload = {
+      isPaused: false
+    };
+    this.props.updateCampaign(campaign, payload).then(() => {
+      this.props.loadCampaigns();
+    });
+  }
+
   toggleDeleteConfirmDialog = (campaign) => {
     this.setState({ campaign });
     this.setState({ deleteConfirmToggle: !this.state.deleteConfirmToggle });
-  }
-
-  deleteCampaign = () => {
-    this.props.deleteCampaign(this.state.campaign);
-    this.setState({ deleteConfirmToggle: false });
   }
 
   deleteCampaignDialogActions = [
@@ -96,8 +91,15 @@ export class Campaigns extends Component {
     { label: 'Delete', onClick: this.deleteCampaign }
   ];
 
+  deleteCampaign = () => {
+    this.props.deleteCampaign(this.state.campaign).then(() => {
+      this.props.loadCampaigns();
+      this.setState({ deleteConfirmToggle: false });
+    });
+  }
+
   render() {
-    const { t, start, pauseCampaign, resumeCampaign } = this.props;
+    const { t, start } = this.props;
     return (
       <div className="campaigns_list">
         <div className="page_header">
@@ -165,12 +167,10 @@ export class Campaigns extends Component {
                         ) : null
                       }
                       {
-                        campaign.isPaused ?
-                        (
-                          <TooltipIconButton icon="play_arrow" onClick={ () => resumeCampaign(campaign) } primary tooltip={ t('campaigns.list.actions.resume') } />
-                        ) :
-                        (
-                        <TooltipIconButton icon="pause" onClick={ () => pauseCampaign(campaign) } primary tooltip={ t('campaigns.list.actions.pause') } />
+                        campaign.isPaused ? (
+                          <TooltipIconButton icon="play_arrow" onClick={ this.resumeCampaign.bind(this, campaign) } primary tooltip={ t('campaigns.list.actions.resume') } />
+                        ) : (
+                        <TooltipIconButton icon="pause" onClick={ this.pauseCampaign.bind(this, campaign) } primary tooltip={ t('campaigns.list.actions.pause') } />
                         )
                       }
                       <TooltipIconButton icon="delete" onClick={ this.toggleDeleteConfirmDialog.bind(this, campaign) } primary tooltip={ t('campaigns.list.actions.delete') } />
@@ -202,21 +202,8 @@ const mapStatesToProps = ({ campaign: { campaigns } }) => ({
 const mapDispatchToProps = (dispatch) => ({
   loadCampaigns: () => dispatch(campaignsListRequest()),
   start: () => dispatch(push('/app/campaigns/start')),
-  pauseCampaign: (campaign) => {
-    const payload = {
-      isPaused: true
-    };
-    dispatch(campaignUpdateRequest(campaign._id, payload)).then(() => dispatch(campaignsListRequest()));
-  },
-  resumeCampaign: (campaign) => {
-    const payload = {
-      isPaused: false
-    };
-    dispatch(campaignUpdateRequest(campaign._id, payload)).then(() => dispatch(campaignsListRequest()));
-  },
-  deleteCampaign: (campaign) => {
-    dispatch(campaignDeleteRequest(campaign._id)).then(() => dispatch(campaignsListRequest()));
-  }
+  updateCampaign: (campaign, payload) => dispatch(campaignUpdateRequest(campaign._id, payload)),
+  deleteCampaign: (campaign) => dispatch(campaignDeleteRequest(campaign._id))
 });
 
 export default translate()(connect(mapStatesToProps, mapDispatchToProps)(Campaigns));
