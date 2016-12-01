@@ -81,6 +81,13 @@ export class Campaigns extends Component {
     });
   }
 
+  deleteCampaign = () => {
+    this.props.deleteCampaign(this.state.campaign).then(() => {
+      this.props.loadCampaigns();
+      this.setState({ deleteConfirmToggle: false });
+    });
+  }
+
   toggleDeleteConfirmDialog = (campaign) => {
     this.setState({ campaign });
     this.setState({ deleteConfirmToggle: !this.state.deleteConfirmToggle });
@@ -90,13 +97,6 @@ export class Campaigns extends Component {
     { label: 'Cancel', onClick: this.toggleDeleteConfirmDialog },
     { label: 'Delete', onClick: this.deleteCampaign }
   ];
-
-  deleteCampaign = () => {
-    this.props.deleteCampaign(this.state.campaign).then(() => {
-      this.props.loadCampaigns();
-      this.setState({ deleteConfirmToggle: false });
-    });
-  }
 
   render() {
     const { t, start } = this.props;

@@ -39,7 +39,8 @@ export class CampaignStart extends Component {
     sendDPRepeat: 'daily',
     triggerEvent: 1,
     tags: ['Sales', 'Marketing', 'Finance'],
-    newtag: ''
+    newtag: '',
+    animationUploadingStatus: 0
   };
   props: {
     t: Function,
@@ -94,10 +95,41 @@ export class CampaignStart extends Component {
       this.setState({
         image: files[0]
       }, () => {
-        this.props.uploadImage(this.props.campaign, this.state);
+        this.setState({ animationUploadingStatus: 1 });
+        const payload = new FormData();
+        payload.append('image', this.state.image);
+        this.props.uploadImage(this.props.campaign, payload).then(() => {
+          this.setState({ animationUploadingStatus: 2 });
+        });
       });
     }
   };
+
+  create = () => {
+    if (this.state.title === '') {
+      // dispatch(showNotification('error', `Campaign title is required.`));
+      return;
+    }
+    const payload = {
+      title: this.state.title,
+      tags: this.state.tags,
+      platform: []
+    };
+
+    if (this.state.checkAndroid) {
+      payload.platform.push({
+        name: 'Android'
+      });
+    }
+    if (this.state.checkIOS) {
+      payload.platform.push({
+        name: 'iOS'
+      });
+    }
+    this.props.create(payload).then(() => {
+      this.setTabIndex(1);
+    });
+  }
 
   loopCounts = [
     { value: 1 },
@@ -205,7 +237,7 @@ export class CampaignStart extends Component {
 
   render() {
     const min_datetime = new Date();
-    const { t, create, setPush, setAction, setDeliverySchedule, launch } = this.props;
+    const { t, setPush, setAction, setDeliverySchedule, launch } = this.props;
     const { tags } = this.state;
 
     return (
@@ -258,7 +290,7 @@ export class CampaignStart extends Component {
                   />
                 </div>
                 <div className="form-buttons">
-                  <Button onClick={ () => create(this.state, this.setTabIndex) } label={ t('campaigns.create.start.next') } raised primary />
+                  <Button onClick={ this.create.bind(this) } label={ t('campaigns.create.start.next') } raised primary />
                 </div>
               </div>
             </Tab>
@@ -281,10 +313,11 @@ export class CampaignStart extends Component {
                               />
                             </List>
                           </Dropzone>
-                          <label>{ this.state.uploadingStatus }</label>
-                          {/* <div className="text-right">
-                            <Button onClick={ () => uploadImage(this.props.campaign, this.state) } disabled={ !this.state.image } label={ t('campaigns.create.createPush.uploadNow') } raised accent mini />
-                          </div> */}
+                          {
+                            this.state.animationUploadingStatus === 1 ? (
+                              <label>{ t('campaigns.create.createPush.uploadInProgress') } </label>
+                            ) : null
+                          }
                         </div>
                       </div>
                       <div className="col-md-4">
@@ -370,7 +403,7 @@ export class CampaignStart extends Component {
                     <h4 className="text-center">Mobile Phone Preview</h4>
                     <div className="mobile-preview">
                       {
-                        this.state.image ? (
+                        this.state.animationUploadingStatus === 2 ? (
                           <img className="animation-preview on-mobile" src={ this.state.image.preview } />
                         ) : null
                       }
@@ -667,31 +700,7 @@ export class CampaignStart extends Component {
 const mapStatesToProps = (state) => ({ campaign: state.campaign.campaign });
 
 const mapDispatchToProps = (dispatch) => ({
-  create: (state, setTabIndex) => {
-
-    if (state.title === '') {
-      dispatch(showNotification('error', `Campaign title is required.`));
-      return;
-    }
-    const payload = {
-      title: state.title,
-      tags: state.tags,
-      platform: []
-    };
-
-    if (state.checkAndroid) {
-      payload.platform.push({
-        name: 'Android'
-      });
-    }
-    if (state.checkIOS) {
-      payload.platform.push({
-        name: 'iOS'
-      });
-    }
-    dispatch(campaignCreateRequest(payload));
-    setTabIndex(1);
-  },
+  create: (payload) => dispatch(campaignCreateRequest(payload)),
   setPush: (campaign, state, setTabIndex) => {
     if (state.message === '') {
       dispatch(showNotification('error', 'Message is required.'));
@@ -708,18 +717,7 @@ const mapDispatchToProps = (dispatch) => ({
       setTabIndex(2);
     }
   },
-  uploadImage: (campaign, state) => {
-    if (state.image) {
-      state.uploadingStatus = 'Uploading animation...';
-      const payload = new FormData();
-      payload.append('image', state.image);
-      dispatch(campaignImageRequest(campaign._id, payload)).then(() => {
-        state.uploadingStatus = 'Uploading done !';
-      });
-    } else {
-      dispatch(showNotification('error', `You need to choose the image.`));
-    }
-  },
+  uploadImage: (campaign, payload) => dispatch(campaignImageRequest(campaign._id, payload)),
   setAction: (campaign, state) => {
     const payload = {
       campaignType: state.appAction

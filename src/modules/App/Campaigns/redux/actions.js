@@ -28,7 +28,7 @@ export const campaignCreateRequest = createAction(CAMPAIGN_CREATE_REQUEST, (data
     const state = getState();
     const { application: { currentApp: { _id: appId } } } = state;
     const campaignService = new CampaignService(appId, dispatch, getState());
-    campaignService.create(data, {
+    return campaignService.create(data, {
       SUCCESS: CAMPAIGN_CREATE_SUCCESS,
       ERROR: CAMPAIGN_CREATE_ERROR
     }, {
@@ -83,7 +83,7 @@ export const campaignScheduleRequest = createAction(CAMPAIGN_SCHEDULE_REQUEST, (
     const state = getState();
     const { application: { currentApp: { _id: appId } } } = state;
     const campaignService = new CampaignService(appId, dispatch, getState());
-    campaignService.schedule(campaign_id, data, {
+    return campaignService.schedule(campaign_id, data, {
       SUCCESS: CAMPAIGN_SCHEDULE_SUCCESS,
       ERROR: CAMPAIGN_SCHEDULE_ERROR
     }, {
@@ -102,7 +102,7 @@ export const campaignImageRequest = createAction(CAMPAIGN_IMAGE_REQUEST, (campai
     const state = getState();
     const { application: { currentApp: { _id: appId } } } = state;
     const campaignService = new CampaignService(appId, dispatch, getState());
-    campaignService.uploadImage(campaign_id, data, {
+    return campaignService.uploadImage(campaign_id, data, {
       SUCCESS: CAMPAIGN_IMAGE_SUCCESS,
       ERROR: CAMPAIGN_IMAGE_ERROR
     }, {
