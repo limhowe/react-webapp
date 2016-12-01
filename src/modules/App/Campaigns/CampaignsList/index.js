@@ -51,7 +51,7 @@ export class Campaigns extends Component {
   getCampaigns = () => {
     return this.props.campaigns.filter((campaign) => {
       if (this.state.tableFilter === 'inProgress') {
-        return !campaign.isPaused;
+        return campaign.isActive;
       } else if (this.state.tableFilter === 'scheduled') {
         return campaign.deliverySchedule;
       } else if (this.state.tableFilter === 'paused') {
@@ -153,7 +153,7 @@ export class Campaigns extends Component {
                     </td>
                     <td>{ campaign.title }</td>
                     <td>{ campaign.message }</td>
-                    <td>{ campaign.tags }</td>
+                    <td>{ campaign.tags.join(', ') }</td>
                     <td>{ campaign.created }</td>
                     <td className="text-right actions">
                       {

@@ -81,7 +81,7 @@
       },
       "start": {
         "heading": "Start a Campaign",
-        "name": "Campaign Name",
+        "title": "Campaign Title",
         "tags": "Add Tags",
         "newTag": "New Tag",
         "addTag": "Add",

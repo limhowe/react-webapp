@@ -42,9 +42,6 @@ export class CampaignStart extends Component {
     newtag: '',
     animationUploadingStatus: 0
   };
-  componentWillMount() {
-    this.setState({ campaign: null });
-  }
   props: {
     t: Function,
     showNotification: Function,
@@ -129,9 +126,16 @@ export class CampaignStart extends Component {
         name: 'iOS'
       });
     }
-    this.props.create(payload).then(() => {
-      this.setTabIndex(1);
-    });
+    if (this.props.campaign) {
+      this.props.update(this.props.campaign, payload).then(() => {
+        this.setTabIndex(1);
+      });
+    } else {
+      this.props.create(payload).then(() => {
+        this.setTabIndex(1);
+      });
+    }
+
   }
 
   setPush = () => {
@@ -341,7 +345,7 @@ export class CampaignStart extends Component {
 
   render() {
     const min_datetime = new Date();
-    const { t } = this.props;
+    const { t, gotoList } = this.props;
     const { tags } = this.state;
 
     return (
@@ -364,7 +368,7 @@ export class CampaignStart extends Component {
                 <div className="row">
                   <div className="col-xs-12 col-md-7">
                     <div className="form-field">
-                      <Input type="text" label={ t('campaigns.create.start.name') } name="title" value={ this.state.title } onChange={ (...args) => this.handleChange('title', ...args)  } />
+                      <Input type="text" label={ t('campaigns.create.start.title') } name="title" value={ this.state.title } onChange={ (...args) => this.handleChange('title', ...args)  } />
                     </div>
                     <div className="form-field">
                       {
@@ -789,7 +793,7 @@ export class CampaignStart extends Component {
                   </div>
                 </div>
                 <div className="form-buttons">
-                  <Button icon="save" onClick={ () => this.handleSaveDraft() } label={ t('campaigns.create.previewAndLaunch.saveAsDraft') } raised accent />
+                  <Button icon="save" onClick={ () => gotoList() } label={ t('campaigns.create.previewAndLaunch.saveAsDraft') } raised accent />
                   <Button icon="done_all" onClick={ this.launch.bind(this) } label={ t('campaigns.create.previewAndLaunch.launchNow') } raised primary />
                 </div>
               </div>

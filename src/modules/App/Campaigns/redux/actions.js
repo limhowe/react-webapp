@@ -110,11 +110,3 @@ export const campaignImageRequest = createAction(CAMPAIGN_IMAGE_REQUEST, (campai
     });
   };
 });
-
-export default {
-  campaignsListRequest,
-  campaignCreateRequest,
-  campaignUpdateRequest,
-  campaignScheduleRequest,
-  campaignImageRequest
-};
