@@ -96,7 +96,7 @@
         "addAnimationNote": "Animation will be displayed only on the Android Phones",
         "chooseAnimation": "Upload Animation",
         "chooseAnimationNote": "Animation should be in GIF format and not exceed 5k.",
-        "uploadInProgress": "Upload in progress",
+        "uploadInProgress": "Animation upload in progress...",
         "replaceAnimation": "Replace Animation",
         "replaceAnimationNote": "Animation should be in GIF format and not exceed 5k.",
         "createAnimation": "Create Animation",

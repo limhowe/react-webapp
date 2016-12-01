@@ -42,14 +42,17 @@ export class CampaignStart extends Component {
     newtag: '',
     animationUploadingStatus: 0
   };
+  componentWillMount() {
+    this.setState({ campaign: null });
+  }
   props: {
     t: Function,
+    showNotification: Function,
     create: Function,
-    setPush: Function,
+    update: Function,
     uploadImage: Function,
-    setAction: Function,
-    setDeliverySchedule: Function,
-    launch: Function,
+    schedule: Function,
+    gotoList: Function,
     campaign: Object
   };
 
@@ -107,7 +110,7 @@ export class CampaignStart extends Component {
 
   create = () => {
     if (this.state.title === '') {
-      // dispatch(showNotification('error', `Campaign title is required.`));
+      this.props.showNotification('error', `Campaign title is required.`);
       return;
     }
     const payload = {
@@ -129,6 +132,107 @@ export class CampaignStart extends Component {
     this.props.create(payload).then(() => {
       this.setTabIndex(1);
     });
+  }
+
+  setPush = () => {
+    if (this.state.message === '') {
+      this.props.showNotification('error', 'Notification text is required.');
+      this.setState({ toggleAddPushNotification: true });
+      return;
+    }
+    const payload = {
+      loopCount: this.state.loopCount,
+      loopDelay: this.state.loopDelay,
+      messagePosition: this.state.messagePosition,
+      message: this.state.message
+    };
+    if (this.props.campaign) {
+      this.props.update(this.props.campaign, payload).then(() => {
+        this.setTabIndex(2);
+      });
+    }
+  }
+
+  setAction = () => {
+    const payload = {
+      campaignType: this.state.appAction
+    };
+    if (payload.campaignType === 'inAppMessage') {
+      payload.url = '';
+    } else if (payload.campaignType === 'deepLink') {
+      payload.url = this.state.actionLink;
+    } else if (payload.campaignType === 'url') {
+      payload.url = this.state.actionLink;
+    }
+    if (this.props.campaign) {
+      this.props.update(this.props.campaign, payload).then(() => {
+        this.setTabIndex(3);
+      });
+    }
+  }
+
+  scheduleDelivery = () => {
+    if (this.state.deliveryScheduleSwitch) {
+      const deliverySchedule = {
+        status: 'ready',
+        frequency: this.state.sendDPSchedule,
+        timeZone: 'America/New_York'
+      };
+
+      const payload = {};
+      if (this.state.sendDPSchedule === 'immediate') {
+        deliverySchedule.repeat = 'once';
+
+        // Set expiresAt to tomorrow
+        const expiresDate = new Date();
+        expiresDate.setDate(expiresDate.getDate() + 1);
+        payload.expiresAt = expiresDate.toISOString();
+      } else {
+        const sendDate = this.state.scheduleDate;
+        const sendTime = this.state.scheduleTime;
+        const scheduleDateTime = new Date(Date.UTC(sendDate.getFullYear(), sendDate.getMonth(), sendDate.getDate(), sendTime.getHours(), sendTime.getMinutes())).toISOString();
+
+        deliverySchedule.repeat = this.state.sendDPRepeat;
+        deliverySchedule.sendDate = scheduleDateTime;
+
+        const expiresDate = this.state.expirationDate;
+        const expiresTime = this.state.expirationTime;
+        payload.expiresAt = new Date(Date.UTC(expiresDate.getFullYear(), expiresDate.getMonth(), expiresDate.getDate(), expiresTime.getHours(), expiresTime.getMinutes())).toISOString();
+      }
+      if (this.props.campaign) {
+        this.props.update(this.props.campaign, payload).then(() => {
+          this.props.schedule(this.props.campaign, deliverySchedule).then(() => {
+            this.setTabIndex(4);
+          });
+        });
+      }
+    }
+    if (this.state.deliveryActionSwitch) {
+      const payload = {};
+      payload.deliveryAction = {
+        dayLimit: this.state.dayLimit,
+        dpLimit: this.state.dpLimit,
+        inactiveDays: this.state.inactiveDays
+      };
+      if (this.props.campaign) {
+        this.props.update(this.props.campaign, payload).then(() => {
+          this.setTabIndex(4);
+        });
+      }
+    }
+  }
+
+  launch = () => {
+    const payload = {
+      isActive: true,
+      isPaused: false
+    };
+    if (this.props.campaign) {
+      this.props.update(this.props.campaign, payload).then(() => {
+        this.props.showNotification('success', `Great, the campaign [${ this.props.campaign.title }] is just launched.`);
+        this.props.gotoList();
+      });
+    }
   }
 
   loopCounts = [
@@ -237,7 +341,7 @@ export class CampaignStart extends Component {
 
   render() {
     const min_datetime = new Date();
-    const { t, setPush, setAction, setDeliverySchedule, launch } = this.props;
+    const { t } = this.props;
     const { tags } = this.state;
 
     return (
@@ -396,7 +500,7 @@ export class CampaignStart extends Component {
                     </div>
                     <div className="form-buttons">
                       <Button icon="chevron_left" onClick={ () => this.setTabIndex(0) } label={ t('campaigns.create.createPush.back') } raised />
-                      <Button onClick={ () => setPush(this.props.campaign, this.state, this.setTabIndex) } label={ t('campaigns.create.createPush.next') } raised primary />
+                      <Button onClick={ this.setPush.bind(this) } label={ t('campaigns.create.createPush.next') } raised primary />
                     </div>
                   </div>
                   <div className="col-md-5">
@@ -459,7 +563,7 @@ export class CampaignStart extends Component {
                 }
                 <div className="form-buttons">
                   <Button icon="chevron_left" onClick={ () => this.setTabIndex(1) } label={ t('campaigns.create.addAction.back') } raised />
-                  <Button onClick={ () => { setAction(this.props.campaign, this.state); this.setTabIndex(3); } } label={ t('campaigns.create.addAction.next') } raised primary />
+                  <Button onClick={ this.setAction.bind(this) } label={ t('campaigns.create.addAction.next') } raised primary />
                 </div>
               </div>
             </Tab>
@@ -620,7 +724,7 @@ export class CampaignStart extends Component {
                 </div>
                 <div className="form-buttons">
                   <Button icon="chevron_left" onClick={ () => this.setTabIndex(2) } label={ t('campaigns.create.scheduleDelivery.back') } raised />
-                  <Button onClick={ () => { setDeliverySchedule(this.props.campaign, this.state); this.setTabIndex(4); } } label={ t('campaigns.create.scheduleDelivery.next') } raised primary />
+                  <Button onClick={ this.scheduleDelivery.bind(this) } label={ t('campaigns.create.scheduleDelivery.next') } raised primary />
                 </div>
               </div>
             </Tab>
@@ -686,7 +790,7 @@ export class CampaignStart extends Component {
                 </div>
                 <div className="form-buttons">
                   <Button icon="save" onClick={ () => this.handleSaveDraft() } label={ t('campaigns.create.previewAndLaunch.saveAsDraft') } raised accent />
-                  <Button icon="done_all" onClick={ () => launch(this.props.campaign) } label={ t('campaigns.create.previewAndLaunch.launchNow') } raised primary />
+                  <Button icon="done_all" onClick={ this.launch.bind(this) } label={ t('campaigns.create.previewAndLaunch.launchNow') } raised primary />
                 </div>
               </div>
             </Tab>
@@ -700,98 +804,12 @@ export class CampaignStart extends Component {
 const mapStatesToProps = (state) => ({ campaign: state.campaign.campaign });
 
 const mapDispatchToProps = (dispatch) => ({
+  showNotification: (...args) => dispatch(showNotification(...args)),
   create: (payload) => dispatch(campaignCreateRequest(payload)),
-  setPush: (campaign, state, setTabIndex) => {
-    if (state.message === '') {
-      dispatch(showNotification('error', 'Message is required.'));
-      return;
-    }
-    const payload = {
-      loopCount: state.loopCount,
-      loopDelay: state.loopDelay,
-      messagePosition: state.messagePosition,
-      message: state.message
-    };
-    if (campaign && campaign._id) {
-      dispatch(campaignUpdateRequest(campaign._id, payload));
-      setTabIndex(2);
-    }
-  },
+  update: (campaign, payload) => dispatch(campaignUpdateRequest(campaign._id, payload)),
   uploadImage: (campaign, payload) => dispatch(campaignImageRequest(campaign._id, payload)),
-  setAction: (campaign, state) => {
-    const payload = {
-      campaignType: state.appAction
-    };
-    if (payload.campaignType === 'inAppMessage') {
-      payload.url = '';
-    } else if (payload.campaignType === 'deepLink') {
-      payload.url = state.actionLink;
-    } else if (payload.campaignType === 'url') {
-      payload.url = state.actionLink;
-    }
-    if (campaign && campaign._id) {
-      dispatch(campaignUpdateRequest(campaign._id, payload));
-    }
-  },
-  setDeliverySchedule: (campaign, state) => {
-    if (state.deliveryScheduleSwitch) {
-      const deliverySchedule = {
-        status: 'ready',
-        frequency: state.sendDPSchedule,
-        timeZone: 'America/New_York'
-      };
-
-      const payload = {};
-      if (state.sendDPSchedule === 'immediate') {
-        deliverySchedule.repeat = 'once';
-
-        // Set expiresAt to tomorrow
-        const expiresDate = new Date();
-        expiresDate.setDate(expiresDate.getDate() + 1);
-        payload.expiresAt = expiresDate.toISOString();
-      } else {
-        const sendDate = state.scheduleDate;
-        const sendTime = state.scheduleTime;
-        // const scheduleDateTime = `${ sendDate.getFullYear() }-${ `00${ (sendDate.getMonth() + 1) }`.slice(-2) }-${ `00${ sendDate.getDate() }`.slice(-2) } ${ `00${ sendTime.getHours() }`.slice(-2) }:${ `00${ sendTime.getMinutes() }`.slice(-2) }:00`;
-        const scheduleDateTime = new Date(Date.UTC(sendDate.getFullYear(), sendDate.getMonth(), sendDate.getDate(), sendTime.getHours(), sendTime.getMinutes())).toISOString();
-
-        deliverySchedule.repeat = state.sendDPRepeat;
-        deliverySchedule.sendDate = scheduleDateTime;
-
-        // Handles expiresAt
-        const expiresDate = state.expirationDate;
-        const expiresTime = state.expirationTime;
-        payload.expiresAt = new Date(Date.UTC(expiresDate.getFullYear(), expiresDate.getMonth(), expiresDate.getDate(), expiresTime.getHours(), expiresTime.getMinutes())).toISOString();
-      }
-      if (campaign && campaign._id) {
-        dispatch(campaignUpdateRequest(campaign._id, payload));
-        dispatch(campaignScheduleRequest(campaign._id, deliverySchedule));
-      }
-    }
-    if (state.deliveryActionSwitch) {
-      const payload = {};
-      payload.deliveryAction = {
-        dayLimit: state.dayLimit,
-        dpLimit: state.dpLimit,
-        inactiveDays: state.inactiveDays
-      };
-      if (campaign && campaign._id) {
-        dispatch(campaignUpdateRequest(campaign._id, payload));
-      }
-    }
-  },
-  launch: (campaign) => {
-    const payload = {
-      isActive: true,
-      isPaused: false
-    };
-    if (campaign && campaign._id) {
-      dispatch(campaignUpdateRequest(campaign._id, payload)).then(() => {
-        dispatch(showNotification('success', `Great, the campaign [${ campaign.title }] is just launched.`));
-        dispatch(push('/app/campaigns'));
-      });
-    }
-  }
+  schedule: (campaign, payload) => dispatch(campaignScheduleRequest(campaign._id, payload)),
+  gotoList: () => dispatch(push('/app/campaigns'))
 });
 
 export default translate()(connect(mapStatesToProps, mapDispatchToProps)(CampaignStart));
