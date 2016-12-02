@@ -11,6 +11,7 @@ export class Login extends Component {
         <h2>Log In</h2>
         <LoginForm />
         <Link href="/app/forgot-password" label="Forgot password ?" />
+        <Link href="/app/auth/signup" label="Create Account" />
       </div>
     );
   }

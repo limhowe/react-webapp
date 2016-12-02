@@ -3,8 +3,8 @@ import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import { Button } from 'react-toolbox';
 
-import renderInput from '../../../helpers/renderInput';
-import { authSigninRequest } from './redux/actions';
+import renderInput from '../../../../helpers/renderInput';
+import { authSigninRequest } from '../redux/actions';
 
 export class LoginForm extends Component {
   displayName: 'LoginForm';
@@ -17,8 +17,8 @@ export class LoginForm extends Component {
     const { handleSubmit, signin } = this.props;
     return (
       <form onSubmit={ handleSubmit(signin) }>
-        <Field name="email" type="email" label="Email" component={ renderInput } />
-        <Field name="password" type="password" label="Password" component={ renderInput } />
+        <Field name="email" type="email" label="Email" component={ renderInput } required />
+        <Field name="password" type="password" label="Password" component={ renderInput } required />
         <Button label="Log In" primary raised />
       </form>
     );

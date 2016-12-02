@@ -1,22 +1,37 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Layout, Panel, ProgressBar } from 'react-toolbox';
+import { push } from 'react-router-redux';
 
 import Header from './components/Header';
 import Notification from './components/Notification';
 import NavDrawer from './components/NavDrawer';
 
+import { showNotification } from './redux/actions';
+
 class AppLayout extends Component {
   static displayName = 'AppLayout';
+
+  componentWillReceiveProps(nextProps) {
+    // @TODO implement user role
+    if (nextProps.loaded && !nextProps.user && nextProps.location.pathname.indexOf('/app/auth') === -1) {
+      this.props.goToLogin();
+      this.props.showNotification('error', 'You are not logged in');
+    }
+  }
+
   props: {
     children: any,
     loaded: bool,
-    user: ?Object
+    user: ?Object,
+    location: Object,
+    goToLogin: Function,
+    showNotification: Function
   };
 
   render() {
-    const { children, loaded, user } = this.props;
-    if (!loaded) {
+    const { children, loaded, user, location: { pathname } } = this.props;
+    if (!loaded || (loaded && !user && pathname.indexOf('/app/auth') === -1)) {
       return (
         <div className="layout">
           <Layout>
@@ -53,4 +68,10 @@ class AppLayout extends Component {
 
 const mapStatesToProps = ({ persist: { loaded }, auth: { user } }) => ({ loaded, user });
 
-export default connect(mapStatesToProps)(AppLayout);
+const mapDispatchToProps = (dispatch) => ({
+  goToLogin: () => dispatch(push('/app/auth/login')),
+  showNotification: (...args) => dispatch(showNotification(...args))
+});
+
+
+export default connect(mapStatesToProps, mapDispatchToProps)(AppLayout);

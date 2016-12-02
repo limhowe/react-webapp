@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import { reducer as formReducer } from 'redux-form';
 
-import auth from '../modules/App/Login/redux/reducer';
+import auth from '../modules/App/Auth/redux/reducer';
 import layout from '../modules/Layout/redux/reducer';
 import application from '../modules/App/Applications/redux/reducer';
 import campaign from '../modules/App/Campaigns/redux/reducer';

@@ -7,6 +7,9 @@ import {
   MainLayout,
   Home,
   Login,
+  SignUp,
+  SignUpConfirm,
+  VerifyAccount,
   Dashboard,
   CampaignsList,
   CampaignStart,
@@ -58,7 +61,10 @@ const configureRoutes = (store: Object) => { // eslint-disable-line react/displa
     <Route path="/" component={ MainLayout } onEnter={ onEnter }>
       <IndexRoute component={ Home } />
       <Route path="app" component={ AppLayout }>
-        <Route path="login" component={ Login } />
+        <Route path="auth/login" component={ Login } />
+        <Route path="auth/signup" component={ SignUp } />
+        <Route path="auth/signup/success" component={ SignUpConfirm } />
+        <Route path="auth/verify" component={ VerifyAccount } />
         <Route path="home" component={ Dashboard } />
         <Route path="applications" component={ ApplicationList } />
         <Route path="applications/:appId" component={ ApplicationEdit } />

@@ -10,6 +10,10 @@
   }
 }
 
+.c-container__medium {
+  max-width: $container-width-small * 2;
+}
+
 .c-container__large {
   width: 100%;
 }

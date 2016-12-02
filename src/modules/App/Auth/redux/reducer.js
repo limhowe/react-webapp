@@ -4,8 +4,7 @@ import {
   AUTH_SIGNIN_SUCCESS,
   AUTH_SIGNIN_ERROR,
   AUTH_SIGNOUT_REQUEST,
-  AUTH_SIGNOUT_SUCCESS,
-  AUTH_SIGNOUT_ERROR
+  AUTH_SIGNOUT_SUCCESS
 } from './actions';
 
 export const initialState = {
@@ -30,6 +29,5 @@ export default handleActions({
   [AUTH_SIGNOUT_SUCCESS]: (state) => ({
     ...state,
     user: null
-  }),
-  [AUTH_SIGNOUT_ERROR]: (state) => state
+  })
 }, initialState);

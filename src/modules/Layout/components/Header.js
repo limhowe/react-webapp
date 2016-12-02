@@ -7,9 +7,7 @@ import { translate } from 'react-i18next';
 import { toggleNavDrawer } from '../redux/actions';
 import AppSelect from './AppSelect';
 
-// https://github.com/webpack/webpack/issues/1788
-// stupid webpack issue on circular dependency
-import { authSignoutRequest } from '../../App/Login/redux/actions';
+import { authSignoutRequest } from '../../App/Auth/redux/actions';
 
 export class Header extends Component {
   static displayName = 'Header';
@@ -41,7 +39,7 @@ export class Header extends Component {
             <Link href="/app" label={ t('layout.header.howItWorks') } />
             <Link href="/app" label={ t('layout.header.company') } />
             <Link href="/app" label={ t('layout.header.blog') } />
-            <Link href="/app/login" label={ t('layout.header.login') } icon="exit_to_app" />
+            <Link href="/app/auth/login" label={ t('layout.header.login') } icon="exit_to_app" />
           </Navigation>)
         }
       </AppBar>
@@ -54,8 +52,8 @@ const mapStatesToProps = ({ auth: { user } }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  logout: () => dispatch(authSignoutRequest()),
-  toggle: () => dispatch(toggleNavDrawer())
+  toggle: () => dispatch(toggleNavDrawer()),
+  logout: () => dispatch(authSignoutRequest())
 });
 
 export default translate()(connect(mapStatesToProps, mapDispatchToProps)(Header));
