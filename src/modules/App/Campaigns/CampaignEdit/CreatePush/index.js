@@ -89,7 +89,7 @@ export class CreatePush extends Component {
   }
 
   render() {
-    const { t, saveCampaign, campaign } = this.props;
+    const { t, changeTab, saveCampaign, campaign } = this.props;
     const animationClasses = classNames('animation-preview', 'on-mobile', {
       top: campaign.messagePosition === 'top',
       center: campaign.messagePosition === 'center',
@@ -198,7 +198,7 @@ export class CreatePush extends Component {
               }
             </div>
             <div className="form-buttons">
-              <Button icon="chevron_left" onClick={ () => changeTabIndex(0) } label={ t('campaigns.create.createPush.back') } raised />
+              <Button icon="chevron_left" onClick={ () => changeTab(0) } label={ t('campaigns.create.createPush.back') } raised />
               <Button onClick={ saveCampaign } label={ t('campaigns.create.createPush.next') } raised primary />
             </div>
           </div>
@@ -221,7 +221,7 @@ export class CreatePush extends Component {
 const mapStatesToProps = ({ campaign: { campaign } }) => ({ campaign });
 
 const mapDispatchToProps = (dispatch) => ({
-  changeTabIndex: (index) => dispatch(changeTabIndex(index)),
+  changeTab: (index) => dispatch(changeTabIndex(index)),
   editCampaignField: (field, value) => dispatch(editCampaignField(field, value)),
   saveCampaign: () => dispatch(saveCampaignRequest()),
   uploadImage: (campaign, payload) => dispatch(campaignImageRequest(campaign._id, payload))

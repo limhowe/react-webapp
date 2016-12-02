@@ -17,7 +17,7 @@ export class AddAction extends Component {
   props: {
     t: Function,
     campaign: Object,
-    changeTabIndex: Function,
+    changeTab: Function,
     editCampaignField: Function,
     uploadImage: Function,
     saveCampaign: Function
@@ -69,7 +69,7 @@ export class AddAction extends Component {
   }
 
   render() {
-    const { t, saveCampaign, campaign } = this.props;
+    const { t, changeTab, saveCampaign, campaign } = this.props;
     return (
       <div>
         <h3 className="tab-heading">{ t('campaigns.create.addAction.heading') }</h3>
@@ -110,13 +110,13 @@ export class AddAction extends Component {
           ) : (
           <div className="row">
             <div className="col-md-6">
-              <Input type="text" label={ t('campaigns.create.addAction.link.enterLink') } name="actionLink" value={ this.state.actionLink } onChange={ this.editField('url') } />
+              <Input type="text" label={ t('campaigns.create.addAction.link.enterLink') } name="actionLink" value={ campaign.url } onChange={ this.editField('url') } />
             </div>
           </div>
           )
         }
         <div className="form-buttons">
-          <Button icon="chevron_left" onClick={ () => changeTabIndex(1) } label={ t('campaigns.create.addAction.back') } raised />
+          <Button icon="chevron_left" onClick={ () => changeTab(1) } label={ t('campaigns.create.addAction.back') } raised />
           <Button onClick={ saveCampaign } label={ t('campaigns.create.addAction.next') } raised primary />
         </div>
       </div>
@@ -127,7 +127,7 @@ export class AddAction extends Component {
 const mapStatesToProps = ({ campaign: { campaign } }) => ({ campaign });
 
 const mapDispatchToProps = (dispatch) => ({
-  changeTabIndex: (index) => dispatch(changeTabIndex(index)),
+  changeTab: (index) => dispatch(changeTabIndex(index)),
   editCampaignField: (field, value) => dispatch(editCampaignField(field, value)),
   saveCampaign: () => dispatch(saveCampaignRequest())
 });
