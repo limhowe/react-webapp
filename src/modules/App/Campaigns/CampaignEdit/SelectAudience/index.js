@@ -86,7 +86,7 @@ export class SelectAudience extends Component {
         </div>
         <div className="form-buttons">
           <Button icon="chevron_left" onClick={ () => changeTab(3) } label={ t('campaigns.create.scheduleDelivery.back') } raised />
-          <Button onClick={ saveCampaign } label={ t('campaigns.create.scheduleDelivery.next') } raised primary />
+          <Button onClick={ saveCampaign } label={ t('campaigns.create.selectAudience.next') } raised primary />
         </div>
       </div>
     );

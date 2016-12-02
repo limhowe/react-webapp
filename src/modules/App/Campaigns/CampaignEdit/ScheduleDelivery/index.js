@@ -22,10 +22,12 @@ export class ScheduleDelivery extends Component {
     } else {
       this.setState({ toggleDeliverySchedule: false });
     }
-    this.setState({
-      expirationDate: new Date(expiresAt),
-      expirationTime: new Date(expiresAt)
-    });
+    if (expiresAt) {
+      this.setState({
+        expirationDate: new Date(expiresAt),
+        expirationTime: new Date(expiresAt)
+      });
+    }
     if (deliveryAction) {
       this.setState({ toggleDeliveryAction: true });
     } else {

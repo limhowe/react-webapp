@@ -192,7 +192,7 @@
     },
     "deleteDialog": {
       "title": "Delete Campaign",
-      "question": "Are you sure to want to delete this campaign ?"
+      "question": "Are you sure you want to delete this campaign ?"
     }
   },
   "segments": {

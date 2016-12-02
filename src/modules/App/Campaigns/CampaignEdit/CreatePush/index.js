@@ -103,7 +103,7 @@ export class CreatePush extends Component {
         <div className="row">
           <div className="col-md-7">
             <div className="row">
-              <div className="col-md-12">
+              <div className="col-md-7">
                 <div className="panel">
                   <Dropzone onDrop={ this.onDrop } accept="image/gif" className="img-dropzone">
                     <List selectable ripple className="no-margin">
@@ -123,16 +123,16 @@ export class CreatePush extends Component {
                   }
                 </div>
               </div>
-              {/* <div className="col-md-4">
+              <div className="col-md-5">
                 <div className="panel">
-                <List selectable ripple className="no-margin">
-                <ListItem
-                caption={ t('campaigns.create.createPush.createAnimation') }
-                legend={ t('campaigns.create.createPush.createAnimationNote') }
-                />
-                </List>
+                  <List selectable ripple className="no-margin">
+                    <ListItem
+                      caption={ t('campaigns.create.createPush.createAnimation') }
+                      legend={ t('campaigns.create.createPush.createAnimationNote') }
+                    />
+                  </List>
                 </div>
-              </div> */}
+              </div>
             </div>
             <div className="panel">
               <List selectable ripple className="no-margin">
