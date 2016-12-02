@@ -4,8 +4,8 @@ import { translate } from 'react-i18next';
 import Table from '../../../../components/Table';
 import { getAudiences, getMoreAudiences, getAudienceCount } from '../redux/actions';
 
-export class UserAnalytics extends Component {
-  displayName: 'UserAnalytics'
+export class AudienceTable extends Component {
+  displayName: 'AudienceTable'
 
   componentWillMount() {
     this.offset = 0;
@@ -79,5 +79,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default translate()(
-  connect(mapStatesToProps, mapDispatchToProps)(UserAnalytics)
+  connect(mapStatesToProps, mapDispatchToProps)(AudienceTable)
 );

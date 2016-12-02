@@ -15,7 +15,9 @@ import {
   ApplicationEdit,
   DeviceAnalytics,
   UserAnalytics,
-  EventAnalytics
+  EventAnalytics,
+  SegmentEdit,
+  SegmentList
 } from './modules';
 
 // On server we want to fetch all data for the current route before rendering
@@ -65,6 +67,8 @@ const configureRoutes = (store: Object) => { // eslint-disable-line react/displa
         <Route path="analytics/devices" component={ DeviceAnalytics } />
         <Route path="analytics/users" component={ UserAnalytics } />
         <Route path="analytics/events" component={ EventAnalytics } />
+        <Route path="audience" component={ SegmentList } />
+        <Route path="audience/:segmentId" component={ SegmentEdit } />
       </Route>
       <Route path="*" component={ NotFound } />
     </Route>

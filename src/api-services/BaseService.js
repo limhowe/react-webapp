@@ -39,8 +39,16 @@ export default class BaseService {
     // @TODO show notification by dispatching notificaiton action
   }
 
+  _abort() {
+    if (this.req) {
+      this.req.abort();
+      this.req = null;
+    }
+  }
+
   _call(req, actionTypes = {}, additionalParams = {}) {
     const { SUCCESS, ERROR } = actionTypes;
+    this.req = req;
     return new Promise((resolve, reject) => {
       req.then((resp) => {
         if (SUCCESS) {
@@ -54,6 +62,7 @@ export default class BaseService {
         if (additionalParams.successMessage) {
           this.dispatch(showNotification('success', additionalParams.successMessage));
         }
+        this.req = null;
         resolve(resp.body);
       }).catch((err) => {
         this._checkError(err);
@@ -63,6 +72,7 @@ export default class BaseService {
             payload: err && err.response && err.response.body ? err.response.body : err
           });
         }
+        this.req = null;
         reject(err && err.response && err.response.body ? err.response.body : err);
       });
     });
