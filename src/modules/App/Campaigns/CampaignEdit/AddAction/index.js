@@ -83,7 +83,7 @@ export class AddAction extends Component {
           value={ campaign.campaignType }
         />
         {
-          campaign.campaignType === 'inAppMessage' ? (
+          campaign.campaignType === 'in-app-message' ? (
             <div className="row">
               <div className="col-xs-12 col-lg-5">
                 <img src="http://live.dynamicpush.com/assets/cell.jpg" />
