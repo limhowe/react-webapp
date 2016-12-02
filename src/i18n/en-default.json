@@ -6,6 +6,7 @@
     "date": "Date",
     "time": "Time",
     "edit": "Edit",
+    "delete": "Delete",
     "save": "Save",
     "cancel": "Cancel"
   },
@@ -59,7 +60,14 @@
       "scheduled": "Scheduled",
       "paused": "Paused",
       "completed": "Completed",
-      "all": "All"
+      "all": "All",
+      "actions": {
+        "results": "View Results",
+        "edit": "Edit",
+        "pause": "Pause",
+        "resume": "Resume Campaign",
+        "delete": "Delete"
+      }
     },
     "create": {
       "heading": "Create a Campaign",
@@ -69,11 +77,12 @@
         "addAction": "Add Action",
         "scheduleDelivery": "Schedule Delivery",
         "selectAudience": "Select Audience",
-        "previewAndLaunch": "Preview and Launch"
+        "previewAndLaunch": "Preview and Launch",
+        "gotoList": "Go to List"
       },
       "start": {
         "heading": "Start a Campaign",
-        "name": "Campaign Name",
+        "title": "Campaign Title",
         "tags": "Add Tags",
         "newTag": "New Tag",
         "addTag": "Add",
@@ -88,12 +97,14 @@
         "addAnimationNote": "Animation will be displayed only on the Android Phones",
         "chooseAnimation": "Upload Animation",
         "chooseAnimationNote": "Animation should be in GIF format and not exceed 5k.",
+        "uploadInProgress": "Animation upload in progress...",
         "replaceAnimation": "Replace Animation",
         "replaceAnimationNote": "Animation should be in GIF format and not exceed 5k.",
         "createAnimation": "Create Animation",
         "createAnimationNote": "Ue GIF maker to create animation",
         "uploadNow": "Upload Now",
         "preview": "Preview",
+        "mobilePreview": "Mobile Phone Preview",
         "next": "Next: Select Action",
         "back": "Back",
         "setDuration": {
@@ -160,6 +171,7 @@
       "selectAudience": {
         "heading": "Select Audience",
         "subtitle": "Select users who will receive Dynamic Push",
+        "selectSegment": "Select Segment",
         "selectAgeGroup": "Select age group",
         "next": "Next: Preview and Launch",
         "back": "Back"
@@ -174,6 +186,13 @@
         "saveAsDraft": "Save as a Draft",
         "launchNow": "Launch Now"
       }
+    },
+    "edit": {
+      "editCampaign": "Edit campaign"
+    },
+    "deleteDialog": {
+      "title": "Delete Campaign",
+      "question": "Are you sure to want to delete this campaign ?"
     }
   },
   "segments": {

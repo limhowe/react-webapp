@@ -46,12 +46,77 @@
   padding-bottom: 8px;
 }
 
+.check-platform {
+  font-size: 21px;
+}
+.check-displayType {
+  font-size: 16px;
+}
+
+.animation-preview {
+  width: 80%;
+  max-width: 180px;
+}
+
 .img-dropzone {
   width: 100%;
   // height: 60px;
+  text-align: center;
+  .animation-preview {
+    margin-top: 20px;
+  }
 }
 
-.img-preview {
+table.table-campaigns {
   width: 100%;
-  max-width: 100%;
+  border-collapse: collapse;
+  thead {
+    border-bottom: 2px solid $table-border-header;
+    tr {
+      th {
+        padding: 10px 2px;
+      }
+    }
+  }
+  tbody {
+    tr {
+      border-bottom: 1px solid $table-border-header;
+      td {
+        font-size: 14px;
+        padding: 6px 4px;
+        .img-preview {
+          max-width: 60px;
+        }
+        &.actions {
+          min-width: 120px;
+        }
+      }
+    }
+  }
+}
+
+.mobile-preview {
+  background-image: url(http://live.dynamicpush.com/assets/cell.jpg);
+  background-position: center center;
+  position: relative;
+  width: 100%;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 600px;
+  .animation-preview {
+    position: absolute;
+    width: 40px;
+    top: 130px;
+    left: 50%;
+    margin-left: -20px;
+    &.top {
+      top: 130px;
+    }
+    &.center {
+      top: 220px;
+    }
+    &.bottom {
+      top: 320px;
+    }
+  }
 }

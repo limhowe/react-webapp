@@ -13,6 +13,7 @@ import {
   Dashboard,
   CampaignsList,
   CampaignStart,
+  CampaignEdit,
   NotFound,
   ApplicationList,
   ApplicationEdit,
@@ -72,7 +73,7 @@ const configureRoutes = (store: Object) => { // eslint-disable-line react/displa
         <Route path="applications" component={ ApplicationList } />
         <Route path="applications/:appId" component={ ApplicationEdit } />
         <Route path="campaigns" component={ CampaignsList } />
-        <Route path="campaigns/start" component={ CampaignStart } />
+        <Route path="campaigns/:campaignId" component={ CampaignEdit } />
         <Route path="analytics/devices" component={ DeviceAnalytics } />
         <Route path="analytics/users" component={ UserAnalytics } />
         <Route path="analytics/events" component={ EventAnalytics } />

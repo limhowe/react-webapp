@@ -10,6 +10,10 @@ export default class CampaignService extends ResourceService {
     return this._put(`/${ this.resource }/${ id }/schedule`, ...args);
   }
 
+  cancelSchedule(id) {
+    return this._delete(`/${ this.resource }/${ id }/schedule`);
+  }
+
   uploadImage(id, ...args) {
     return this._post(`/${ this.resource }/${ id }/image`, ...args);
   }

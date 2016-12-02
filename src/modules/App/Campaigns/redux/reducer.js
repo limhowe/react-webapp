@@ -11,12 +11,25 @@ import {
   CAMPAIGN_UPDATE_ERROR,
   CAMPAIGN_SCHEDULE_REQUEST,
   CAMPAIGN_SCHEDULE_SUCCESS,
-  CAMPAIGN_SCHEDULE_ERROR
+  CAMPAIGN_SCHEDULE_ERROR,
+  CAMPAIGN_IMAGE_REQUEST,
+  CAMPAIGN_IMAGE_SUCCESS,
+  CAMPAIGN_IMAGE_ERROR,
+  CAMPAIGN_INIT_NEW,
+  CAMPAIGN_READ_REQUEST,
+  CAMPAIGN_READ_SUCCESS,
+  CAMPAIGN_READ_ERROR,
+  CAMPAIGN_EDIT_FIELD,
+  CAMPAIGN_EDIT_SCHEDULE_FIELD,
+  CAMPAIGN_EDIT_DELIVERY_ACTION_FIELD,
+  CAMPAIGN_CHANGE_TAB_INDEX,
+  CAMPAIGN_SAVE
 } from './actions';
 
 export const initialState = {
   campaigns: [],
-  error: ''
+  error: '',
+  tabIndex: 0
 };
 
 export default handleActions({
@@ -38,9 +51,22 @@ export default handleActions({
   }),
   [CAMPAIGN_CREATE_SUCCESS]: (state, action) => ({
     ...state,
-    campaign: action.payload
+    campaign: action.payload,
+    tabIndex: state.tabIndex + 1
   }),
   [CAMPAIGN_CREATE_ERROR]: (state, action) => ({
+    ...state,
+    error: action.payload
+  }),
+  [CAMPAIGN_IMAGE_REQUEST]: (state) => ({
+    ...state,
+    error: ''
+  }),
+  [CAMPAIGN_IMAGE_SUCCESS]: (state, action) => ({
+    ...state,
+    campaign: action.payload
+  }),
+  [CAMPAIGN_IMAGE_ERROR]: (state, action) => ({
     ...state,
     error: action.payload
   }),
@@ -50,7 +76,8 @@ export default handleActions({
   }),
   [CAMPAIGN_UPDATE_SUCCESS]: (state, action) => ({
     ...state,
-    campaign: action.payload
+    campaign: action.payload,
+    tabIndex: Math.min(state.tabIndex + 1, 5)
   }),
   [CAMPAIGN_UPDATE_ERROR]: (state, action) => ({
     ...state,
@@ -62,10 +89,68 @@ export default handleActions({
   }),
   [CAMPAIGN_SCHEDULE_SUCCESS]: (state, action) => ({
     ...state,
-    campaign_schedule: action.payload
+    campaign: {
+      ...state.campaign,
+      deliverySchedule: action.payload
+    }
   }),
   [CAMPAIGN_SCHEDULE_ERROR]: (state, action) => ({
     ...state,
     error: action.payload
-  })
+  }),
+  [CAMPAIGN_INIT_NEW]: (state, action) => ({
+    ...state,
+    tabIndex: 0,
+    dirty: false,
+    campaign: Object.assign({}, action.payload)
+  }),
+  [CAMPAIGN_EDIT_FIELD]: (state, action) => ({
+    ...state,
+    dirty: true,
+    campaign: {
+      ...state.campaign,
+      [action.payload.field]: action.payload.value
+    }
+  }),
+  [CAMPAIGN_EDIT_SCHEDULE_FIELD]: (state, action) => ({
+    ...state,
+    dirty: true,
+    campaign: {
+      ...state.campaign,
+      deliverySchedule: {
+        ...state.campaign.deliverySchedule,
+        [action.payload.field]: action.payload.value
+      }
+    }
+  }),
+  [CAMPAIGN_EDIT_DELIVERY_ACTION_FIELD]: (state, action) => ({
+    ...state,
+    dirty: true,
+    campaign: {
+      ...state.campaign,
+      deliveryAction: {
+        ...state.campaign.deliveryAction,
+        [action.payload.field]: action.payload.value
+      }
+    }
+  }),
+  [CAMPAIGN_CHANGE_TAB_INDEX]: (state, action) => ({
+    ...state,
+    tabIndex: state.campaign._id ? Math.min(action.payload, 5) : 0
+  }),
+  [CAMPAIGN_READ_REQUEST]: (state) => ({
+    ...state,
+    loading: true
+  }),
+  [CAMPAIGN_READ_SUCCESS]: (state, action) => ({
+    ...state,
+    campaign: action.payload,
+    tabIndex: 0,
+    loading: false
+  }),
+  [CAMPAIGN_READ_ERROR]: (state) => ({
+    ...state,
+    loading: false
+  }),
+  [CAMPAIGN_SAVE]: (state) => state
 }, initialState);
