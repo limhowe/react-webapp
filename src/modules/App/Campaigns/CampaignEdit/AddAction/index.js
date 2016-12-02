@@ -24,8 +24,8 @@ export class AddAction extends Component {
   }
 
   campaignTypes = [
-    { value: 'inAppMessage', text: 'Display In App Message' },
-    { value: 'deepLink', text: 'Link to the Page Inside the app' },
+    { value: 'in-app-message', text: 'Display In App Message' },
+    { value: 'deep-link', text: 'Link to the Page Inside the app' },
     { value: 'url', text: 'Link to URL' }
   ];
 

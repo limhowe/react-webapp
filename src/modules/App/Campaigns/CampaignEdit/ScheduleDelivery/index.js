@@ -149,7 +149,6 @@ export class ScheduleDelivery extends Component {
     } else {
       this.props.cancelSchedule(this.props.campaign);
     }
-
   }
 
   dropDownItemTemplate(item) {

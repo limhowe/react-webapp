@@ -19,7 +19,7 @@ export class CreatePush extends Component {
   props: {
     t: Function,
     campaign: Object,
-    changeTabIndex: Function,
+    changeTab: Function,
     editCampaignField: Function,
     uploadImage: Function,
     saveCampaign: Function

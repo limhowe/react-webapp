@@ -171,6 +171,7 @@
       "selectAudience": {
         "heading": "Select Audience",
         "subtitle": "Select users who will receive Dynamic Push",
+        "selectSegment": "Select Segment",
         "selectAgeGroup": "Select age group",
         "next": "Next: Preview and Launch",
         "back": "Back"

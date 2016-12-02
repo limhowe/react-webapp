@@ -9,6 +9,8 @@ import BasicInfo from './BasicInfo';
 import CreatePush from './CreatePush';
 import AddAction from './AddAction';
 import ScheduleDelivery from './ScheduleDelivery';
+import SelectAudience from './SelectAudience';
+import PreviewAndLaunch from './PreviewAndLaunch';
 
 import styles from '../theme/styles.scss';
 
@@ -61,7 +63,9 @@ export class CampaignEdit extends Component {
       0: () => <BasicInfo />,
       1: () => <CreatePush />,
       2: () => <AddAction />,
-      3: () => <ScheduleDelivery />
+      3: () => <ScheduleDelivery />,
+      4: () => <SelectAudience />,
+      5: () => <PreviewAndLaunch />
     };
 
     return (
@@ -71,7 +75,6 @@ export class CampaignEdit extends Component {
             { campaign && campaign._id ? t('campaigns.edit.editCampaign') : t('campaigns.create.heading') }
             <Button className="pull-right" onClick={ gotoList } label={ t('campaigns.create.nav.gotoList') } raised primary />
           </h2>
-          <h3>current step - { tabIndex }</h3>
         </div>
         <div>
           <Tabs

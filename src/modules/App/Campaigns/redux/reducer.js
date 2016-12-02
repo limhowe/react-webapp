@@ -77,7 +77,7 @@ export default handleActions({
   [CAMPAIGN_UPDATE_SUCCESS]: (state, action) => ({
     ...state,
     campaign: action.payload,
-    tabIndex: state.tabIndex + 1
+    tabIndex: Math.min(state.tabIndex + 1, 5)
   }),
   [CAMPAIGN_UPDATE_ERROR]: (state, action) => ({
     ...state,
@@ -136,7 +136,7 @@ export default handleActions({
   }),
   [CAMPAIGN_CHANGE_TAB_INDEX]: (state, action) => ({
     ...state,
-    tabIndex: state.campaign._id ? action.payload : 0
+    tabIndex: state.campaign._id ? Math.min(action.payload, 5) : 0
   }),
   [CAMPAIGN_READ_REQUEST]: (state) => ({
     ...state,
