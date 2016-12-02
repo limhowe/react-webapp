@@ -100,12 +100,19 @@ export const campaignScheduleRequest = createAction(CAMPAIGN_SCHEDULE_REQUEST, (
     const state = getState();
     const { application: { currentApp: { _id: appId } } } = state;
     const campaignService = new CampaignService(appId, dispatch, getState());
-    return campaignService.schedule(campaign_id, data, {
-      SUCCESS: CAMPAIGN_SCHEDULE_SUCCESS,
-      ERROR: CAMPAIGN_SCHEDULE_ERROR
-    }, {
-      successMessage: 'Nice, the campaign is scheduled.'
-    });
+    if (data) {
+      return campaignService.schedule(campaign_id, data, {
+        SUCCESS: CAMPAIGN_SCHEDULE_SUCCESS,
+        ERROR: CAMPAIGN_SCHEDULE_ERROR
+      }, {
+        successMessage: 'Nice, the campaign is scheduled.'
+      });
+    } else {
+      return campaignService.cancelSchedule(campaign_id, {
+        SUCCESS: CAMPAIGN_SCHEDULE_SUCCESS,
+        ERROR: CAMPAIGN_SCHEDULE_ERROR
+      });
+    }
   };
 });
 
@@ -141,6 +148,10 @@ export const initNew = createAction(CAMPAIGN_INIT_NEW, () => {
 
 export const CAMPAIGN_EDIT_FIELD = 'campaign/edit/set-field';
 export const editCampaignField = createAction(CAMPAIGN_EDIT_FIELD, (field, value) => ({ field, value }));
+export const CAMPAIGN_EDIT_SCHEDULE_FIELD = 'campaign/edit/set-delivery-schedule';
+export const editCampaignScheduleField = createAction(CAMPAIGN_EDIT_SCHEDULE_FIELD, (field, value) => ({ field, value }));
+export const CAMPAIGN_EDIT_DELIVERY_ACTION_FIELD = 'campaign/edit/set-delivery-action';
+export const editCampaignDeliveryActionField = createAction(CAMPAIGN_EDIT_DELIVERY_ACTION_FIELD, (field, value) => ({ field, value }));
 export const CAMPAIGN_CHANGE_TAB_INDEX = 'campaign/change/tab_index';
 export const changeTabIndex = createAction(CAMPAIGN_CHANGE_TAB_INDEX, (nextTab) => nextTab);
 

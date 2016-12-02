@@ -20,6 +20,8 @@ import {
   CAMPAIGN_READ_SUCCESS,
   CAMPAIGN_READ_ERROR,
   CAMPAIGN_EDIT_FIELD,
+  CAMPAIGN_EDIT_SCHEDULE_FIELD,
+  CAMPAIGN_EDIT_DELIVERY_ACTION_FIELD,
   CAMPAIGN_CHANGE_TAB_INDEX,
   CAMPAIGN_SAVE
 } from './actions';
@@ -87,7 +89,10 @@ export default handleActions({
   }),
   [CAMPAIGN_SCHEDULE_SUCCESS]: (state, action) => ({
     ...state,
-    campaign_schedule: action.payload
+    campaign: {
+      ...state.campaign,
+      deliverySchedule: action.payload
+    }
   }),
   [CAMPAIGN_SCHEDULE_ERROR]: (state, action) => ({
     ...state,
@@ -105,6 +110,28 @@ export default handleActions({
     campaign: {
       ...state.campaign,
       [action.payload.field]: action.payload.value
+    }
+  }),
+  [CAMPAIGN_EDIT_SCHEDULE_FIELD]: (state, action) => ({
+    ...state,
+    dirty: true,
+    campaign: {
+      ...state.campaign,
+      deliverySchedule: {
+        ...state.campaign.deliverySchedule,
+        [action.payload.field]: action.payload.value
+      }
+    }
+  }),
+  [CAMPAIGN_EDIT_DELIVERY_ACTION_FIELD]: (state, action) => ({
+    ...state,
+    dirty: true,
+    campaign: {
+      ...state.campaign,
+      deliveryAction: {
+        ...state.campaign.deliveryAction,
+        [action.payload.field]: action.payload.value
+      }
     }
   }),
   [CAMPAIGN_CHANGE_TAB_INDEX]: (state, action) => ({

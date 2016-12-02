@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { changeTabIndex, editCampaignField, saveCampaignRequest } from '../../redux/actions';
 
 export class AddAction extends Component {
-  displayName: 'CreatePush'
+  displayName: 'AddAction'
   state = {
     headline: '',
     content: '',

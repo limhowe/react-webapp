@@ -8,6 +8,8 @@ import { push } from 'react-router-redux';
 import BasicInfo from './BasicInfo';
 import CreatePush from './CreatePush';
 import AddAction from './AddAction';
+import ScheduleDelivery from './ScheduleDelivery';
+
 import styles from '../theme/styles.scss';
 
 import { initNew, changeTabIndex, campaignReadRequest } from '../redux/actions';
@@ -58,7 +60,8 @@ export class CampaignEdit extends Component {
     const map = {
       0: () => <BasicInfo />,
       1: () => <CreatePush />,
-      2: () => <AddAction />
+      2: () => <AddAction />,
+      3: () => <ScheduleDelivery />
     };
 
     return (
