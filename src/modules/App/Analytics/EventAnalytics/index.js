@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
-import { Dropdown, ProgressBar, Autocomplete, DatePicker } from 'react-toolbox';
+import { ProgressBar } from 'react-toolbox';
+
+import ButtonGroup from '../../../../components/ButtonGroup';
+import CustomEventCheck from './CustomEventCheck';
+import EventAnalyticsFilter from './EventAnalyticsFilter';
+import EventAnalyticsTable from './EventAnalyticsTable';
+import EventChart from './EventChart';
 
 import { segmentListRequest } from '../../Segments/redux/actions';
 import { customEventListRequest } from '../../CustomEvents/redux/actions';
+import { changeChartType } from '../redux/actions';
 
 export class EventAnalytics extends Component {
   displayName: 'EventAnalytics'
-  state = {
-    segmentId: '',
-    customEventIds: [],
-    startDate: null,
-    endDate: null,
-    groupBy: 'day'
-  }
 
   componentWillMount() {
     this.props.listSegments();
@@ -24,15 +24,9 @@ export class EventAnalytics extends Component {
   props: {
     listSegments: Function,
     listCustomEvents: Function,
-    segments: Array<Object>,
-    customEvents: Array<Object>,
+    changeChartType: Function,
+    chartType: string,
     loading: bool
-  }
-
-  valueChangeHandler = (field) => {
-    return (val) => this.setState({
-      [field]: val
-    });
   }
 
   render() {
@@ -44,65 +38,40 @@ export class EventAnalytics extends Component {
       );
     }
 
-    const segments = this.props.segments.map((s) => ({
-      value: s._id,
-      label: s.name
-    }));
-
-    segments.unshift({
-      value: '',
-      label: 'All'
-    });
-
-    const customEvents = {};
-    this.props.customEvents.forEach((e) => {
-      customEvents[e._id] = e.name;
-    });
-
-    const groupByValues = [{ value: 'day', label: 'Day' }, { value: 'month', label: 'Month' }, { value: 'year', label: 'Year' }];
+    const buttonSources = [{ icon: 'show_chart', value: 'line' }, { icon: 'insert_chart', value: 'bar' }, { icon: 'pie_chart', value: 'pie' }];
 
     return (
       <div className="c-container__large">
         <h2>Analytics: Events</h2>
-        <div className="row">
-          <div className="col-lg-3 col-md-6">
-            <Autocomplete multiple direction="down" label="Select Event" onChange={ this.valueChangeHandler('customEventIds') } source={ customEvents } value={ this.state.customEventIds } />
-          </div>
-          <div className="col-lg-3 col-md-6">
-            <Dropdown label="Select Segment" onChange={ this.valueChangeHandler('segmentId') } source={ segments } value={ this.state.segmentId } />
-          </div>
-          <div className="col-lg-2 col-md-4">
-            <DatePicker label="Start Date" onChange={ this.valueChangeHandler('startDate') } value={ this.state.startDate } />
-          </div>
-          <div className="col-lg-2 col-md-4">
-            <DatePicker label="End Date" onChange={ this.valueChangeHandler('endDate') } value={ this.state.endDate } />
-          </div>
-          <div className="col-lg-2 col-md-4">
-            <Dropdown label="Group By" onChange={ this.valueChangeHandler('groupBy') } source={ groupByValues } value={ this.state.groupBy } />
-          </div>
-        </div>
+        <EventAnalyticsFilter />
         <div className="row">
           <div className="col-lg-8">
-            placeholder
+            <CustomEventCheck />
           </div>
           <div className="col-lg-4">
-            placeholder
+            <ButtonGroup className="text-right u-padding-top-lg" source={ buttonSources } onChange={ this.props.changeChartType } value={ this.props.chartType } />
           </div>
+        </div>
+        <div className="row u-margin-bottom-lg">
+          <EventChart />
+        </div>
+        <div className="row">
+          <EventAnalyticsTable />
         </div>
       </div>
     );
   }
 }
 
-const mapStatesToProps = ({ segments: { segments, listLoading }, customEvents: { customEvents, listLoading: eventLoading } }) => ({
-  segments,
-  customEvents,
-  loading: listLoading || eventLoading
+const mapStatesToProps = ({ analytics: { chartType }, segments: { listLoading }, customEvents: { listLoading: eventLoading } }) => ({
+  loading: listLoading || eventLoading,
+  chartType
 });
 
 const mapDispatchToProps = (dispatch) => ({
   listSegments: () => dispatch(segmentListRequest()),
-  listCustomEvents: () => dispatch(customEventListRequest())
+  listCustomEvents: () => dispatch(customEventListRequest()),
+  changeChartType: (chartType) => dispatch(changeChartType(chartType))
 });
 
 export default translate()(

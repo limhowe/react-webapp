@@ -41,6 +41,7 @@
     "koa": "^2.0.0-alpha.5",
     "koa-static": "^3.0.0",
     "localforage": "^1.4.3",
+    "moment": "^2.17.0",
     "react": "^15.3.2",
     "react-addons-css-transition-group": "^0.14.8",
     "react-dom": "^15.3.0",
@@ -58,6 +59,7 @@
     "redux-fsa-thunk": "0.0.2",
     "redux-persist": "^4.0.0-alpha7",
     "redux-thunk": "^2.1.0",
+    "reselect": "^2.5.4",
     "superagent": "^2.3.0",
     "webpack-isomorphic-tools": "^2.5.7"
   },

@@ -18,4 +18,12 @@ export default class AnalyticsService extends BaseAuthorizedService {
   getAudienceCount(...args) {
     return this._post(`/applications/${ this.appId }/analytics/getAudienceCounts`, ...args);
   }
+
+  getAudienceCountByFilter(...args) {
+    return this._post(`/applications/${ this.appId }/analytics/getAudienceCountByFilter`, ...args);
+  }
+
+  getEventAnalytics(params, ...args) {
+    return this._get(`/applications/${ this.appId }/analytics/events?${ this.makeQueryString(params) }`, ...args);
+  }
 }

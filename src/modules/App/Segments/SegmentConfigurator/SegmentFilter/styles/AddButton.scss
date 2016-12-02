@@ -1,0 +1,8 @@
+.button {
+  &.neutral {
+    &.flat {
+      border: 1px solid $blue-normal;
+      color: $blue-normal;
+    }
+  }
+}

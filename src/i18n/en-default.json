@@ -193,5 +193,54 @@
       "title": "Delete Campaign",
       "question": "Are you sure to want to delete this campaign ?"
     }
+  },
+  "segments": {
+    "operators": {
+      "$in": "In",
+      "$not": "Not",
+      "$and": "And",
+      "$or": "Or",
+      "$gt": "Greater than",
+      "$lt": "Less than",
+      "$gte": "Greater and equal",
+      "$lte": "Less and equal",
+      "$eq": "Equal",
+      "$ne": "Not Equal",
+      "$nin": "Not In"
+    },
+    "filterGroups": {
+      "USER_ATTRIBUTES": "User Attributes",
+      "LOCATION": "Location",
+      "USER_ACTIVIY_ATTRIBUTES": "User Activity",
+      "DEVICE_AND_APP": "Device and App Attributes"
+    },
+    "filters": {
+      "email": "Email",
+      "gender": "Gender",
+      "name": "Name",
+      "language": "Language",
+      "phone": "Phone",
+      "location": {
+        "lat": "Latitude",
+        "lng": "Longitude"
+      },
+      "country": "Country",
+      "state": "State",
+      "address": "Address",
+      "city": "City",
+      "zipcode": "Zipcode",
+      "created": "Activity",
+      "osNumber": "OS Number",
+      "deviceVendor": "Device Vendor",
+      "deviceModel": "Device Model",
+      "devicePlatform": "Device Platform",
+      "carrier": "Carrier",
+      "connectivityType": "Connectivity Type",
+      "sdkVersion": "SDK Version",
+      "packageName": "Package Name",
+      "appVersion": "App Version",
+      "pushNotificationEnabled": "Opt In",
+      "uninstalled": "uninstalled"
+    }
   }
 }

@@ -1,0 +1,22 @@
+.button {
+  min-width: $unit * 3;
+  padding-left: $unit;
+  padding-right: $unit;
+  text-align: center;
+
+  .icon {
+    margin: 0;
+  }
+
+  &.neutral {
+    &.raised {
+      color: $blue-dark;
+    }
+
+    &.flat {
+      border: 1px solid $gray-light;
+      background-color: $white;
+      color: $gray-dark;
+    }
+  }
+}

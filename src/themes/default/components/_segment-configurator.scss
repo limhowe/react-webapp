@@ -1,0 +1,54 @@
+.c-segment-configurator {
+  border: 1px solid $gray-light;
+  background: $beige;
+  color: $gray-normal;
+}
+
+.c-segment-configurator-heading {
+  background: $blue-normal;
+
+  h3 {
+    font-weight: 300;
+    font-size: $medium-font-size;
+    color: $white;
+    margin: $unit 0;
+    padding-left: $unit * 2;
+  }
+}
+
+.c-segment-configurator-body {
+  padding: $unit * 4;
+
+  .c-segment-basic-info {
+    margin-bottom: $unit * 2;
+  }
+}
+
+.c-segment-filters {
+  margin-bottom: $unit * 4;
+}
+
+.c-segment-filter-group {
+  background: $white;
+  border: 1px solid $gray-light;
+}
+
+.c-segment-filter-group-heading {
+  h4 {
+    color: $blue-dark;
+    font-weight: 300;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    margin: $unit;
+  }
+}
+
+.c-segment-filter-group-body {
+  padding: $unit * 2;
+}
+
+.c-segment-preview-count {
+  font-size: $xlarge-font-size;
+  color: $light-green;
+}

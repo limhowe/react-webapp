@@ -1,0 +1,8 @@
+.button {
+  &.neutral {
+    &.flat {
+      background-color: $blue-light;
+      color: $blue-normal;
+    }
+  }
+}
