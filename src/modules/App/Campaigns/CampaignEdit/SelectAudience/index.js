@@ -5,7 +5,7 @@ import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 
 import { changeTabIndex, editCampaignField, saveCampaignRequest } from '../../redux/actions';
-import { segmentListRequest } from '../../../Segments/redux/actions';
+import { segmentListRequest, setCurrentSegment } from '../../../Segments/redux/actions';
 
 export class SelectAudience extends Component {
   displayName: 'SelectAudience'
@@ -21,11 +21,18 @@ export class SelectAudience extends Component {
     segments: Array<Object>,
     changeTab: Function,
     listSegments: Function,
+    setCurrentSegment: Function,
     editCampaignField: Function,
     saveCampaign: Function
   }
 
   editField = (field) => (...args) => this.props.editCampaignField(field, ...args);
+  editSegment = (value) => {
+    this.props.setCurrentSegment(this.props.segments.find((s) => {
+      return s._id === value;
+    }));
+    this.props.editCampaignField('segment', value);
+  }
 
   handleChange = (name, value) => {
     this.setState({ ...this.state, [name]: value });
@@ -71,7 +78,7 @@ export class SelectAudience extends Component {
           <div className="col-md-12">
             <Dropdown
               label={ t('campaigns.create.selectAudience.selectSegment') }
-              onChange={ this.editField('segment') }
+              onChange={ this.editSegment.bind(this) }
               source={ segments }
               value={ campaign.segment }
             />
@@ -90,6 +97,7 @@ const mapStatesToProps = ({ campaign: { campaign }, segments: { segments, listLo
 
 const mapDispatchToProps = (dispatch) => ({
   listSegments: () => dispatch(segmentListRequest()),
+  setCurrentSegment: (segment) => dispatch(setCurrentSegment(segment)),
   changeTab: (index) => dispatch(changeTabIndex(index)),
   editCampaignField: (field, value) => dispatch(editCampaignField(field, value)),
   saveCampaign: () => dispatch(saveCampaignRequest())
