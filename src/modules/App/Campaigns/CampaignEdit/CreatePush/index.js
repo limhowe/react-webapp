@@ -55,10 +55,6 @@ export class CreatePush extends Component {
 
   editField = (field) => (...args) => this.props.editCampaignField(field, ...args);
 
-  handleChange = (name, value) => {
-    this.setState({ ...this.state, [name]: value });
-  };
-
   onDrop = (files) => {
     if (files.length === 0) {
       return;
