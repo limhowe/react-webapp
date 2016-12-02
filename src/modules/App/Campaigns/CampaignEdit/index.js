@@ -6,10 +6,10 @@ import { translate } from 'react-i18next';
 import { push } from 'react-router-redux';
 
 import BasicInfo from './BasicInfo';
-import BasicInfo2 from './BasicInfo2';
+import CreatePush from './CreatePush';
 import styles from '../theme/styles.scss';
 
-import { initNew, campaignReadRequest } from '../redux/actions';
+import { initNew, changeTabIndex, campaignReadRequest } from '../redux/actions';
 
 export class CampaignEdit extends Component {
   displayName: 'Edit Campaign';
@@ -33,18 +33,17 @@ export class CampaignEdit extends Component {
     campaign: Object,
     t: Function,
     initNew: Function,
+    changeTabIndex: Function,
     readCampaign: Function,
     gotoList: Function
   }
 
   handleTabIndexChange = (index) => {
-    if (this.props.campaign) {
-      this.setState({ tabIndex: index });
-    }
+    this.props.changeTabIndex(index);
   };
 
   render() {
-    const { t, tabIndex, gotoList } = this.props;
+    const { t, tabIndex, gotoList, campaign } = this.props;
     const { loaded } = this.state;
 
     if (!loaded) {
@@ -57,21 +56,21 @@ export class CampaignEdit extends Component {
 
     const map = {
       0: () => <BasicInfo />,
-      1: () => <BasicInfo2 />
+      1: () => <CreatePush />
     };
 
     return (
       <div className="campaigns_list">
         <div className="page_header">
           <h2>
-            { t('campaigns.edit.editCampaign') }
+            { campaign && campaign._id ? t('campaigns.edit.editCampaign') : t('campaigns.create.heading') }
             <Button className="pull-right" onClick={ gotoList } label={ t('campaigns.create.nav.gotoList') } raised primary />
           </h2>
           <h3>current step - { tabIndex }</h3>
         </div>
         <div>
           <Tabs
-            index={ this.state.tabIndex }
+            index={ tabIndex }
             onChange={ this.handleTabIndexChange }
             theme={ styles }
             fixed
@@ -94,13 +93,12 @@ export class CampaignEdit extends Component {
   }
 }
 
-const mapStatesToProps = ({ campaign: { tabIndex } }) => ({
-  tabIndex
-});
+const mapStatesToProps = ({ campaign: { campaign, tabIndex } }) => ({ campaign, tabIndex });
 
 const mapDispatchToProps = (dispatch) => ({
   initNew: () => dispatch(initNew()),
   readCampaign: (id) => dispatch(campaignReadRequest(id)),
+  changeTabIndex: (index) => dispatch(changeTabIndex(index)),
   gotoList: () => dispatch(push('/app/campaigns'))
 });
 

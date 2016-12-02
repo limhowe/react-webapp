@@ -132,7 +132,7 @@ export const campaignImageRequest = createAction(CAMPAIGN_IMAGE_REQUEST, (campai
 
 export const CAMPAIGN_INIT_NEW = 'campaign/init/new';
 export const initNew = createAction(CAMPAIGN_INIT_NEW, () => {
-  return  {
+  return {
     title: '',
     tags: ['tag1', 'tag2'],
     platform: []
@@ -141,8 +141,8 @@ export const initNew = createAction(CAMPAIGN_INIT_NEW, () => {
 
 export const CAMPAIGN_EDIT_FIELD = 'campaign/edit/set-field';
 export const editCampaignField = createAction(CAMPAIGN_EDIT_FIELD, (field, value) => ({ field, value }));
-export const CAMPAIGN_CHANGE_TAB = 'campaign/change/tab';
-export const changeTab = createAction(CAMPAIGN_CHANGE_TAB, (nextTab) => nextTab);
+export const CAMPAIGN_CHANGE_TAB_INDEX = 'campaign/change/tab_index';
+export const changeTabIndex = createAction(CAMPAIGN_CHANGE_TAB_INDEX, (nextTab) => nextTab);
 
 export const CAMPAIGN_SAVE = 'campaign/save';
 export const saveCampaignRequest = createAction(CAMPAIGN_SAVE, () => {
@@ -154,8 +154,5 @@ export const saveCampaignRequest = createAction(CAMPAIGN_SAVE, () => {
     } else {
       return dispatch(campaignCreateRequest(campaign));
     }
-    // } else {
-    //   return dispatch(CAMPAIGN_CHANGE_TAB(tabIndex + 1));
-    // }
   };
 });

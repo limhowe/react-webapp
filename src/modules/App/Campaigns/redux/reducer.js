@@ -12,12 +12,15 @@ import {
   CAMPAIGN_SCHEDULE_REQUEST,
   CAMPAIGN_SCHEDULE_SUCCESS,
   CAMPAIGN_SCHEDULE_ERROR,
+  CAMPAIGN_IMAGE_REQUEST,
+  CAMPAIGN_IMAGE_SUCCESS,
+  CAMPAIGN_IMAGE_ERROR,
   CAMPAIGN_INIT_NEW,
   CAMPAIGN_READ_REQUEST,
   CAMPAIGN_READ_SUCCESS,
   CAMPAIGN_READ_ERROR,
   CAMPAIGN_EDIT_FIELD,
-  CAMPAIGN_CHANGE_TAB,
+  CAMPAIGN_CHANGE_TAB_INDEX,
   CAMPAIGN_SAVE
 } from './actions';
 
@@ -50,6 +53,18 @@ export default handleActions({
     tabIndex: state.tabIndex + 1
   }),
   [CAMPAIGN_CREATE_ERROR]: (state, action) => ({
+    ...state,
+    error: action.payload
+  }),
+  [CAMPAIGN_IMAGE_REQUEST]: (state) => ({
+    ...state,
+    error: ''
+  }),
+  [CAMPAIGN_IMAGE_SUCCESS]: (state, action) => ({
+    ...state,
+    campaign: action.payload
+  }),
+  [CAMPAIGN_IMAGE_ERROR]: (state, action) => ({
     ...state,
     error: action.payload
   }),
@@ -92,9 +107,9 @@ export default handleActions({
       [action.payload.field]: action.payload.value
     }
   }),
-  [CAMPAIGN_CHANGE_TAB]: (state, action) => ({
+  [CAMPAIGN_CHANGE_TAB_INDEX]: (state, action) => ({
     ...state,
-    tabIndex: action.payload
+    tabIndex: state.campaign._id ? action.payload : 0
   }),
   [CAMPAIGN_READ_REQUEST]: (state) => ({
     ...state,
