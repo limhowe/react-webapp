@@ -27,10 +27,8 @@ export class PreviewAndLaunch extends Component {
   };
 
   launch = () => {
-    this.props.editCampaignField({
-      isActive: true,
-      isPaused: false
-    });
+    this.props.editCampaignField('isActive', true);
+    this.props.editCampaignField('isPaused', false);
     this.props.saveCampaign(this.props.campaign).then(() => {
       this.props.showNotification('success', `Great, the campaign [${ this.props.campaign.title }] is just launched.`);
       this.props.gotoList();
