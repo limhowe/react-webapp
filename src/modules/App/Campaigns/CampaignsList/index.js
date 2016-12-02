@@ -30,7 +30,8 @@ export class Campaigns extends Component {
     start: Function,
     loadCampaigns: Function,
     updateCampaign: Function,
-    deleteCampaign: Function
+    deleteCampaign: Function,
+    editCampaign: Function
   }
 
   handleTabIndexChange = (index) => {
@@ -99,7 +100,7 @@ export class Campaigns extends Component {
   ];
 
   render() {
-    const { t, start } = this.props;
+    const { t, start, editCampaign } = this.props;
     return (
       <div className="campaigns_list">
         <div className="page_header">
@@ -163,7 +164,7 @@ export class Campaigns extends Component {
                       }
                       {
                         !campaign.isActive ? (
-                          <TooltipIconButton icon="mode_edit" primary tooltip={ t('campaigns.list.actions.edit') } />
+                          <TooltipIconButton icon="mode_edit" onClick={ () => editCampaign(campaign._id) } primary tooltip={ t('campaigns.list.actions.edit') } />
                         ) : null
                       }
                       {
@@ -203,7 +204,8 @@ const mapDispatchToProps = (dispatch) => ({
   loadCampaigns: () => dispatch(campaignsListRequest()),
   start: () => dispatch(push('/app/campaigns/start')),
   updateCampaign: (campaign, payload) => dispatch(campaignUpdateRequest(campaign._id, payload)),
-  deleteCampaign: (campaign) => dispatch(campaignDeleteRequest(campaign._id))
+  deleteCampaign: (campaign) => dispatch(campaignDeleteRequest(campaign._id)),
+  editCampaign: (id) => dispatch(push(`/app/campaigns/${ id }`))
 });
 
 export default translate()(connect(mapStatesToProps, mapDispatchToProps)(Campaigns));

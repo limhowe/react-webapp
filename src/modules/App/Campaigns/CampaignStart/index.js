@@ -135,7 +135,6 @@ export class CampaignStart extends Component {
         this.setTabIndex(1);
       });
     }
-
   }
 
   setPush = () => {

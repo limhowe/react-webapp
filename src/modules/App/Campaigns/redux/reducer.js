@@ -11,12 +11,20 @@ import {
   CAMPAIGN_UPDATE_ERROR,
   CAMPAIGN_SCHEDULE_REQUEST,
   CAMPAIGN_SCHEDULE_SUCCESS,
-  CAMPAIGN_SCHEDULE_ERROR
+  CAMPAIGN_SCHEDULE_ERROR,
+  CAMPAIGN_INIT_NEW,
+  CAMPAIGN_READ_REQUEST,
+  CAMPAIGN_READ_SUCCESS,
+  CAMPAIGN_READ_ERROR,
+  CAMPAIGN_EDIT_FIELD,
+  CAMPAIGN_CHANGE_TAB,
+  CAMPAIGN_SAVE
 } from './actions';
 
 export const initialState = {
   campaigns: [],
-  error: ''
+  error: '',
+  tabIndex: 0
 };
 
 export default handleActions({
@@ -38,7 +46,8 @@ export default handleActions({
   }),
   [CAMPAIGN_CREATE_SUCCESS]: (state, action) => ({
     ...state,
-    campaign: action.payload
+    campaign: action.payload,
+    tabIndex: state.tabIndex + 1
   }),
   [CAMPAIGN_CREATE_ERROR]: (state, action) => ({
     ...state,
@@ -50,7 +59,8 @@ export default handleActions({
   }),
   [CAMPAIGN_UPDATE_SUCCESS]: (state, action) => ({
     ...state,
-    campaign: action.payload
+    campaign: action.payload,
+    tabIndex: state.tabIndex + 1
   }),
   [CAMPAIGN_UPDATE_ERROR]: (state, action) => ({
     ...state,
@@ -67,5 +77,38 @@ export default handleActions({
   [CAMPAIGN_SCHEDULE_ERROR]: (state, action) => ({
     ...state,
     error: action.payload
-  })
+  }),
+  [CAMPAIGN_INIT_NEW]: (state, action) => ({
+    ...state,
+    tabIndex: 0,
+    dirty: false,
+    campaign: Object.assign({}, action.payload)
+  }),
+  [CAMPAIGN_EDIT_FIELD]: (state, action) => ({
+    ...state,
+    dirty: true,
+    campaign: {
+      ...state.campaign,
+      [action.payload.field]: action.payload.value
+    }
+  }),
+  [CAMPAIGN_CHANGE_TAB]: (state, action) => ({
+    ...state,
+    tabIndex: action.payload
+  }),
+  [CAMPAIGN_READ_REQUEST]: (state) => ({
+    ...state,
+    loading: true
+  }),
+  [CAMPAIGN_READ_SUCCESS]: (state, action) => ({
+    ...state,
+    campaign: action.payload,
+    tabIndex: 0,
+    loading: false
+  }),
+  [CAMPAIGN_READ_ERROR]: (state) => ({
+    ...state,
+    loading: false
+  }),
+  [CAMPAIGN_SAVE]: (state) => state
 }, initialState);

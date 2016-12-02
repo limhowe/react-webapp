@@ -77,7 +77,8 @@
         "addAction": "Add Action",
         "scheduleDelivery": "Schedule Delivery",
         "selectAudience": "Select Audience",
-        "previewAndLaunch": "Preview and Launch"
+        "previewAndLaunch": "Preview and Launch",
+        "gotoList": "Go to List"
       },
       "start": {
         "heading": "Start a Campaign",
@@ -183,6 +184,9 @@
         "saveAsDraft": "Save as a Draft",
         "launchNow": "Launch Now"
       }
+    },
+    "edit": {
+      "editCampaign": "Edit campaign"
     },
     "deleteDialog": {
       "title": "Delete Campaign",
