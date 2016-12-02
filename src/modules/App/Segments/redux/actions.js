@@ -138,9 +138,3 @@ export const segmentReadRequest = createAction(SEGMENT_READ_REQUEST, (segmentId)
     });
   };
 });
-//
-// export const segmentReadSuccess = createAction(SEGMENT_READ_SUCCESS, (segment) => {
-//   return (dispatch) => {
-//     dispatch(setCurrentSegment(segment));
-//   };
-// });

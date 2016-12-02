@@ -60,7 +60,7 @@ export class SegmentConfigurator extends Component {
           <SegmentFilter />
           <div className="row">
             <div className="col-sm-12">
-              <Button icon="star" raised /> &nbsp;
+              {/* <Button icon="star" raised /> &nbsp; */}
               <Button primary raised disabled={ !currentSegment.name || saving } onClick={ this.save }>
                 { saving ? 'Saving...' : 'Save' }
               </Button>&nbsp;
