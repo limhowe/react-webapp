@@ -28,9 +28,9 @@ export class SelectAudience extends Component {
 
   editField = (field) => (...args) => this.props.editCampaignField(field, ...args);
   editSegment = (value) => {
-    this.props.setCurrentSegment(this.props.segments.find((s) => {
-      return s._id === value;
-    }));
+    // this.props.setCurrentSegment(this.props.segments.find((s) => {
+    //   return s._id === value;
+    // }));
     this.props.editCampaignField('segment', value);
   }
 
