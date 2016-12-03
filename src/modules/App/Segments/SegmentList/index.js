@@ -41,13 +41,13 @@ export class SegmentList extends Component {
           </div>
         </div>
         <Tabs index={ this.state.tabIndex } onChange={ this.handleTabChange }>
-          <Tab label="All">
+          <Tab label="All Segments">
             <SegmentTable />
           </Tab>
-          <Tab label="Active">
+          <Tab label="Active Segments">
             <SegmentTable />
           </Tab>
-          <Tab label="Favorite">
+          <Tab label="Favorite Segments">
             <SegmentTable />
           </Tab>
         </Tabs>
