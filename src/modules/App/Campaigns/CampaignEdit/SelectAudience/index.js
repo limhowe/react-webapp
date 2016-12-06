@@ -4,6 +4,8 @@ import { ProgressBar } from 'react-toolbox';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 
+import SegmentConfigurator from '../../../Segments/SegmentConfigurator';
+
 import { changeTabIndex, editCampaignField, saveCampaignRequest } from '../../redux/actions';
 import { segmentListRequest, setCurrentSegment } from '../../../Segments/redux/actions';
 
@@ -12,11 +14,18 @@ export class SelectAudience extends Component {
   state = {
   }
   componentWillMount() {
-    this.props.listSegments();
+    this.props.listSegments().then(() => {
+      if (this.props.campaign.segment !== null) {
+        this.props.setCurrentSegment(this.props.segments.find((s) => {
+          return s._id === this.props.campaign.segment;
+        }));
+      }
+    });
   }
   props: {
     t: Function,
     loading: bool,
+    reading: bool,
     campaign: Object,
     segments: Array<Object>,
     changeTab: Function,
@@ -28,9 +37,11 @@ export class SelectAudience extends Component {
 
   editField = (field) => (...args) => this.props.editCampaignField(field, ...args);
   editSegment = (value) => {
-    // this.props.setCurrentSegment(this.props.segments.find((s) => {
-    //   return s._id === value;
-    // }));
+    if (value !== null) {
+      this.props.setCurrentSegment(this.props.segments.find((s) => {
+        return s._id === value;
+      }));
+    }
     this.props.editCampaignField('segment', value);
   }
 
@@ -63,7 +74,7 @@ export class SelectAudience extends Component {
       );
     }
 
-    const { t, changeTab, saveCampaign, campaign } = this.props;
+    const { t, changeTab, saveCampaign, campaign, reading } = this.props;
     const segments = this.props.segments.map((s) => ({
       value: s._id,
       label: s.name
@@ -83,6 +94,13 @@ export class SelectAudience extends Component {
               value={ campaign.segment }
             />
           </div>
+          <div className="col-md-12">
+            {
+              campaign.segment !== null && !reading ? (
+                <SegmentConfigurator />
+              ) : null
+            }
+          </div>
         </div>
         <div className="form-buttons">
           <Button icon="chevron_left" onClick={ () => changeTab(3) } label={ t('campaigns.create.scheduleDelivery.back') } raised />
@@ -93,7 +111,7 @@ export class SelectAudience extends Component {
   }
 }
 
-const mapStatesToProps = ({ campaign: { campaign }, segments: { segments, listLoading } }) => ({ campaign, segments, loading: listLoading });
+const mapStatesToProps = ({ campaign: { campaign }, segments: { segments, listLoading, reading } }) => ({ campaign, segments, loading: listLoading, reading });
 
 const mapDispatchToProps = (dispatch) => ({
   listSegments: () => dispatch(segmentListRequest()),

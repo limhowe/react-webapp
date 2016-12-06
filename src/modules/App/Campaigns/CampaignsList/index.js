@@ -1,22 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, IconButton } from 'react-toolbox/lib/button';
+import { Button, Dialog, IconButton, Tooltip } from 'react-toolbox/lib';
 import { push } from 'react-router-redux';
 import { Tab, Tabs } from 'react-toolbox';
 import { translate } from 'react-i18next';
-import Dialog from 'react-toolbox/lib/dialog';
-import Tooltip from 'react-toolbox/lib/tooltip';
 
 import styles from '../theme/styles.scss';
 
-import { campaignsListRequest, campaignUpdateRequest, campaignDeleteRequest } from '../redux/actions';
+import { campaignsListRequest, campaignUpdateRequest, campaignDuplicateRequest, campaignDeleteRequest } from '../redux/actions';
 const TooltipIconButton = new Tooltip(IconButton);
 
 export class Campaigns extends Component {
   displayName: 'Campaigns'
   state = {
     tabIndex: 0,
-    tableFilter: 'inProgress',
+    tableFilter: 'ACTIVE',
     selected: [],
     source: [],
     deleteConfirmToggle: false
@@ -30,35 +28,30 @@ export class Campaigns extends Component {
     start: Function,
     loadCampaigns: Function,
     updateCampaign: Function,
+    duplicateCampaign: Function,
     deleteCampaign: Function,
     editCampaign: Function
   }
 
   handleTabIndexChange = (index) => {
     this.setState({ tabIndex: index });
-    let tableFilter = 'all';
+    let tableFilter = 'ALL';
     if (index === 0) {
-      tableFilter = 'inProgress';
+      tableFilter = 'ACTIVE';
     } else if (index === 1) {
-      tableFilter = 'scheduled';
+      tableFilter = 'PAUSED';
     } else if (index === 2) {
-      tableFilter = 'paused';
+      tableFilter = 'COMPLETED';
     } else if (index === 3) {
-      tableFilter = 'completed';
+      tableFilter = 'DRAFT';
     }
     this.setState({ tableFilter });
   }
 
   getCampaigns = () => {
     return this.props.campaigns.filter((campaign) => {
-      if (this.state.tableFilter === 'inProgress') {
-        return campaign.isActive;
-      } else if (this.state.tableFilter === 'scheduled') {
-        return campaign.deliverySchedule;
-      } else if (this.state.tableFilter === 'paused') {
-        return campaign.isPaused;
-      } else if (this.state.tableFilter === 'completed') {
-        return campaign.isComplete;
+      if (this.state.tableFilter !== 'ALL') {
+        return campaign.status === this.state.tableFilter;
       }
       return true;
     });
@@ -86,6 +79,12 @@ export class Campaigns extends Component {
     this.props.deleteCampaign(this.state.campaign).then(() => {
       this.props.loadCampaigns();
       this.setState({ deleteConfirmToggle: false });
+    });
+  }
+
+  duplicateCampaign = (campaign) => {
+    this.props.duplicateCampaign(campaign).then(() => {
+      this.props.loadCampaigns();
     });
   }
 
@@ -117,9 +116,9 @@ export class Campaigns extends Component {
             fixed
           >
             <Tab label={ t('campaigns.list.inProgress') } />
-            <Tab label={ t('campaigns.list.scheduled') } />
             <Tab label={ t('campaigns.list.paused') } />
             <Tab label={ t('campaigns.list.completed') } />
+            <Tab label={ t('campaigns.list.draft') } />
             <Tab label={ t('campaigns.list.all') } />
           </Tabs>
           <p>Total { this.getCampaigns().length } campaigns </p>
@@ -158,22 +157,26 @@ export class Campaigns extends Component {
                     <td>{ campaign.created }</td>
                     <td className="text-right actions">
                       {
-                        campaign.isActive ? (
+                        campaign.status === 'ACTIVE' || campaign.status === 'COMPLETED' ? (
                           <TooltipIconButton icon="remove_red_eye" primary tooltip={ t('campaigns.list.actions.results') } />
                         ) : null
                       }
                       {
-                        !campaign.isActive ? (
+                        campaign.status === 'DRAFT' ? (
                           <TooltipIconButton icon="mode_edit" onClick={ () => editCampaign(campaign._id) } primary tooltip={ t('campaigns.list.actions.edit') } />
                         ) : null
                       }
                       {
-                        campaign.isPaused ? (
+                        campaign.status === 'PAUSED' ? (
                           <TooltipIconButton icon="play_arrow" onClick={ this.resumeCampaign.bind(this, campaign) } primary tooltip={ t('campaigns.list.actions.resume') } />
-                        ) : (
-                        <TooltipIconButton icon="pause" onClick={ this.pauseCampaign.bind(this, campaign) } primary tooltip={ t('campaigns.list.actions.pause') } />
-                        )
+                        ) : null
                       }
+                      {
+                        campaign.status === 'ACTIVE' ? (
+                          <TooltipIconButton icon="pause" onClick={ this.pauseCampaign.bind(this, campaign) } primary tooltip={ t('campaigns.list.actions.pause') } />
+                        ) : null
+                      }
+                      <TooltipIconButton icon="content_copy" onClick={ this.duplicateCampaign.bind(this, campaign) } primary tooltip={ t('campaigns.list.actions.duplicate') } />
                       <TooltipIconButton icon="delete" onClick={ this.toggleDeleteConfirmDialog.bind(this, campaign) } primary tooltip={ t('campaigns.list.actions.delete') } />
                     </td>
                   </tr>
@@ -204,6 +207,7 @@ const mapDispatchToProps = (dispatch) => ({
   loadCampaigns: () => dispatch(campaignsListRequest()),
   start: () => dispatch(push('/app/campaigns/start')),
   updateCampaign: (campaign, payload) => dispatch(campaignUpdateRequest(campaign._id, payload)),
+  duplicateCampaign: (campaign) => dispatch(campaignDuplicateRequest(campaign._id)),
   deleteCampaign: (campaign) => dispatch(campaignDeleteRequest(campaign._id)),
   editCampaign: (id) => dispatch(push(`/app/campaigns/${ id }`))
 });

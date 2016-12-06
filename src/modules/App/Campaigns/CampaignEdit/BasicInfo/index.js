@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Button, Input, Checkbox, Chip } from 'react-toolbox/lib';
-import { CardActions } from 'react-toolbox/lib/card';
+import { Button, CardActions, Checkbox, Chip, IconButton, Input, Tooltip } from 'react-toolbox/lib';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 
 import styles from './styles.scss';
 import { editCampaignField, saveCampaignRequest } from '../../redux/actions';
+
+const TooltipIconButton = new Tooltip(IconButton);
 
 export class BasicInfo extends Component {
   displayName: 'BasicInfo'
@@ -127,24 +128,55 @@ export class BasicInfo extends Component {
           </div>
           {
             this.findPlatform('android') >= 0 ? (
-              <div>
+              <div className="platform-displayTypes">
                 <Checkbox
                   checked={ this.findDisplayType('android', 'dpi') >= 0 }
-                  label="Widget (DPI)"
+                  label="DPI"
                   onChange={ this.toggleDisplayType.bind(this, 'android', 'dpi') }
+                  theme={ styles }
+                />
+                <TooltipIconButton
+                  icon="help_outline"
+                  primary
+                  tooltip={ <img className="img-tooltip" src="http://live.dynamicpush.com/assets/cell.jpg" /> }
                   theme={ styles }
                 />
                 <Checkbox
                   checked={ this.findDisplayType('android', 'nova') >= 0 }
-                  label="Nova (Icon Overlay)"
+                  label="Nova"
                   onChange={ this.toggleDisplayType.bind(this, 'android', 'nova') }
+                  theme={ styles }
+                />
+                <TooltipIconButton
+                  icon="help_outline"
+                  primary
+                  tooltip={ <img className="img-tooltip" src="http://live.dynamicpush.com/assets/cell.jpg" /> }
                   theme={ styles }
                 />
                 <Checkbox
                   checked={ this.findDisplayType('android', 'supernova') >= 0 }
-                  label="Super Nova (Screen Overlay)"
+                  label="Super Nova"
                   onChange={ this.toggleDisplayType.bind(this, 'android', 'supernova') }
                   className="displayType"
+                  theme={ styles }
+                />
+                <TooltipIconButton
+                  icon="help_outline"
+                  primary
+                  tooltip={ <img className="img-tooltip" src="http://live.dynamicpush.com/assets/cell.jpg" /> }
+                  theme={ styles }
+                />
+                <Checkbox
+                  checked={ this.findDisplayType('android', 'meganova') >= 0 }
+                  label="Mega Nova"
+                  onChange={ this.toggleDisplayType.bind(this, 'android', 'meganova') }
+                  className="displayType"
+                  theme={ styles }
+                />
+                <TooltipIconButton
+                  icon="help_outline"
+                  primary
+                  tooltip={ <img className="img-tooltip" src="http://live.dynamicpush.com/assets/cell.jpg" /> }
                   theme={ styles }
                 />
               </div>
@@ -159,6 +191,50 @@ export class BasicInfo extends Component {
               theme={ styles }
             />
           </div>
+          {
+            this.findPlatform('ios') >= 0 ? (
+              <div>
+                <Checkbox
+                  checked={ this.findDisplayType('ios', 'nova') >= 0 }
+                  label="Nova"
+                  onChange={ this.toggleDisplayType.bind(this, 'ios', 'nova') }
+                  theme={ styles }
+                />
+                <TooltipIconButton
+                  icon="help_outline"
+                  primary
+                  tooltip={ <img className="img-tooltip" src="http://live.dynamicpush.com/assets/cell.jpg" /> }
+                  theme={ styles }
+                />
+                <Checkbox
+                  checked={ this.findDisplayType('ios', 'supernova') >= 0 }
+                  label="Super Nova"
+                  onChange={ this.toggleDisplayType.bind(this, 'ios', 'supernova') }
+                  className="displayType"
+                  theme={ styles }
+                />
+                <TooltipIconButton
+                  icon="help_outline"
+                  primary
+                  tooltip={ <img className="img-tooltip" src="http://live.dynamicpush.com/assets/cell.jpg" /> }
+                  theme={ styles }
+                />
+                <Checkbox
+                  checked={ this.findDisplayType('ios', 'meganova') >= 0 }
+                  label="Mega Nova"
+                  onChange={ this.toggleDisplayType.bind(this, 'ios', 'meganova') }
+                  className="displayType"
+                  theme={ styles }
+                />
+                <TooltipIconButton
+                  icon="help_outline"
+                  primary
+                  tooltip={ <img className="img-tooltip" src="http://live.dynamicpush.com/assets/cell.jpg" /> }
+                  theme={ styles }
+                />
+              </div>
+            ) : null
+          }
         </div>
         <div className="form-buttons">
           <Button onClick={ saveCampaign } label={ t('campaigns.create.start.next') } raised primary />

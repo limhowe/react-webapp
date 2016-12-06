@@ -59,6 +59,7 @@
       "inProgress": "In Progress",
       "scheduled": "Scheduled",
       "paused": "Paused",
+      "draft": "Draft",
       "completed": "Completed",
       "all": "All",
       "actions": {
@@ -66,6 +67,7 @@
         "edit": "Edit",
         "pause": "Pause",
         "resume": "Resume Campaign",
+        "duplicate": "Duplicate",
         "delete": "Delete"
       }
     },
@@ -101,7 +103,8 @@
         "replaceAnimation": "Replace Animation",
         "replaceAnimationNote": "Animation should be in GIF format and not exceed 5k.",
         "createAnimation": "Create Animation",
-        "createAnimationNote": "Ue GIF maker to create animation",
+        "createAnimationNote": "Ue GIF maker to create animation (Coming Soon)",
+        "deleteAnimation": "Delete Animation",
         "uploadNow": "Upload Now",
         "preview": "Preview",
         "mobilePreview": "Mobile Phone Preview",

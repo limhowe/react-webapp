@@ -71,6 +71,25 @@ export const campaignUpdateRequest = createAction(CAMPAIGN_UPDATE_REQUEST, (camp
   };
 });
 
+// campaign duplicate
+export const CAMPAIGN_DUPLICATE_REQUEST = 'campaign/duplicate/request';
+export const CAMPAIGN_DUPLICATE_SUCCESS = 'campaign/duplicate/success';
+export const CAMPAIGN_DUPLICATE_ERROR = 'campaign/duplicate/error';
+
+export const campaignDuplicateRequest = createAction(CAMPAIGN_DUPLICATE_REQUEST, (campaign_id) => {
+  return (dispatch, getState) => {
+    const state = getState();
+    const { application: { currentApp: { _id: appId } } } = state;
+    const campaignService = new CampaignService(appId, dispatch, getState());
+    return campaignService.duplicate(campaign_id, {
+      SUCCESS: CAMPAIGN_DUPLICATE_SUCCESS,
+      ERROR: CAMPAIGN_DUPLICATE_ERROR
+    }, {
+      successMessage: 'Campaign is duplicated.'
+    });
+  };
+});
+
 // campaign delete
 export const CAMPAIGN_DELETE_REQUEST = 'campaign/update/request';
 export const CAMPAIGN_DELETE_SUCCESS = 'campaign/update/success';
@@ -116,7 +135,7 @@ export const campaignScheduleRequest = createAction(CAMPAIGN_SCHEDULE_REQUEST, (
   };
 });
 
-// campaign schedule
+// campaign image
 export const CAMPAIGN_IMAGE_REQUEST = 'campaign/image/request';
 export const CAMPAIGN_IMAGE_SUCCESS = 'campaign/image/success';
 export const CAMPAIGN_IMAGE_ERROR = 'campaign/image/error';
@@ -135,14 +154,15 @@ export const campaignImageRequest = createAction(CAMPAIGN_IMAGE_REQUEST, (campai
   };
 });
 
-// here we do some serious refactoring
-
 export const CAMPAIGN_INIT_NEW = 'campaign/init/new';
 export const initNew = createAction(CAMPAIGN_INIT_NEW, () => {
   return {
     title: '',
     tags: ['tag1', 'tag2'],
-    platform: []
+    platform: [{
+      name: 'android',
+      displayType: ['dpi']
+    }]
   };
 });
 
