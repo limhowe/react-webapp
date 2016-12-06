@@ -154,23 +154,6 @@ export const campaignImageRequest = createAction(CAMPAIGN_IMAGE_REQUEST, (campai
   };
 });
 
-// campaign image delete
-export const CAMPAIGN_IMAGE_DELETE_REQUEST = 'campaign/image/delete/request';
-export const CAMPAIGN_IMAGE_DELETE_SUCCESS = 'campaign/image/delete/success';
-export const CAMPAIGN_IMAGE_DELETE_ERROR = 'campaign/image/delete/error';
-
-export const campaignImageDeleteRequest = createAction(CAMPAIGN_IMAGE_REQUEST, (campaign_id) => {
-  return (dispatch, getState) => {
-    const state = getState();
-    const { application: { currentApp: { _id: appId } } } = state;
-    const campaignService = new CampaignService(appId, dispatch, getState());
-    return campaignService.deleteImage(campaign_id, {
-      SUCCESS: CAMPAIGN_IMAGE_DELETE_SUCCESS,
-      ERROR: CAMPAIGN_IMAGE_DELETE_ERROR
-    });
-  };
-});
-
 export const CAMPAIGN_INIT_NEW = 'campaign/init/new';
 export const initNew = createAction(CAMPAIGN_INIT_NEW, () => {
   return {

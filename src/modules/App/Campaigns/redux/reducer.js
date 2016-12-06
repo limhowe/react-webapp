@@ -15,9 +15,6 @@ import {
   CAMPAIGN_IMAGE_REQUEST,
   CAMPAIGN_IMAGE_SUCCESS,
   CAMPAIGN_IMAGE_ERROR,
-  CAMPAIGN_IMAGE_DELETE_REQUEST,
-  CAMPAIGN_IMAGE_DELETE_SUCCESS,
-  CAMPAIGN_IMAGE_DELETE_ERROR,
   CAMPAIGN_INIT_NEW,
   CAMPAIGN_READ_REQUEST,
   CAMPAIGN_READ_SUCCESS,
@@ -70,18 +67,6 @@ export default handleActions({
     campaign: action.payload
   }),
   [CAMPAIGN_IMAGE_ERROR]: (state, action) => ({
-    ...state,
-    error: action.payload
-  }),
-  [CAMPAIGN_IMAGE_DELETE_REQUEST]: (state) => ({
-    ...state,
-    error: ''
-  }),
-  [CAMPAIGN_IMAGE_DELETE_SUCCESS]: (state, action) => ({
-    ...state,
-    campaign: action.payload
-  }),
-  [CAMPAIGN_IMAGE_DELETE_ERROR]: (state, action) => ({
     ...state,
     error: action.payload
   }),

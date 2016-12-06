@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import styles from './styles.scss';
 
-import { changeTabIndex, editCampaignField, campaignImageRequest, campaignImageDeleteRequest, saveCampaignRequest } from '../../redux/actions';
+import { changeTabIndex, editCampaignField, campaignImageRequest, saveCampaignRequest } from '../../redux/actions';
 
 export class CreatePush extends Component {
   displayName: 'CreatePush'
@@ -75,7 +75,11 @@ export class CreatePush extends Component {
   };
 
   deleteAnimation = () => {
-    this.props.deleteAnimation(this.props.campaign);
+    this.props.editCampaignField('animation', null);
+    this.props.saveCampaign().then(() => {
+      this.props.changeTab(1);
+    });
+    // this.props.deleteAnimation(this.props.campaign);
   }
 
   dropDownItemTemplate(item) {
@@ -242,8 +246,7 @@ const mapDispatchToProps = (dispatch) => ({
   changeTab: (index) => dispatch(changeTabIndex(index)),
   editCampaignField: (field, value) => dispatch(editCampaignField(field, value)),
   saveCampaign: () => dispatch(saveCampaignRequest()),
-  uploadAnimation: (campaign, payload) => dispatch(campaignImageRequest(campaign._id, payload)),
-  deleteAnimation: (campaign) => dispatch(campaignImageDeleteRequest(campaign._id))
+  uploadAnimation: (campaign, payload) => dispatch(campaignImageRequest(campaign._id, payload))
 });
 
 export default translate()(connect(mapStatesToProps, mapDispatchToProps)(CreatePush));
