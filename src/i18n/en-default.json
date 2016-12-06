@@ -59,6 +59,7 @@
       "inProgress": "In Progress",
       "scheduled": "Scheduled",
       "paused": "Paused",
+      "draft": "Draft",
       "completed": "Completed",
       "all": "All",
       "actions": {
