@@ -1,7 +1,58 @@
-.active {
-  background-color: $gray-light;
-}
+.listItemWrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 
-.children {
-  margin-left: $unit * 3;
+  .listItem {
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    margin-top: $unit;
+    margin-bottom: $unit;
+    cursor: pointer;
+    color: $gray-dark;
+
+    .icon {
+      font-size: 30px;
+      display: block;
+    }
+
+    .text {
+      font-size: $small-font-size;
+    }
+  }
+
+  .children {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    .listItem {
+      margin-top: $unit / 2;
+      margin-bottom:  $unit / 2;
+    }
+  }
+
+  &.active {
+    background-color: $white;
+
+    .listItem {
+      color: $blue-dark;
+    }
+
+    .children {
+      .active {
+        .listItem {
+          color: $white;
+          background-color: $blue-dark;
+        }
+      }
+    }
+  }
 }

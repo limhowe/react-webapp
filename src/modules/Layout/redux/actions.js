@@ -21,6 +21,9 @@ export const hideNavDrawer = createAction(NAVDRAWER_HIDE);
 export const toggleNavDrawer = createAction(NAVDRAWER_TOGGLE);
 export const expandToggle = createAction(NAVDRAWER_EXPAND_TOGGLE, (item) => item);
 
+export const NAVDRAWER_SETPATH = 'layout/navdrawer/set-path';
+export const setPath = createAction(NAVDRAWER_SETPATH);
+
 export default {
   showNotification,
   hideNotification,
