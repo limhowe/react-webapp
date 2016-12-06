@@ -10,7 +10,7 @@ export class ScheduleDelivery extends Component {
   state = {
   }
   componentWillMount() {
-    const { expiresAt, deliverySchedule, deliveryAction } = this.props.campaign;
+    const { expiresAt, deliverySchedule } = this.props.campaign;
     if (deliverySchedule && deliverySchedule.frequency) {
       this.setState({ toggleDeliverySchedule: true });
       if (deliverySchedule.frequency === 'scheduled') {
@@ -28,11 +28,7 @@ export class ScheduleDelivery extends Component {
         expirationTime: new Date(expiresAt)
       });
     }
-    if (deliveryAction) {
-      this.setState({ toggleDeliveryAction: true });
-    } else {
-      this.setState({ toggleDeliveryAction: false });
-    }
+    this.setState({ toggleDeliveryAction: false });
   }
   props: {
     t: Function,
@@ -107,6 +103,7 @@ export class ScheduleDelivery extends Component {
         repeat: 'once'
       });
     }
+    // this.toggleDeliveryAction();
   }
 
   toggleDeliveryAction = () => {
@@ -270,7 +267,8 @@ export class ScheduleDelivery extends Component {
               <Switch
                 checked={ this.state.toggleDeliveryAction }
                 label={ t('campaigns.create.scheduleDelivery.action.heading') }
-                onChange={ this.toggleDeliveryAction.bind(this) }
+                onChange={ this.toggleDeliverySchedule.bind(this) }
+                disabled
               />
               <small className="text-muted">{ t('campaigns.create.scheduleDelivery.action.subtitle') }</small>
               {
