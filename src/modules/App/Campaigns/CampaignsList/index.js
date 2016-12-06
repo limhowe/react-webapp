@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, IconButton } from 'react-toolbox/lib/button';
+import { Button, Dialog, IconButton, Tooltip } from 'react-toolbox/lib';
 import { push } from 'react-router-redux';
 import { Tab, Tabs } from 'react-toolbox';
 import { translate } from 'react-i18next';
-import Dialog from 'react-toolbox/lib/dialog';
-import Tooltip from 'react-toolbox/lib/tooltip';
 
 import styles from '../theme/styles.scss';
 

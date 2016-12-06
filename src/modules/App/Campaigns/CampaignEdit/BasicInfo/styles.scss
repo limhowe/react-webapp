@@ -1,7 +1,15 @@
 .field {
   display: inline-block;
-  margin-right: 8px;
+  margin-top: 10px;
   .text {
     font-size: inherit;
   }
+}
+
+.tooltip {
+  margin-right: 12px;
+  background: transparent;
+}
+.tooltipInner {
+  background: transparent;
 }

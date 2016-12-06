@@ -142,7 +142,10 @@ export const initNew = createAction(CAMPAIGN_INIT_NEW, () => {
   return {
     title: '',
     tags: ['tag1', 'tag2'],
-    platform: []
+    platform: [{
+      name: 'android',
+      displayType: ['dpi']
+    }]
   };
 });
 
