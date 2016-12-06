@@ -5,13 +5,20 @@ import {
   NAVDRAWER_SHOW,
   NAVDRAWER_HIDE,
   NAVDRAWER_TOGGLE,
-  NAVDRAWER_EXPAND_TOGGLE
+  NAVDRAWER_EXPAND_TOGGLE,
+  NAVDRAWER_SETPATH
 } from './actions';
 
 export const initialState = {
   notification: {},
   navDrawerActive: false,
-  expandStatus: {}
+  expandItem: null,
+  pathname: '/'
+};
+
+const reducePathname = (pathname) => {
+  const matches = /\/app\/([\w]+)\//.exec(pathname);
+  return matches && matches[1];
 };
 
 export default handleActions({
@@ -37,8 +44,11 @@ export default handleActions({
   }),
   [NAVDRAWER_EXPAND_TOGGLE]: (state, action) => ({
     ...state,
-    expandStatus: {
-      [action.payload]: !state.expandStatus[action.payload]
-    }
+    expandItem: action.payload
+  }),
+  [NAVDRAWER_SETPATH]: (state, action) => ({
+    ...state,
+    pathname: action.payload,
+    expandItem: reducePathname(action.payload)
   })
 }, initialState);

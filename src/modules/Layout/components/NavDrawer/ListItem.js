@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ListItem, ListDivider } from 'react-toolbox';
+import { FontIcon } from 'react-toolbox';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import cn from 'classnames';
@@ -18,11 +18,13 @@ export class CustomListItem extends Component {
     href?: string,
     expanded: bool,
     name: string,
+    icon: string,
+    caption: string,
     children: any
   }
 
   onClick = (e) => {
-    const { pushLocation, href, onClick, children } = this.props;
+    const { pushLocation, href, onClick, icon } = this.props;
     if (onClick) {
       onClick();
     } else if (href) {
@@ -30,42 +32,35 @@ export class CustomListItem extends Component {
     }
 
     // if list item has children, let's toggle expand
-    if (children) {
+    if (icon) {
       this.props.expandToggle();
       e.stopPropagation();
     }
   }
 
   render() {
-    const { pathname, href, expanded, children, ...props } = this.props;
-    const className = cn(this.props.className, {
+    const { pathname, href, expanded, children, icon, caption } = this.props;
+    const className = cn(styles.listItemWrapper, {
       [styles.active]: (href === pathname) || expanded
     });
-    const newProps = Object.assign({}, props);
-    if (children) {
-      newProps.rightIcon = expanded ? 'keyboard_arrow_down' : 'keyboard_arrow_right';
-    }
-
     return (
-      <div>
-        <ListItem
-          { ...newProps }
-          className={ className }
-          onClick={ this.onClick }
-        />
-        { children && expanded ? <ListDivider /> : null }
+      <div className={ className }>
+        <div className={ styles.listItem } onClick={ this.onClick }>
+          <FontIcon value={ icon } className={  styles.icon } />
+          <span className={ styles.text }>{ caption }</span>
+        </div>
+
         <div className={ styles.children }>
           { children && expanded ? children : null }
         </div>
-        { children && expanded ? <ListDivider /> : null }
       </div>
     );
   }
 }
 
-const mapStatesToProps = ({ routing: { locationBeforeTransitions }, layout: { expandStatus } }, { name }) => ({
-  pathname: locationBeforeTransitions && locationBeforeTransitions.pathname,
-  expanded: expandStatus[name]
+const mapStatesToProps = ({ layout: { expandItem, pathname } }, { name }) => ({
+  pathname,
+  expanded: name && expandItem === name
 });
 
 const mapDispatchToProps = (dispatch, { name }) => ({

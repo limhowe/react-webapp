@@ -51,7 +51,7 @@ class AppLayout extends Component {
       <div className="layout">
         <Header />
         <Layout>
-          { user ? <NavDrawer /> : <div /> }
+          { user ? <NavDrawer pathname={ pathname } /> : <div /> }
           <Panel scrollY>
             <div>
               <div className="c-container c-container__center">
