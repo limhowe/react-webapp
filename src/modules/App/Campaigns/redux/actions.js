@@ -71,6 +71,25 @@ export const campaignUpdateRequest = createAction(CAMPAIGN_UPDATE_REQUEST, (camp
   };
 });
 
+// campaign duplicate
+export const CAMPAIGN_DUPLICATE_REQUEST = 'campaign/duplicate/request';
+export const CAMPAIGN_DUPLICATE_SUCCESS = 'campaign/duplicate/success';
+export const CAMPAIGN_DUPLICATE_ERROR = 'campaign/duplicate/error';
+
+export const campaignDuplicateRequest = createAction(CAMPAIGN_DUPLICATE_REQUEST, (campaign_id) => {
+  return (dispatch, getState) => {
+    const state = getState();
+    const { application: { currentApp: { _id: appId } } } = state;
+    const campaignService = new CampaignService(appId, dispatch, getState());
+    return campaignService.duplicate(campaign_id, {
+      SUCCESS: CAMPAIGN_DUPLICATE_SUCCESS,
+      ERROR: CAMPAIGN_DUPLICATE_ERROR
+    }, {
+      successMessage: 'Campaign is duplicated.'
+    });
+  };
+});
+
 // campaign delete
 export const CAMPAIGN_DELETE_REQUEST = 'campaign/update/request';
 export const CAMPAIGN_DELETE_SUCCESS = 'campaign/update/success';

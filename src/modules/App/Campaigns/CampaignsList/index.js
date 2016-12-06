@@ -7,7 +7,7 @@ import { translate } from 'react-i18next';
 
 import styles from '../theme/styles.scss';
 
-import { campaignsListRequest, campaignUpdateRequest, campaignDeleteRequest } from '../redux/actions';
+import { campaignsListRequest, campaignUpdateRequest, campaignDuplicateRequest, campaignDeleteRequest } from '../redux/actions';
 const TooltipIconButton = new Tooltip(IconButton);
 
 export class Campaigns extends Component {
@@ -28,6 +28,7 @@ export class Campaigns extends Component {
     start: Function,
     loadCampaigns: Function,
     updateCampaign: Function,
+    duplicateCampaign: Function,
     deleteCampaign: Function,
     editCampaign: Function
   }
@@ -78,6 +79,12 @@ export class Campaigns extends Component {
     this.props.deleteCampaign(this.state.campaign).then(() => {
       this.props.loadCampaigns();
       this.setState({ deleteConfirmToggle: false });
+    });
+  }
+
+  duplicateCampaign = (campaign) => {
+    this.props.duplicateCampaign(campaign).then(() => {
+      this.props.loadCampaigns();
     });
   }
 
@@ -169,6 +176,7 @@ export class Campaigns extends Component {
                           <TooltipIconButton icon="pause" onClick={ this.pauseCampaign.bind(this, campaign) } primary tooltip={ t('campaigns.list.actions.pause') } />
                         ) : null
                       }
+                      <TooltipIconButton icon="content_copy" onClick={ this.duplicateCampaign.bind(this, campaign) } primary tooltip={ t('campaigns.list.actions.duplicate') } />
                       <TooltipIconButton icon="delete" onClick={ this.toggleDeleteConfirmDialog.bind(this, campaign) } primary tooltip={ t('campaigns.list.actions.delete') } />
                     </td>
                   </tr>
@@ -199,6 +207,7 @@ const mapDispatchToProps = (dispatch) => ({
   loadCampaigns: () => dispatch(campaignsListRequest()),
   start: () => dispatch(push('/app/campaigns/start')),
   updateCampaign: (campaign, payload) => dispatch(campaignUpdateRequest(campaign._id, payload)),
+  duplicateCampaign: (campaign) => dispatch(campaignDuplicateRequest(campaign._id)),
   deleteCampaign: (campaign) => dispatch(campaignDeleteRequest(campaign._id)),
   editCampaign: (id) => dispatch(push(`/app/campaigns/${ id }`))
 });

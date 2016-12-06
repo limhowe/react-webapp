@@ -67,6 +67,7 @@
         "edit": "Edit",
         "pause": "Pause",
         "resume": "Resume Campaign",
+        "duplicate": "Duplicate",
         "delete": "Delete"
       }
     },

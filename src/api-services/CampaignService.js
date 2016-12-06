@@ -18,6 +18,10 @@ export default class CampaignService extends ResourceService {
     return this._post(`/${ this.resource }/${ id }/image`, ...args);
   }
 
+  duplicate(id, ...args) {
+    return this._get(`/${ this.resource }/${ id }/duplicate`, ...args);
+  }
+
   deleteImage(id, ...args) {
     return this._delete(`/${ this.resource }/${ id }/image`, ...args);
   }
