@@ -140,7 +140,6 @@ export class BasicInfo extends Component {
                   primary
                   tooltip={ <img className="img-tooltip" src="http://live.dynamicpush.com/assets/cell.jpg" /> }
                   theme={ styles }
-                  tooltipShowOnClick="true"
                 />
                 <Checkbox
                   checked={ this.findDisplayType('android', 'nova') >= 0 }
@@ -153,7 +152,6 @@ export class BasicInfo extends Component {
                   primary
                   tooltip={ <img className="img-tooltip" src="http://live.dynamicpush.com/assets/cell.jpg" /> }
                   theme={ styles }
-                  tooltipShowOnClick="true"
                 />
                 <Checkbox
                   checked={ this.findDisplayType('android', 'supernova') >= 0 }
@@ -167,7 +165,6 @@ export class BasicInfo extends Component {
                   primary
                   tooltip={ <img className="img-tooltip" src="http://live.dynamicpush.com/assets/cell.jpg" /> }
                   theme={ styles }
-                  tooltipShowOnClick="true"
                 />
                 <Checkbox
                   checked={ this.findDisplayType('android', 'meganova') >= 0 }
@@ -181,7 +178,6 @@ export class BasicInfo extends Component {
                   primary
                   tooltip={ <img className="img-tooltip" src="http://live.dynamicpush.com/assets/cell.jpg" /> }
                   theme={ styles }
-                  tooltipShowOnClick="true"
                 />
               </div>
             ) : null
@@ -209,7 +205,6 @@ export class BasicInfo extends Component {
                   primary
                   tooltip={ <img className="img-tooltip" src="http://live.dynamicpush.com/assets/cell.jpg" /> }
                   theme={ styles }
-                  tooltipShowOnClick="true"
                 />
                 <Checkbox
                   checked={ this.findDisplayType('ios', 'supernova') >= 0 }
@@ -223,7 +218,6 @@ export class BasicInfo extends Component {
                   primary
                   tooltip={ <img className="img-tooltip" src="http://live.dynamicpush.com/assets/cell.jpg" /> }
                   theme={ styles }
-                  tooltipShowOnClick="true"
                 />
                 <Checkbox
                   checked={ this.findDisplayType('ios', 'meganova') >= 0 }
@@ -237,7 +231,6 @@ export class BasicInfo extends Component {
                   primary
                   tooltip={ <img className="img-tooltip" src="http://live.dynamicpush.com/assets/cell.jpg" /> }
                   theme={ styles }
-                  tooltipShowOnClick="true"
                 />
               </div>
             ) : null

@@ -17,4 +17,8 @@ export default class CampaignService extends ResourceService {
   uploadImage(id, ...args) {
     return this._post(`/${ this.resource }/${ id }/image`, ...args);
   }
+
+  deleteImage(id, ...args) {
+    return this._delete(`/${ this.resource }/${ id }/image`, ...args);
+  }
 }

@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { Button, Dropdown, Input } from 'react-toolbox/lib';
+import { Button, Dropdown, IconButton, Input } from 'react-toolbox/lib';
 import { ProgressBar } from 'react-toolbox';
 import { List, ListItem } from 'react-toolbox/lib/list';
 import Dropzone from 'react-dropzone';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import styles from './styles.scss';
 
-import { changeTabIndex, editCampaignField, campaignImageRequest, saveCampaignRequest } from '../../redux/actions';
+import { changeTabIndex, editCampaignField, campaignImageRequest, campaignImageDeleteRequest, saveCampaignRequest } from '../../redux/actions';
 
 export class CreatePush extends Component {
   displayName: 'CreatePush'
@@ -21,7 +22,8 @@ export class CreatePush extends Component {
     campaign: Object,
     changeTab: Function,
     editCampaignField: Function,
-    uploadImage: Function,
+    uploadAnimation: Function,
+    deleteAnimation: Function,
     saveCampaign: Function
   }
 
@@ -65,12 +67,16 @@ export class CreatePush extends Component {
         this.setState({ animationUploading: true });
         const payload = new FormData();
         payload.append('image', this.state.image);
-        this.props.uploadImage(this.props.campaign, payload).then(() => {
+        this.props.uploadAnimation(this.props.campaign, payload).then(() => {
           this.setState({ animationUploading: false });
         });
       });
     }
   };
+
+  deleteAnimation = () => {
+    this.props.deleteAnimation(this.props.campaign);
+  }
 
   dropDownItemTemplate(item) {
     return (
@@ -105,13 +111,25 @@ export class CreatePush extends Component {
             <div className="row">
               <div className="col-md-7">
                 <div className="panel">
+                  <IconButton icon="delete" className="pull-right" primary onClick={ this.deleteAnimation.bind(this) } />
                   <Dropzone onDrop={ this.onDrop } accept="image/gif" className="img-dropzone">
                     <List selectable ripple className="no-margin">
-                      <ListItem
-                        leftIcon="file_upload"
-                        caption={ t('campaigns.create.createPush.chooseAnimation') }
-                        legend={ t('campaigns.create.createPush.chooseAnimationNote') }
-                      />
+                      {
+                        campaign.animation ? (
+                          <ListItem
+                            avatar={ campaign.animation.url }
+                            caption={ t('campaigns.create.createPush.replaceAnimation') }
+                            legend={ t('campaigns.create.createPush.chooseAnimationNote') }
+                            theme={ styles }
+                          />
+                        ) : (
+                        <ListItem
+                          leftIcon="file_upload"
+                          caption={ t('campaigns.create.createPush.chooseAnimation') }
+                          legend={ t('campaigns.create.createPush.chooseAnimationNote') }
+                        />
+                        )
+                      }
                     </List>
                   </Dropzone>
                   {
@@ -224,7 +242,8 @@ const mapDispatchToProps = (dispatch) => ({
   changeTab: (index) => dispatch(changeTabIndex(index)),
   editCampaignField: (field, value) => dispatch(editCampaignField(field, value)),
   saveCampaign: () => dispatch(saveCampaignRequest()),
-  uploadImage: (campaign, payload) => dispatch(campaignImageRequest(campaign._id, payload))
+  uploadAnimation: (campaign, payload) => dispatch(campaignImageRequest(campaign._id, payload)),
+  deleteAnimation: (campaign) => dispatch(campaignImageDeleteRequest(campaign._id))
 });
 
 export default translate()(connect(mapStatesToProps, mapDispatchToProps)(CreatePush));
