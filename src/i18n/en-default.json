@@ -55,7 +55,7 @@
     "congratulations": "Congratulations",
     "createCampaign": "Create a campaign",
     "registerAnotherApp": "Register Another App",
-    "congratsMessage": "Your App has been successfully registered. Now you'red ready for your first {{applicationName}} campaign"
+    "congratsMessage": "Your App has been successfully registered. Now you're ready for your first {{applicationName}} campaign"
   },
   "campaigns": {
     "list": {
