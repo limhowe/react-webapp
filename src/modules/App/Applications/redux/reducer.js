@@ -17,7 +17,10 @@ import {
   APP_INIT_NEW,
   APP_READ_REQUEST,
   APP_READ_SUCCESS,
-  APP_READ_ERROR
+  APP_READ_ERROR,
+  APP_IMAGE_UPLOAD_REQUEST,
+  APP_IMAGE_UPLOAD_SUCCESS,
+  APP_IMAGE_UPLOAD_ERROR
 } from './actions';
 
 export const initialState = {
@@ -71,10 +74,27 @@ export default handleActions({
   [APP_CREATE_SUCCESS]: (state) => ({ ...state, saving: false, step: state.step + 1, dirty: false }),
   [APP_CREATE_ERROR]: (state) => ({ ...state, saving: false }),
   [APP_UPDATE_REQUEST]: (state) => ({ ...state, saving: true }),
-  [APP_UPDATE_SUCCESS]: (state) => ({ ...state, saving: false, step: state.step + 1, dirty: false }),
+  [APP_UPDATE_SUCCESS]: (state, { payload }) => ({
+    ...state,
+    saving: false,
+    step: state.step + 1,
+    dirty: false,
+    currentApp: state.currentApp._id === payload._id ? Object.assign({}, payload) : state.currentApp
+  }),
   [APP_UPDATE_ERROR]: (state) => ({ ...state, saving: false }),
   [APP_SAVE_ACTIVE_APP]: (state) => state,
   [APP_READ_REQUEST]: (state) => ({ ...state, loading: true }),
   [APP_READ_SUCCESS]: (state) => ({ ...state, loading: false }),
-  [APP_READ_ERROR]: (state) => ({ ...state, loading: false })
+  [APP_READ_ERROR]: (state) => ({ ...state, loading: false }),
+  [APP_IMAGE_UPLOAD_REQUEST]: (state) => ({ ...state, imgUploading: true }),
+  [APP_IMAGE_UPLOAD_SUCCESS]: (state, { payload }) => ({
+    ...state,
+    imgUploading: false,
+    dirty: true,
+    activeApp: {
+      ...state.activeApp,
+      image: payload.image
+    }
+  }),
+  [APP_IMAGE_UPLOAD_ERROR]: (state) => ({ ...state, imgUploading: false })
 }, initialState);

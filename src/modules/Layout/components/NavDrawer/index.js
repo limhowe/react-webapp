@@ -5,7 +5,9 @@ import { translate } from 'react-i18next';
 
 import { hideNavDrawer, setPath } from '../../redux/actions';
 import ListItem from './ListItem';
+import AppSelect from './AppSelect';
 import { appListRequest } from '../../../App/Applications/redux/actions';
+import theme from './styles/NavDrawer.scss';
 
 export class SideBar extends Component {
   static displayName = 'NavDrawer';
@@ -34,8 +36,9 @@ export class SideBar extends Component {
     const { active, hide, t } = this.props;
 
     return (
-      <NavDrawer permanentAt="md" active={ active } onOverlayClick={ hide }>
+      <NavDrawer permanentAt="md" active={ active } onOverlayClick={ hide } theme={ theme }>
         <div>
+          <AppSelect />
           <ListItem href="/app/home" caption={ t('layout.navbar.dashboard') } icon="home" />
           <ListItem href="/app/campaigns" caption={ t('layout.navbar.campaigns') } icon="alarm" />
           <ListItem href="/app/audience" caption={ t('layout.navbar.audience') } icon="people" />

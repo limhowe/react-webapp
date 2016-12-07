@@ -18,7 +18,9 @@
       "company": "Company",
       "blog": "Blog",
       "login": "Login",
-      "logout": "Logout"
+      "logout": "Logout",
+      "hello": "Hello",
+      "helpAndDocumentation": "Help & Documentation"
     },
     "navbar": {
       "dashboard": "Dashboard",
@@ -38,6 +40,9 @@
     "addYourApp": "Add Your App",
     "nextRegisterYourApp": "Next: Register Your App",
     "appName": "App Name",
+    "appIcon": "App Icon",
+    "iconTooltip": "This icon will be used for application",
+    "uploadAnotherIcon": "Upload Another Icon",
     "packageName": "Package Name",
     "registerYourApp": "Register your App with {{applicationName}}",
     "dpAPIKey": "DP API Key",
