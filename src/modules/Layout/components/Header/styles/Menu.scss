@@ -1,0 +1,15 @@
+.menu {
+  &.topRight {
+    top: 50px;
+    right: 60px;
+  }
+}
+
+.menuInner {
+  padding: $unit / 2 0;
+  margin: 0;
+}
+
+.caption {
+  font-size: $small-font-size;
+}

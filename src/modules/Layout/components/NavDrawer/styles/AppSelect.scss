@@ -1,0 +1,18 @@
+.appSelect {
+  margin-top: $unit * 2;
+  margin-bottom: $unit * 2;
+}
+
+.selectedAppIconWrapper {
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  &.active {
+    background-color: $gray-lightest;
+  }
+}

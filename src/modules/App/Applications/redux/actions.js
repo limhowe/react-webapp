@@ -108,3 +108,17 @@ export const appReadRequest = createAction(APP_READ_REQUEST, (id) => {
     });
   };
 });
+
+export const APP_IMAGE_UPLOAD_REQUEST = 'application/image-upload/request';
+export const APP_IMAGE_UPLOAD_SUCCESS = 'application/mage-upload/success';
+export const APP_IMAGE_UPLOAD_ERROR = 'application/mage-upload/error';
+
+export const appImageUpload = createAction(APP_IMAGE_UPLOAD_REQUEST, (formData) => {
+  return (dispatch, getState) => {
+    const appService = new ApplicationService(dispatch, getState());
+    return appService.uploadImage(formData, {
+      SUCCESS: APP_IMAGE_UPLOAD_SUCCESS,
+      ERROR: APP_IMAGE_UPLOAD_ERROR
+    });
+  };
+});

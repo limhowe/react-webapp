@@ -23,7 +23,8 @@ const getConfigs = () => {
 
   const json = JSON.stringify({
     API_URL: process.env.API_URL,
-    APP_NAME: process.env.APP_NAME
+    APP_NAME: process.env.APP_NAME,
+    DEFAULT_ICON: process.env.DEFAULT_ICON
   });
   return `window.__APP_CONFIG__=${ json }`;
 };

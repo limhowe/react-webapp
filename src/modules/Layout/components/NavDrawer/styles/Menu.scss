@@ -1,0 +1,20 @@
+.menu {
+  &.topLeft {
+    left: 20px;
+  }
+}
+
+.menuInner {
+  padding: $unit 0;
+  margin: 0;
+}
+
+.menuItem {
+  .icon {
+    width: 70px;
+  }
+}
+
+.caption {
+  font-size: $small-font-size;
+}

@@ -15,7 +15,9 @@
     margin-top: $unit;
     margin-bottom: $unit;
     cursor: pointer;
-    color: $gray-dark;
+    color: $gray-normal;
+    padding-bottom: $unit;
+    border-bottom: 1px solid #ccc;
 
     .icon {
       font-size: 30px;
@@ -36,6 +38,9 @@
     .listItem {
       margin-top: $unit / 2;
       margin-bottom:  $unit / 2;
+      padding-top: 0;
+      padding-bottom: 0;
+      border-bottom-color: transparent;
     }
   }
 
@@ -44,6 +49,7 @@
 
     .listItem {
       color: $blue-dark;
+      border-bottom-color: transparent;
     }
 
     .children {

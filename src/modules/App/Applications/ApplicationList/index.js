@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { translate } from 'react-i18next';
 import { IconButton, Button } from 'react-toolbox';
+
 import Table from '../../../../components/Table';
+import AppIcon from '../../../../components/AppIcon';
 import { appListRequest } from '../redux/actions';
 
 export class ApplicationList extends Component {
@@ -24,6 +26,7 @@ export class ApplicationList extends Component {
   render() {
     const { applications, loading } = this.props;
     const model = {
+      image: { title: 'Icon' },
       appName: { title: 'Application Name' },
       packageName: { title: 'Package' },
       actions: { title: 'Actions' }
@@ -31,6 +34,9 @@ export class ApplicationList extends Component {
 
     const extendedApps = applications.map((app) => ({
       ...app,
+      image: (
+        <AppIcon image={ app.image } />
+      ),
       actions: (
         <span>
           <IconButton icon="edit" onClick={ () => this.props.editApp(app._id) } />
