@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import styles from './styles.scss';
 import { editCampaignField, saveCampaignRequest } from '../../redux/actions';
+import { showNotification } from '../../../../Layout/redux/actions';
 
 const TooltipIconButton = new Tooltip(IconButton);
 
@@ -18,7 +19,8 @@ export class BasicInfo extends Component {
     t: Function,
     campaign: Object,
     saveCampaign: Function,
-    editCampaignField: Function
+    editCampaignField: Function,
+    showNotification: Function
   }
 
   editField = (field) => (...args) => this.props.editCampaignField(field, ...args);
@@ -89,8 +91,23 @@ export class BasicInfo extends Component {
     this.props.editCampaignField({ platform });
   };
 
+  createCampaign = () => {
+    if (!this.props.campaign.platform || this.props.campaign.platform.length === 0) {
+      this.props.showNotification('error', `Please choose at least one platform.`);
+      return;
+    }
+    for (let i = 0; i < this.props.campaign.platform.length; i++) {
+      if (this.props.campaign.platform[i].displayType.length === 0) {
+        this.props.showNotification('error', `Please choose one or more display type for ${ this.props.campaign.platform[i].name.toUpperCase() }.`);
+        return;
+      }
+    }
+
+    this.props.saveCampaign();
+  }
+
   render() {
-    const { t, campaign, saveCampaign } = this.props;
+    const { t, campaign } = this.props;
     return (
       <div>
         <h3 className="tab-heading">{ t('campaigns.create.start.heading') }</h3>
@@ -237,7 +254,7 @@ export class BasicInfo extends Component {
           }
         </div>
         <div className="form-buttons">
-          <Button onClick={ saveCampaign } label={ t('campaigns.create.start.next') } raised primary />
+          <Button onClick={ this.createCampaign.bind(this) } label={ t('campaigns.create.start.next') } raised primary />
         </div>
       </div>
     );
@@ -248,7 +265,8 @@ const mapStatesToProps = ({ campaign: { campaign } }) => ({ campaign });
 
 const mapDispatchToProps = (dispatch) => ({
   editCampaignField: (field, value) => dispatch(editCampaignField(field, value)),
-  saveCampaign: () => dispatch(saveCampaignRequest())
+  saveCampaign: () => dispatch(saveCampaignRequest()),
+  showNotification: (...args) => dispatch(showNotification(...args))
 });
 
 export default translate()(connect(mapStatesToProps, mapDispatchToProps)(BasicInfo));

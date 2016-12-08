@@ -23,7 +23,6 @@ export class CreatePush extends Component {
     changeTab: Function,
     editCampaignField: Function,
     uploadAnimation: Function,
-    deleteAnimation: Function,
     saveCampaign: Function
   }
 
