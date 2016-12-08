@@ -249,8 +249,6 @@ const mapStatesToProps = ({ campaign: { campaign } }) => ({ campaign });
 const mapDispatchToProps = (dispatch) => ({
   editCampaignField: (field, value) => dispatch(editCampaignField(field, value)),
   saveCampaign: () => dispatch(saveCampaignRequest())
-  // create: (payload) => dispatch(campaignCreateRequest(payload)),
-  // update: (campaign, payload) => dispatch(campaignUpdateRequest(campaign._id, payload))
 });
 
 export default translate()(connect(mapStatesToProps, mapDispatchToProps)(BasicInfo));

@@ -4,6 +4,7 @@ import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 
 import { changeTabIndex, editCampaignField, editCampaignScheduleField, editCampaignDeliveryActionField, campaignScheduleRequest, saveCampaignRequest } from '../../redux/actions';
+import { showNotification } from '../../../../Layout/redux/actions';
 
 export class ScheduleDelivery extends Component {
   displayName: 'ScheduleDelivery'
@@ -39,7 +40,8 @@ export class ScheduleDelivery extends Component {
     editDeliveryActionField: Function,
     schedule: Function,
     cancelSchedule: Function,
-    saveCampaign: Function
+    saveCampaign: Function,
+    showNotification: Function
   }
 
   sendDPScheduleOptions = [
@@ -131,6 +133,13 @@ export class ScheduleDelivery extends Component {
         expiresDate.setDate(expiresDate.getDate() + 1);
         payload.expiresAt = expiresDate.toISOString();
       } else {
+        if (!this.state.scheduleDate || !this.state.scheduleTime) {
+          this.props.showNotification('error', `Please enter the scheduled date and time.`);
+          return;
+        } else if (!this.state.expirationDate || !this.state.expirationTime) {
+          this.props.showNotification('error', `Please enter the expiry date and time.`);
+          return;
+        }
         const sendDate = this.state.scheduleDate;
         const sendTime = this.state.scheduleTime;
         const scheduleDateTime = new Date(Date.UTC(sendDate.getFullYear(), sendDate.getMonth(), sendDate.getDate(), sendTime.getHours(), sendTime.getMinutes())).toISOString();
@@ -342,7 +351,8 @@ const mapDispatchToProps = (dispatch) => ({
   editDeliveryActionField: (field, value) => dispatch(editCampaignDeliveryActionField(field, value)),
   schedule: (campaign, payload) => dispatch(campaignScheduleRequest(campaign._id, payload)),
   cancelSchedule: (campaign) => dispatch(campaignScheduleRequest(campaign._id)),
-  saveCampaign: () => dispatch(saveCampaignRequest())
+  saveCampaign: () => dispatch(saveCampaignRequest()),
+  showNotification: (...args) => dispatch(showNotification(...args))
 });
 
 export default translate()(connect(mapStatesToProps, mapDispatchToProps)(ScheduleDelivery));
