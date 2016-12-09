@@ -20,6 +20,7 @@ export class CustomListItem extends Component {
     name: string,
     icon: string,
     caption: string,
+    collapsed: bool,
     children: any
   }
 
@@ -39,9 +40,10 @@ export class CustomListItem extends Component {
   }
 
   render() {
-    const { pathname, href, expanded, children, icon, caption } = this.props;
+    const { pathname, href, expanded, children, icon, caption, collapsed } = this.props;
     const className = cn(styles.listItemWrapper, {
-      [styles.active]: (href === pathname) || expanded
+      [styles.active]: (href === pathname) || expanded,
+      [styles.collapsed]: collapsed
     });
     return (
       <div className={ className }>
@@ -58,8 +60,9 @@ export class CustomListItem extends Component {
   }
 }
 
-const mapStatesToProps = ({ layout: { expandItem, pathname } }, { name }) => ({
+const mapStatesToProps = ({ layout: { expandItem, pathname, navDrawerActive } }, { name }) => ({
   pathname,
+  collapsed: !navDrawerActive,
   expanded: name && expandItem === name
 });
 

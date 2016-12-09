@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Table, ProgressBar } from 'react-toolbox';
+import theme from './styles.scss';
 
 export default class CustomTable extends Component {
   displayName: 'Table'
@@ -38,7 +39,7 @@ export default class CustomTable extends Component {
     const { source, loading } = this.state;
     return (
       <div>
-        <Table { ...props } model={ model } source={ source } />
+        <Table { ...props } model={ model } source={ source } theme={ theme } />
         { loading ? <ProgressBar className="u-display-block" mode="indeterminate" multicolor /> : null }
       </div>
     );

@@ -21,7 +21,8 @@ export class AppSelect extends Component {
     goAppList: Function
   }
 
-  toggleMenu = () => {
+  toggleMenu = (evt) => {
+    evt.stopPropagation();
     this.setState({ menuActive: !this.state.menuActive });
   }
 

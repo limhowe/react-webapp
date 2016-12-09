@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { AppBar, Navigation, FontIcon, Menu, MenuItem, MenuDivider } from 'react-toolbox';
+import { AppBar, Navigation, FontIcon, Menu, MenuItem, IconButton } from 'react-toolbox';
 import { Link } from 'react-router';
 import { translate } from 'react-i18next';
 import { push } from 'react-router-redux';
@@ -52,7 +52,11 @@ export class Header extends Component {
     const isLoggedIn = user && user.token;
 
     return (
-      <AppBar theme={ appBarTheme } title={ t('shared.applicationName') } leftIcon="menu" onLeftIconClick={ toggle }>
+      <AppBar theme={ appBarTheme }>
+        <div className={ appBarTheme.logoContainer }>
+          <Link to="/app/home"><img src={ __APP_CONFIG__.LOGO_URL } className={ appBarTheme.logo } /></Link>
+          <IconButton icon="menu" onClick={ toggle } className={ appBarTheme.menuNav } />
+        </div>
         {
           isLoggedIn ? this.renderUserMenu() :
           (<Navigation horizontal>

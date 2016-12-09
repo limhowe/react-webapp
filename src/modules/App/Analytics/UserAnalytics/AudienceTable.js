@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
+import moment from 'moment';
 import Table from '../../../../components/Table';
 import { getAudiences, getMoreAudiences, getAudienceCount } from '../redux/actions';
 
@@ -41,17 +42,24 @@ export class AudienceTable extends Component {
     const { audiences, loading, audienceCounts, segmentId } = this.props;
     const audienceMapped = audiences.map((u) => ({
       ...u.userDevice,
-      ...u
+      ...u,
+      created: moment(u.created).format('YYYY-MM-DD HH:mm:ss'),
+      lastUsed: moment(u.userDevice.created).format('YYYY-MM-DD HH:mm:ss')
     }));
 
     const model = {
       name: { title: 'Name' },
       email: { title: 'Email' },
-      pushNotificationEnabled: { title: 'Push Enabled' },
       gender: { title: 'Gender' },
+      language: { title: 'Lang' },
+      country: { title: 'Country' },
+      city: { title: 'City' },
       devicePlatform: { title: 'Platform' },
       deviceVendor: { title: 'Vendor' },
-      deviceModel: { title: 'Model' }
+      deviceModel: { title: 'Model' },
+      pushNotificationEnabled: { title: 'Push Enabled' },
+      created: { title: 'Created' },
+      lastUsed: { title: 'Last Used' }
     };
 
     const count = audienceCounts[segmentId || 'all'];

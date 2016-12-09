@@ -62,3 +62,19 @@
     }
   }
 }
+
+.collapsed {
+  .text {
+    display: none;
+  }
+
+  .children {
+    .text {
+      display: inline;
+    }
+  }
+
+  .listItem {
+    margin-bottom: 0!important;
+  }
+}

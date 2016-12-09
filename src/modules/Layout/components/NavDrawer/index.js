@@ -33,10 +33,10 @@ export class SideBar extends Component {
   };
 
   render() {
-    const { active, hide, t } = this.props;
+    const { active, t } = this.props;
 
     return (
-      <NavDrawer permanentAt="md" active={ active } onOverlayClick={ hide } theme={ theme }>
+      <NavDrawer permanentAt="md" width={ active ? 'wide' : 'normal' } active={ active } theme={ theme }>
         <div>
           <AppSelect />
           <ListItem href="/app/home" caption={ t('layout.navbar.dashboard') } icon="home" />

@@ -26,7 +26,8 @@ const getConfigs = () => {
     APP_NAME: process.env.APP_NAME,
     DEFAULT_ICON: process.env.DEFAULT_ICON,
     DASHBOARD_USER_NEW_DAY: process.env.DASHBOARD_USER_NEW_DAY,
-    DASHBOARD_USER_ACTIVE_DAY: process.env.DASHBOARD_USER_ACTIVE_DAY
+    DASHBOARD_USER_ACTIVE_DAY: process.env.DASHBOARD_USER_ACTIVE_DAY,
+    LOGO_URL: process.env.LOGO_URL
   });
   return `window.__APP_CONFIG__=${ json }`;
 };

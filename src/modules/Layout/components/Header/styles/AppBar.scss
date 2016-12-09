@@ -1,8 +1,24 @@
 .appBar {
+  height: 80px;
+
   a {
     text-decoration: none;
-    margin-right: $unit * 4;
+    margin-right: $unit * 2;
     font-size: $small-font-size;
     cursor: pointer;
   }
+  justify-content: space-between;
+}
+
+.logoContainer {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.menuNav {
+  align-self: center;
+  color: $white!important;
+  display: block;
 }
