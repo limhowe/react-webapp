@@ -1,0 +1,24 @@
+.campaignProgress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.progressBar {
+  display: flex;
+  align-items: left;
+  justify-content: center;
+  flex-direction: column;
+  width: 70%;
+  padding-right: $unit;
+  padding-bottom: $unit;
+}
+
+.actions {
+  width: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}

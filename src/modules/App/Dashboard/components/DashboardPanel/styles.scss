@@ -1,0 +1,10 @@
+.dashboardPanel {
+  padding: $unit;
+  border: 1px solid $gray-lightest;
+
+  h3 {
+    margin-top: 0;
+    font-size: $xlarge-font-size * 1.1;
+    font-weight: 300;
+  }
+}

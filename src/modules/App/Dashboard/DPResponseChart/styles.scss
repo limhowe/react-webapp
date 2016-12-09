@@ -1,0 +1,42 @@
+.responseChart {
+  padding: $unit $unit * 3 $unit * 3;
+
+  h3 {
+    margin-bottom: 0;
+  }
+
+  .chartHeading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+
+    .recurrence {
+      width: 170px;
+    }
+  }
+
+  .chartDetail {
+    display: flex;
+    align-items: flex-start;
+    justify-content: left;
+    flex-direction: row;
+
+    .chartDetailItem {
+      margin-right: $unit * 2;
+    }
+
+    .label {
+      font-size: $medium-font-size;
+      margin-right: $unit;
+    }
+
+    .value {
+      font-size: $xlarge-font-size;
+    }
+  }
+
+  .lineChart {
+    margin: $unit * 4 0 0;
+  }
+}

@@ -29,20 +29,25 @@ import {
 export const initialState = {
   campaigns: [],
   error: '',
-  tabIndex: 0
+  tabIndex: 0,
+  listLoading: false,
+  loading: false
 };
 
 export default handleActions({
   [CAMPAIGNS_LIST_REQUEST]: (state) => ({
     ...state,
+    listLoading: true,
     error: ''
   }),
   [CAMPAIGNS_LIST_SUCCESS]: (state, action) => ({
     ...state,
+    listLoading: false,
     campaigns: action.payload
   }),
   [CAMPAIGNS_LIST_ERROR]: (state, action) => ({
     ...state,
+    listLoading: false,
     error: action.payload
   }),
   [CAMPAIGN_CREATE_REQUEST]: (state) => ({
