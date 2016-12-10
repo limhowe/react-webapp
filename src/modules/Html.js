@@ -41,7 +41,7 @@ const Html = (props: Object) => {
         { helmet && helmet.title.toComponent() }
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet" />
         {
           Object.keys(styles).map(key => (
             <link key={ key } rel="stylesheet" href={ styles[key] } />

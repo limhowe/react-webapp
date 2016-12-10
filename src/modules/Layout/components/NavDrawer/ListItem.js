@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { FontIcon } from 'react-toolbox';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import cn from 'classnames';
@@ -45,10 +44,11 @@ export class CustomListItem extends Component {
       [styles.active]: (href === pathname) || expanded,
       [styles.collapsed]: collapsed
     });
+    const iconClassName = cn(styles.icon, 'fa', `fa-${ icon }`);
     return (
       <div className={ className }>
         <div className={ styles.listItem } onClick={ this.onClick }>
-          <FontIcon value={ icon } className={  styles.icon } />
+          <i className={ iconClassName } />
           <span className={ styles.text }>{ caption }</span>
         </div>
 

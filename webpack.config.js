@@ -62,6 +62,9 @@ if (__DEV__) {
         }, {
           test: /\.json$/,
           loader: 'json-loader'
+        }, {
+          test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)(\?.*$|$)/,
+          loader: 'file-loader'
         }
       ]
     },
@@ -137,6 +140,9 @@ if (__PROD__) {
         }, {
           test: /\.json$/,
           loader: 'json-loader'
+        }, {
+          test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)(\?.*$|$)/,
+          loader: 'file-loader'
         }
       ]
     },

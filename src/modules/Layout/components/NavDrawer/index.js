@@ -39,17 +39,17 @@ export class SideBar extends Component {
       <NavDrawer permanentAt="md" width={ active ? 'wide' : 'normal' } active={ active } theme={ theme }>
         <div>
           <AppSelect />
-          <ListItem href="/app/home" caption={ t('layout.navbar.dashboard') } icon="home" />
-          <ListItem href="/app/campaigns" caption={ t('layout.navbar.campaigns') } icon="alarm" />
-          <ListItem href="/app/audience" caption={ t('layout.navbar.audience') } icon="people" />
-          <ListItem href="/app/reports" caption={ t('layout.navbar.reports') } icon="insert_drive_file" />
-          <ListItem href="/app/analytics/users" name="analytics" caption={ t('layout.navbar.analytics') } icon="trending_up">
+          <ListItem href="/app/home" caption={ t('layout.navbar.dashboard') } icon="dashboard" />
+          <ListItem href="/app/campaigns" caption={ t('layout.navbar.campaigns') } icon="bullhorn" />
+          <ListItem href="/app/audience" caption={ t('layout.navbar.audience') } icon="users" />
+          {/* <ListItem href="/app/reports" caption={ t('layout.navbar.reports') } icon="insert_drive_file" /> */}
+          <ListItem href="/app/analytics/users" name="analytics" caption={ t('layout.navbar.analytics') } icon="file-text">
             <ListItem href="/app/analytics/users" caption={ t('layout.navbar.users') } />
             <ListItem href="/app/analytics/devices" caption={ t('layout.navbar.devices') } />
             <ListItem href="/app/analytics/events" caption={ t('layout.navbar.events') } />
           </ListItem>
-          <ListItem href="/app/revenue" caption={ t('layout.navbar.revenueGoals') } icon="attach_money" />
-          <ListItem href="/app/settings" caption={ t('layout.navbar.settings') } icon="settings" />
+          {/* <ListItem href="/app/revenue" caption={ t('layout.navbar.revenueGoals') } icon="attach_money" /> */}
+          <ListItem href="/app/settings" caption={ t('layout.navbar.settings') } icon="cog" />
         </div>
       </NavDrawer>
     );

@@ -35,6 +35,8 @@
     "classnames": "^2.2.5",
     "country-data": "0.0.31",
     "dotenv": "^2.0.0",
+    "file-loader": "^0.9.0",
+    "font-awesome": "^4.7.0",
     "highcharts": "^5.0.6",
     "i18next": "~3.4.4",
     "immutability-helper": "^2.0.0",
