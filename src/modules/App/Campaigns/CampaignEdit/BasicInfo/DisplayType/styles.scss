@@ -1,0 +1,35 @@
+.options {
+  display: flex;
+  flex-direction: column;
+  padding: $unit * 2;
+  border: 1px solid $gray-lightest;
+
+  &.hidden {
+    display: none;
+  }
+}
+
+.radioGroup {
+  display: flex;
+  flex-direction: row;
+  margin-left: $unit * 0.5;
+}
+
+.checkboxGroup {
+  display: flex;
+  flex-direction: row;
+}
+
+.tooltip {
+  margin-right: $unit;
+  background: transparent;
+}
+
+.tooltipInner {
+  background: transparent;
+}
+
+.field {
+  margin-bottom: 0;
+  margin-top: $unit;
+}

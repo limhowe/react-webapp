@@ -4,6 +4,7 @@ import { Button, Dialog, IconButton, Tooltip } from 'react-toolbox/lib';
 import { push } from 'react-router-redux';
 import { Tab, Tabs } from 'react-toolbox';
 import { translate } from 'react-i18next';
+import moment from 'moment';
 
 import styles from '../theme/styles.scss';
 
@@ -137,6 +138,7 @@ export class Campaigns extends Component {
                 <th>Message</th>
                 <th>Tags</th>
                 <th>Created</th>
+                <th>State</th>
                 <th>&nbsp;</th>
               </tr>
             </thead>
@@ -154,7 +156,8 @@ export class Campaigns extends Component {
                     <td>{ campaign.title }</td>
                     <td>{ campaign.message }</td>
                     <td>{ campaign.tags.join(', ') }</td>
-                    <td>{ campaign.created }</td>
+                    <td>{ moment(campaign.created).format('MM/DD/YYYY HH:mm:ss') }</td>
+                    <td>{ campaign.status }</td>
                     <td className="text-right actions">
                       {
                         campaign.status === 'ACTIVE' || campaign.status === 'COMPLETED' ? (

@@ -1,4 +1,5 @@
 import { handleActions } from 'redux-actions';
+import _ from 'lodash';
 import {
   CAMPAIGNS_LIST_REQUEST,
   CAMPAIGNS_LIST_SUCCESS,
@@ -23,7 +24,9 @@ import {
   CAMPAIGN_EDIT_SCHEDULE_FIELD,
   CAMPAIGN_EDIT_DELIVERY_ACTION_FIELD,
   CAMPAIGN_CHANGE_TAB_INDEX,
-  CAMPAIGN_SAVE
+  CAMPAIGN_SAVE,
+  CAMPAIGN_ADD_PLATFORM,
+  CAMPAIGN_REMOVE_PLATFORM
 } from './actions';
 
 export const initialState = {
@@ -157,5 +160,43 @@ export default handleActions({
     ...state,
     loading: false
   }),
-  [CAMPAIGN_SAVE]: (state) => state
+  [CAMPAIGN_SAVE]: (state) => state,
+  [CAMPAIGN_ADD_PLATFORM]: (state, { payload: { platform, displayType } }) => {
+    const campaignPlatform = state.campaign.platform;
+    const index = _.findIndex(campaignPlatform, { name: platform });
+    let newDisplayTypeData = [];
+    if (index === -1) {
+      newDisplayTypeData = [...campaignPlatform, { name: platform, displayType }];
+    } else {
+      campaignPlatform.splice(index, 1);
+      newDisplayTypeData = [...campaignPlatform, { name: platform, displayType }];
+    }
+
+    return {
+      ...state,
+      campaign: {
+        ...state.campaign,
+        platform: newDisplayTypeData
+      }
+    };
+  },
+  [CAMPAIGN_REMOVE_PLATFORM]: (state, { payload: { platform } }) => {
+    const campaignPlatform = state.campaign.platform;
+    const index = _.findIndex(campaignPlatform, { name: platform });
+    let newDisplayTypeData = [];
+    if (index === -1) {
+      newDisplayTypeData = [...campaignPlatform];
+    } else {
+      campaignPlatform.splice(index, 1);
+      newDisplayTypeData = [...campaignPlatform];
+    }
+
+    return {
+      ...state,
+      campaign: {
+        ...state.campaign,
+        platform: newDisplayTypeData
+      }
+    };
+  }
 }, initialState);

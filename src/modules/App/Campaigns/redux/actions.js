@@ -158,7 +158,7 @@ export const CAMPAIGN_INIT_NEW = 'campaign/init/new';
 export const initNew = createAction(CAMPAIGN_INIT_NEW, () => {
   return {
     title: '',
-    tags: ['tag1', 'tag2'],
+    tags: [],
     platform: [{
       name: 'android',
       displayType: ['dpi']
@@ -187,3 +187,9 @@ export const saveCampaignRequest = createAction(CAMPAIGN_SAVE, () => {
     }
   };
 });
+
+export const CAMPAIGN_ADD_PLATFORM = 'campaign/edit/add-platform';
+export const CAMPAIGN_REMOVE_PLATFORM = 'campaign/edit/remove-platform';
+
+export const addPlatform = createAction(CAMPAIGN_ADD_PLATFORM, (platform, displayType) => ({ platform, displayType }));
+export const removePlatform = createAction(CAMPAIGN_REMOVE_PLATFORM, (platform) => ({ platform }));

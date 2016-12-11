@@ -43,8 +43,8 @@ export class AudienceTable extends Component {
     const audienceMapped = audiences.map((u) => ({
       ...u.userDevice,
       ...u,
-      created: moment(u.created).format('YYYY-MM-DD HH:mm:ss'),
-      lastUsed: moment(u.userDevice.created).format('YYYY-MM-DD HH:mm:ss')
+      created: moment(u.created).format('MM/DD/YYYY HH:mm:ss'),
+      lastUsed: moment(u.userDevice.created).format('MM/DD/YYYY HH:mm:ss')
     }));
 
     const model = {

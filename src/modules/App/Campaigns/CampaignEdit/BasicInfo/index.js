@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import { Button, CardActions, Checkbox, Chip, IconButton, Input, Tooltip } from 'react-toolbox/lib';
+import { Button, CardActions, Chip, Input } from 'react-toolbox/lib';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 
-import styles from './styles.scss';
 import { editCampaignField, saveCampaignRequest } from '../../redux/actions';
 import { showNotification } from '../../../../Layout/redux/actions';
 
-const TooltipIconButton = new Tooltip(IconButton);
+import DisplayType from './DisplayType';
 
 export class BasicInfo extends Component {
   displayName: 'BasicInfo'
@@ -38,58 +37,16 @@ export class BasicInfo extends Component {
   handleNewTag = () => {
     const { newtag } = this.state;
     const { tags } = this.props.campaign;
-    if (newtag === '') {
-      return;
-    } else {
+    if (newtag) {
       tags.push(newtag);
       this.props.editCampaignField('tags', tags);
+      this.setState({ newtag: '' });
     }
-    this.setState({ newtag: '' });
   };
 
-  findPlatform = (p) => {
-    const { platform } = this.props.campaign;
-    return platform.findIndex((elem) => {
-      return elem.name.toUpperCase() === p.toUpperCase();
-    });
-  }
-
-  togglePlatform = (p) => {
-    const { platform } = this.props.campaign;
-    const index = this.findPlatform(p);
-    if (index >= 0) {
-      platform.splice(index, 1);
-    } else {
-      platform.push({
-        name: p,
-        displayType: []
-      });
-    }
+  onChangeDisplayType = (platform) => {
     this.props.editCampaignField({ platform });
   }
-
-  findDisplayType = (p, type) => {
-    const index = this.findPlatform(p);
-    if (index < 0) {
-      return -1;
-    }
-    const platform = this.props.campaign.platform[index];
-    return platform.displayType.findIndex((d) => {
-      return d === type;
-    });
-  };
-
-  toggleDisplayType = (p, type) => {
-    const platform = this.props.campaign.platform[this.findPlatform(p)];
-    const typeIndex = this.findDisplayType(p, type);
-    if (typeIndex >= 0) {
-      platform.displayType.splice(typeIndex, 1);
-    }
-    if (typeIndex < 0) {
-      platform.displayType.push(type);
-    }
-    this.props.editCampaignField({ platform });
-  };
 
   createCampaign = () => {
     if (!this.props.campaign.platform || this.props.campaign.platform.length === 0) {
@@ -134,124 +91,10 @@ export class BasicInfo extends Component {
           </div>
         </div>
         <div className="form-field">
-          <div>
-            <Checkbox
-              checked={ this.findPlatform('android') >= 0 }
-              label={ t('campaigns.create.start.android') }
-              onChange={ this.togglePlatform.bind(this, 'Android') }
-              className="check-platform"
-              theme={ styles }
-            />
-          </div>
-          {
-            this.findPlatform('android') >= 0 ? (
-              <div className="platform-displayTypes">
-                <Checkbox
-                  checked={ this.findDisplayType('android', 'dpi') >= 0 }
-                  label="DPI"
-                  onChange={ this.toggleDisplayType.bind(this, 'android', 'dpi') }
-                  theme={ styles }
-                />
-                <TooltipIconButton
-                  icon="help_outline"
-                  primary
-                  tooltip={ <img className="img-tooltip" src="http://live.dynamicpush.com/assets/cell.jpg" /> }
-                  theme={ styles }
-                />
-                <Checkbox
-                  checked={ this.findDisplayType('android', 'nova') >= 0 }
-                  label="Nova"
-                  onChange={ this.toggleDisplayType.bind(this, 'android', 'nova') }
-                  theme={ styles }
-                />
-                <TooltipIconButton
-                  icon="help_outline"
-                  primary
-                  tooltip={ <img className="img-tooltip" src="http://live.dynamicpush.com/assets/cell.jpg" /> }
-                  theme={ styles }
-                />
-                <Checkbox
-                  checked={ this.findDisplayType('android', 'supernova') >= 0 }
-                  label="Super Nova"
-                  onChange={ this.toggleDisplayType.bind(this, 'android', 'supernova') }
-                  className="displayType"
-                  theme={ styles }
-                />
-                <TooltipIconButton
-                  icon="help_outline"
-                  primary
-                  tooltip={ <img className="img-tooltip" src="http://live.dynamicpush.com/assets/cell.jpg" /> }
-                  theme={ styles }
-                />
-                <Checkbox
-                  checked={ this.findDisplayType('android', 'meganova') >= 0 }
-                  label="Mega Nova"
-                  onChange={ this.toggleDisplayType.bind(this, 'android', 'meganova') }
-                  className="displayType"
-                  theme={ styles }
-                />
-                <TooltipIconButton
-                  icon="help_outline"
-                  primary
-                  tooltip={ <img className="img-tooltip" src="http://live.dynamicpush.com/assets/cell.jpg" /> }
-                  theme={ styles }
-                />
-              </div>
-            ) : null
-          }
-          <div>
-            <Checkbox
-              checked={ this.findPlatform('ios') >= 0 }
-              label={ t('campaigns.create.start.apple') }
-              onChange={ this.togglePlatform.bind(this, 'ios') }
-              className="check-platform"
-              theme={ styles }
-            />
-          </div>
-          {
-            this.findPlatform('ios') >= 0 ? (
-              <div>
-                <Checkbox
-                  checked={ this.findDisplayType('ios', 'nova') >= 0 }
-                  label="Nova"
-                  onChange={ this.toggleDisplayType.bind(this, 'ios', 'nova') }
-                  theme={ styles }
-                />
-                <TooltipIconButton
-                  icon="help_outline"
-                  primary
-                  tooltip={ <img className="img-tooltip" src="http://live.dynamicpush.com/assets/cell.jpg" /> }
-                  theme={ styles }
-                />
-                <Checkbox
-                  checked={ this.findDisplayType('ios', 'supernova') >= 0 }
-                  label="Super Nova"
-                  onChange={ this.toggleDisplayType.bind(this, 'ios', 'supernova') }
-                  className="displayType"
-                  theme={ styles }
-                />
-                <TooltipIconButton
-                  icon="help_outline"
-                  primary
-                  tooltip={ <img className="img-tooltip" src="http://live.dynamicpush.com/assets/cell.jpg" /> }
-                  theme={ styles }
-                />
-                <Checkbox
-                  checked={ this.findDisplayType('ios', 'meganova') >= 0 }
-                  label="Mega Nova"
-                  onChange={ this.toggleDisplayType.bind(this, 'ios', 'meganova') }
-                  className="displayType"
-                  theme={ styles }
-                />
-                <TooltipIconButton
-                  icon="help_outline"
-                  primary
-                  tooltip={ <img className="img-tooltip" src="http://live.dynamicpush.com/assets/cell.jpg" /> }
-                  theme={ styles }
-                />
-              </div>
-            ) : null
-          }
+          <DisplayType platform="android" onChange={ this.onChangeDisplayType } />
+        </div>
+        <div className="form-field">
+          <DisplayType platform="ios" onChange={ this.onChangeDisplayType } />
         </div>
         <div className="form-buttons">
           <Button onClick={ this.createCampaign.bind(this) } label={ t('campaigns.create.start.next') } raised primary />
