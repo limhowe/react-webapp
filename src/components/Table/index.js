@@ -38,7 +38,7 @@ export default class CustomTable extends Component {
     const { model, ...props } = this.props;
     const { source, loading } = this.state;
     return (
-      <div>
+      <div className={ theme.tableWrapper }>
         <Table { ...props } model={ model } source={ source } theme={ theme } />
         { loading ? <ProgressBar className="u-display-block" mode="indeterminate" multicolor /> : null }
       </div>

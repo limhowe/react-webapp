@@ -50,6 +50,7 @@ export class AudienceTable extends Component {
     const model = {
       name: { title: 'Name' },
       email: { title: 'Email' },
+      phone: { title: 'Phone' },
       gender: { title: 'Gender' },
       language: { title: 'Lang' },
       country: { title: 'Country' },

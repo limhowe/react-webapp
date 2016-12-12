@@ -6,6 +6,7 @@ import { Tab, Tabs } from 'react-toolbox';
 import { translate } from 'react-i18next';
 import moment from 'moment';
 
+import Table from '../../../../components/Table';
 import styles from '../theme/styles.scss';
 
 import { campaignsListRequest, campaignUpdateRequest, campaignDuplicateRequest, campaignDeleteRequest } from '../redux/actions';
@@ -17,16 +18,18 @@ export class Campaigns extends Component {
     tabIndex: 0,
     tableFilter: 'ACTIVE',
     selected: [],
-    source: [],
     deleteConfirmToggle: false
   }
+
   componentWillMount() {
     this.props.loadCampaigns();
   }
+
   props: {
     campaigns: Array<any>,
     t: Function,
     start: Function,
+    listLoading: bool,
     loadCampaigns: Function,
     updateCampaign: Function,
     duplicateCampaign: Function,
@@ -100,7 +103,54 @@ export class Campaigns extends Component {
   ];
 
   render() {
-    const { t, start, editCampaign } = this.props;
+    const { t, start, editCampaign, listLoading } = this.props;
+    const campaigns = this.getCampaigns();
+    const model = {
+      animation: { title: 'Animation' },
+      title: { title: 'Title' },
+      message: { title: 'Message' },
+      tags: { title: 'Tags' },
+      created: { title: 'Created' },
+      status: { title: 'State' },
+      actions: { title: 'Actions' }
+    };
+
+    const source = campaigns.map((campaign) => ({
+      ...campaign,
+      animation: (
+        campaign.animation ? (
+          <img className="table-animation-preview" src={ campaign.animation.url } />
+        ) : null
+      ),
+      tags: campaign.tags.join(', '),
+      created: moment(campaign.created).format('MM/DD/YYYY HH:mm:ss'),
+      actions: (
+        <span>
+          {
+            campaign.status === 'ACTIVE' || campaign.status === 'COMPLETED' ? (
+              <TooltipIconButton icon="remove_red_eye" primary tooltip={ t('campaigns.list.actions.results') } />
+            ) : null
+          }
+          {
+            campaign.status === 'DRAFT' ? (
+              <TooltipIconButton icon="mode_edit" onClick={ () => editCampaign(campaign._id) } primary tooltip={ t('campaigns.list.actions.edit') } />
+            ) : null
+          }
+          {
+            campaign.status === 'PAUSED' ? (
+              <TooltipIconButton icon="play_arrow" onClick={ this.resumeCampaign.bind(this, campaign) } primary tooltip={ t('campaigns.list.actions.resume') } />
+            ) : null
+          }
+          {
+            campaign.status === 'ACTIVE' ? (
+              <TooltipIconButton icon="pause" onClick={ this.pauseCampaign.bind(this, campaign) } primary tooltip={ t('campaigns.list.actions.pause') } />
+            ) : null
+          }
+          <TooltipIconButton icon="content_copy" onClick={ this.duplicateCampaign.bind(this, campaign) } primary tooltip={ t('campaigns.list.actions.duplicate') } />
+          <TooltipIconButton icon="delete" onClick={ this.toggleDeleteConfirmDialog.bind(this, campaign) } primary tooltip={ t('campaigns.list.actions.delete') } />
+        </span>
+      )
+    }));
     return (
       <div className="campaigns_list">
         <div className="page_header">
@@ -123,87 +173,30 @@ export class Campaigns extends Component {
             <Tab label={ t('campaigns.list.all') } />
           </Tabs>
           <p>Total { this.getCampaigns().length } campaigns </p>
-          {/* <Table
-            model={ CampaignModel }
+          <Table
+            model={ model }
             selectable={ false }
-            source={ this.getCampaigns() }
-          /> */}
+            source={ source }
+            loading={ listLoading }
+          />
         </section>
-        <section>
-          <table className="table table-campaigns">
-            <thead>
-              <tr>
-                <th>Animation</th>
-                <th>Title</th>
-                <th>Message</th>
-                <th>Tags</th>
-                <th>Created</th>
-                <th>State</th>
-                <th>&nbsp;</th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                this.getCampaigns().map((campaign, index) => (
-                  <tr key={ index } >
-                    <td>
-                      {
-                        campaign.animation ? (
-                          <img className="animation-preview"  src={ campaign.animation.url } />
-                        ) : null
-                      }
-                    </td>
-                    <td>{ campaign.title }</td>
-                    <td>{ campaign.message }</td>
-                    <td>{ campaign.tags.join(', ') }</td>
-                    <td>{ moment(campaign.created).format('MM/DD/YYYY HH:mm:ss') }</td>
-                    <td>{ campaign.status }</td>
-                    <td className="text-right actions">
-                      {
-                        campaign.status === 'ACTIVE' || campaign.status === 'COMPLETED' ? (
-                          <TooltipIconButton icon="remove_red_eye" primary tooltip={ t('campaigns.list.actions.results') } />
-                        ) : null
-                      }
-                      {
-                        campaign.status === 'DRAFT' ? (
-                          <TooltipIconButton icon="mode_edit" onClick={ () => editCampaign(campaign._id) } primary tooltip={ t('campaigns.list.actions.edit') } />
-                        ) : null
-                      }
-                      {
-                        campaign.status === 'PAUSED' ? (
-                          <TooltipIconButton icon="play_arrow" onClick={ this.resumeCampaign.bind(this, campaign) } primary tooltip={ t('campaigns.list.actions.resume') } />
-                        ) : null
-                      }
-                      {
-                        campaign.status === 'ACTIVE' ? (
-                          <TooltipIconButton icon="pause" onClick={ this.pauseCampaign.bind(this, campaign) } primary tooltip={ t('campaigns.list.actions.pause') } />
-                        ) : null
-                      }
-                      <TooltipIconButton icon="content_copy" onClick={ this.duplicateCampaign.bind(this, campaign) } primary tooltip={ t('campaigns.list.actions.duplicate') } />
-                      <TooltipIconButton icon="delete" onClick={ this.toggleDeleteConfirmDialog.bind(this, campaign) } primary tooltip={ t('campaigns.list.actions.delete') } />
-                    </td>
-                  </tr>
-                ))
-              }
-            </tbody>
-          </table>
-          <Dialog
-            actions={ this.deleteCampaignDialogActions }
-            active={ this.state.deleteConfirmToggle }
-            onEscKeyDown={ this.toggleDeleteConfirmDialog }
-            onOverlayClick={ this.toggleDeleteConfirmDialog }
-            title={ t('campaigns.deleteDialog.title') }
-          >
-            <p>{ t('campaigns.deleteDialog.question') }</p>
-          </Dialog>
-        </section>
+        <Dialog
+          actions={ this.deleteCampaignDialogActions }
+          active={ this.state.deleteConfirmToggle }
+          onEscKeyDown={ this.toggleDeleteConfirmDialog }
+          onOverlayClick={ this.toggleDeleteConfirmDialog }
+          title={ t('campaigns.deleteDialog.title') }
+        >
+          <p>{ t('campaigns.deleteDialog.question') }</p>
+        </Dialog>
       </div>
     );
   }
 }
 
-const mapStatesToProps = ({ campaign: { campaigns } }) => ({
-  campaigns
+const mapStatesToProps = ({ campaign: { campaigns, listLoading } }) => ({
+  campaigns,
+  listLoading
 });
 
 const mapDispatchToProps = (dispatch) => ({

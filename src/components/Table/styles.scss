@@ -3,3 +3,8 @@
     line-height: $unit * 2;
   }
 }
+
+.tableWrapper {
+  width: 100%;
+  overflow-y: auto;
+}

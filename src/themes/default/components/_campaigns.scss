@@ -51,40 +51,16 @@
   max-width: 180px;
 }
 
+.table-animation-preview {
+  max-width: 60px;
+}
+
 .img-dropzone {
   width: 100%;
   // height: 60px;
   text-align: center;
   .animation-preview {
     margin-top: 20px;
-  }
-}
-
-table.table-campaigns {
-  width: 100%;
-  border-collapse: collapse;
-  thead {
-    border-bottom: 2px solid $table-border-header;
-    tr {
-      th {
-        padding: 10px 2px;
-      }
-    }
-  }
-  tbody {
-    tr {
-      border-bottom: 1px solid $table-border-header;
-      td {
-        font-size: 14px;
-        padding: 6px 4px;
-        .animation-preview {
-          max-width: 60px;
-        }
-        &.actions {
-          min-width: 120px;
-        }
-      }
-    }
   }
 }
 
