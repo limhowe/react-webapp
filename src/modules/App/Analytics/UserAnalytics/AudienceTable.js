@@ -32,6 +32,7 @@ export class AudienceTable extends Component {
     audienceCounts: Object,
     segmentId: string,
     audiences: Array<any>,
+    model: Arra<any>,
     loading: bool,
     getAudiences: Function,
     getMoreAudiences: Function,
@@ -44,7 +45,9 @@ export class AudienceTable extends Component {
       ...u.userDevice,
       ...u,
       created: moment(u.created).format('MM/DD/YYYY HH:mm:ss'),
-      lastUsed: moment(u.userDevice.created).format('MM/DD/YYYY HH:mm:ss')
+      lastUsed: moment(u.userDevice.created).format('MM/DD/YYYY HH:mm:ss'),
+      lat: u.userDevice.location && u.userDevice.location.lat,
+      lng: u.userDevice.location && u.userDevice.location.lng
     }));
 
     const model = {
@@ -68,7 +71,7 @@ export class AudienceTable extends Component {
     return (
       <div>
         <small>Results for { count } users</small>
-        <Table model={ model } source={ audienceMapped } loading={ loading } selectable={ false } />
+        <Table model={ this.props.model || model } source={ audienceMapped } loading={ loading } selectable={ false } />
         <small>Showing { audiences.length } of { count } { audiences.length < count ? (<a href="#" onClick={ this.loadMoreData }>Load More</a>) : null }</small>
       </div>
     );

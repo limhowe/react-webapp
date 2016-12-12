@@ -19,7 +19,7 @@ export class LoginForm extends Component {
       <form onSubmit={ handleSubmit(signin) }>
         <Field name="email" type="email" label="Email" component={ renderInput } required />
         <Field name="password" type="password" label="Password" component={ renderInput } required />
-        <Button label="Log In" primary raised />
+        <Button type="submit" label="Log In" primary raised />
       </form>
     );
   }

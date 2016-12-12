@@ -51,13 +51,18 @@ export class CountryChart extends Component {
   }
 
   props: {
+    size: string
+  }
+
+  props: {
     data: Array<Object>
   }
 
   render() {
+    const height = this.props.size === 'large' ? '800px' : '400px';
     return (
       <div>
-        <div id="mapContainer" />
+        <div id="mapContainer" style={ { height } } />
       </div>
     );
   }

@@ -92,7 +92,7 @@ export class SignUpForm extends Component {
             <Field name="address" type="text" label="Address" component={ renderInput } required />
           </div>
         </div>
-        <Button label="Create Account" disabled={ pristine || submitting } primary raised />
+        <Button type="submit" label="Create Account" disabled={ pristine || submitting } primary raised />
       </form>
     );
   }

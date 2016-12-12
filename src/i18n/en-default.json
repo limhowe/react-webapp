@@ -32,7 +32,8 @@
       "settings": "Settings",
       "users": "Users",
       "devices": "Devices",
-      "events": "Events"
+      "events": "Events",
+      "locations": "Locations"
     }
   },
   "applications": {

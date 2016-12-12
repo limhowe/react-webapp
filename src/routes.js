@@ -12,7 +12,6 @@ import {
   VerifyAccount,
   Dashboard,
   CampaignsList,
-  CampaignStart,
   CampaignEdit,
   NotFound,
   ApplicationList,
@@ -20,6 +19,7 @@ import {
   DeviceAnalytics,
   UserAnalytics,
   EventAnalytics,
+  LocationAnalytics,
   SegmentEdit,
   SegmentList,
   RevenueGoals,
@@ -77,6 +77,7 @@ const configureRoutes = (store: Object) => { // eslint-disable-line react/displa
         <Route path="analytics/devices" component={ DeviceAnalytics } />
         <Route path="analytics/users" component={ UserAnalytics } />
         <Route path="analytics/events" component={ EventAnalytics } />
+        <Route path="analytics/locations" component={ LocationAnalytics } />
         <Route path="audience" component={ SegmentList } />
         <Route path="audience/:segmentId" component={ SegmentEdit } />
         <Route path="revenue" component={ RevenueGoals } />

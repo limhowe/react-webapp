@@ -45,6 +45,7 @@ export class SideBar extends Component {
           {/* <ListItem href="/app/reports" caption={ t('layout.navbar.reports') } icon="insert_drive_file" /> */}
           <ListItem href="/app/analytics/users" name="analytics" caption={ t('layout.navbar.analytics') } icon="bar-chart">
             <ListItem href="/app/analytics/users" caption={ t('layout.navbar.users') } />
+            <ListItem href="/app/analytics/locations" caption={ t('layout.navbar.locations') } />
             <ListItem href="/app/analytics/devices" caption={ t('layout.navbar.devices') } />
             <ListItem href="/app/analytics/events" caption={ t('layout.navbar.events') } />
           </ListItem>
