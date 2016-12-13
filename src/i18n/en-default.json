@@ -176,8 +176,19 @@
           "repeat": "Repeat",
           "expirationNote": "Choose when the campaign should expire.",
           "expirationDate": "Expiration Date",
-          "expirationTime": "Finish Time",
+          "expirationTime": "Expiration Time",
+          "selectTimezone": "Select TimeZone",
           "useDeviceTime": "Use Device Local Time"
+        },
+        "scheduleFrequency": {
+          "immediate": "Immediately",
+          "scheduled": "At a Designated Time"
+        },
+        "scheduleRepeat": {
+          "once": "Once",
+          "daily": "Daily",
+          "weekly": "Weekly",
+          "monthly": "Monthly"
         },
         "action": {
           "heading": "Action Triggered Delivery",

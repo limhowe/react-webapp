@@ -155,21 +155,15 @@ export const campaignImageRequest = createAction(CAMPAIGN_IMAGE_REQUEST, (campai
 });
 
 export const CAMPAIGN_INIT_NEW = 'campaign/init/new';
-export const initNew = createAction(CAMPAIGN_INIT_NEW, () => {
-  return {
-    title: '',
-    tags: [],
-    platform: [{
-      name: 'android',
-      displayType: ['dpi']
-    }]
-  };
-});
+export const initNew = createAction(CAMPAIGN_INIT_NEW);
+
+export const CAMPAIGN_CHANGE_SCHEDULE_TYPE = 'campaign/edit/change-schedule-type';
+export const CAMPAIGN_EDIT_SCHEDULE_FIELD = 'campaign/edit/set-delivery-schedule';
+export const changeScheduleType = createAction(CAMPAIGN_CHANGE_SCHEDULE_TYPE);
+export const editScheduleField = createAction(CAMPAIGN_EDIT_SCHEDULE_FIELD, (field, value) => ({ field, value }));
 
 export const CAMPAIGN_EDIT_FIELD = 'campaign/edit/set-field';
 export const editCampaignField = createAction(CAMPAIGN_EDIT_FIELD, (field, value) => ({ field, value }));
-export const CAMPAIGN_EDIT_SCHEDULE_FIELD = 'campaign/edit/set-delivery-schedule';
-export const editCampaignScheduleField = createAction(CAMPAIGN_EDIT_SCHEDULE_FIELD, (field, value) => ({ field, value }));
 export const CAMPAIGN_EDIT_DELIVERY_ACTION_FIELD = 'campaign/edit/set-delivery-action';
 export const editCampaignDeliveryActionField = createAction(CAMPAIGN_EDIT_DELIVERY_ACTION_FIELD, (field, value) => ({ field, value }));
 export const CAMPAIGN_CHANGE_TAB_INDEX = 'campaign/change/tab_index';

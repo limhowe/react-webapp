@@ -1,5 +1,5 @@
 import { handleActions } from 'redux-actions';
-import _ from 'lodash';
+import moment from 'moment';
 import {
   CAMPAIGNS_LIST_REQUEST,
   CAMPAIGNS_LIST_SUCCESS,
@@ -24,77 +24,39 @@ import {
   CAMPAIGN_EDIT_SCHEDULE_FIELD,
   CAMPAIGN_EDIT_DELIVERY_ACTION_FIELD,
   CAMPAIGN_CHANGE_TAB_INDEX,
-  CAMPAIGN_SAVE,
   CAMPAIGN_ADD_PLATFORM,
-  CAMPAIGN_REMOVE_PLATFORM
+  CAMPAIGN_REMOVE_PLATFORM,
+  CAMPAIGN_CHANGE_SCHEDULE_TYPE
 } from './actions';
+
+import addPlatform from './reducers/addPlatform';
+import removePlatform from './reducers/removePlatform';
+import changeScheduleType from './reducers/changeScheduleType';
 
 export const initialState = {
   campaigns: [],
   error: '',
   tabIndex: 0,
   listLoading: false,
-  loading: false
+  loading: false,
+  campaign: {},
+  campaignSchedule: {}
 };
 
 export default handleActions({
-  [CAMPAIGNS_LIST_REQUEST]: (state) => ({
-    ...state,
-    listLoading: true,
-    error: ''
-  }),
-  [CAMPAIGNS_LIST_SUCCESS]: (state, action) => ({
-    ...state,
-    listLoading: false,
-    campaigns: action.payload
-  }),
-  [CAMPAIGNS_LIST_ERROR]: (state, action) => ({
-    ...state,
-    listLoading: false,
-    error: action.payload
-  }),
-  [CAMPAIGN_CREATE_REQUEST]: (state) => ({
-    ...state,
-    error: ''
-  }),
-  [CAMPAIGN_CREATE_SUCCESS]: (state, action) => ({
-    ...state,
-    campaign: action.payload,
-    tabIndex: state.tabIndex + 1
-  }),
-  [CAMPAIGN_CREATE_ERROR]: (state, action) => ({
-    ...state,
-    error: action.payload
-  }),
-  [CAMPAIGN_IMAGE_REQUEST]: (state) => ({
-    ...state,
-    error: ''
-  }),
-  [CAMPAIGN_IMAGE_SUCCESS]: (state, action) => ({
-    ...state,
-    campaign: action.payload
-  }),
-  [CAMPAIGN_IMAGE_ERROR]: (state, action) => ({
-    ...state,
-    error: action.payload
-  }),
-  [CAMPAIGN_UPDATE_REQUEST]: (state) => ({
-    ...state,
-    error: ''
-  }),
-  [CAMPAIGN_UPDATE_SUCCESS]: (state, action) => ({
-    ...state,
-    campaign: action.payload,
-    tabIndex: Math.min(state.tabIndex + 1, 5)
-  }),
-  [CAMPAIGN_UPDATE_ERROR]: (state, action) => ({
-    ...state,
-    error: action.payload
-  }),
-  [CAMPAIGN_SCHEDULE_REQUEST]: (state) => ({
-    ...state,
-    error: ''
-  }),
+  [CAMPAIGNS_LIST_REQUEST]: (state) => ({ ...state, listLoading: true, error: '' }),
+  [CAMPAIGNS_LIST_SUCCESS]: (state, action) => ({ ...state, listLoading: false, campaigns: action.payload }),
+  [CAMPAIGNS_LIST_ERROR]: (state, action) => ({ ...state, listLoading: false, error: action.payload }),
+  [CAMPAIGN_CREATE_REQUEST]: (state) => ({ ...state, error: '' }),
+  [CAMPAIGN_CREATE_SUCCESS]: (state, action) => ({ ...state, campaign: action.payload, tabIndex: state.tabIndex + 1 }),
+  [CAMPAIGN_CREATE_ERROR]: (state, action) => ({ ...state, error: action.payload }),
+  [CAMPAIGN_IMAGE_REQUEST]: (state) => ({ ...state, error: '' }),
+  [CAMPAIGN_IMAGE_SUCCESS]: (state, action) => ({ ...state, campaign: action.payload }),
+  [CAMPAIGN_IMAGE_ERROR]: (state, action) => ({ ...state, error: action.payload }),
+  [CAMPAIGN_UPDATE_REQUEST]: (state) => ({ ...state, error: '' }),
+  [CAMPAIGN_UPDATE_SUCCESS]: (state, action) => ({ ...state, campaign: action.payload, tabIndex: Math.min(state.tabIndex + 1, 5) }),
+  [CAMPAIGN_UPDATE_ERROR]: (state, action) => ({ ...state, error: action.payload }),
+  [CAMPAIGN_SCHEDULE_REQUEST]: (state) => ({ ...state, error: '' }),
   [CAMPAIGN_SCHEDULE_SUCCESS]: (state, action) => ({
     ...state,
     campaign: {
@@ -102,15 +64,39 @@ export default handleActions({
       deliverySchedule: action.payload
     }
   }),
-  [CAMPAIGN_SCHEDULE_ERROR]: (state, action) => ({
-    ...state,
-    error: action.payload
-  }),
-  [CAMPAIGN_INIT_NEW]: (state, action) => ({
+  [CAMPAIGN_SCHEDULE_ERROR]: (state, action) => ({ ...state, error: action.payload }),
+  [CAMPAIGN_INIT_NEW]: (state) => ({
     ...state,
     tabIndex: 0,
     dirty: false,
-    campaign: Object.assign({}, action.payload)
+    campaign: {
+      title: '',
+      tags: [],
+      platform: [{
+        name: 'android',
+        displayType: ['dpi']
+      }]
+    },
+    campaignSchedule: {
+      type: 'schedule',
+      schedule: {
+        frequency: 'immediate',
+        repeat: 'once',
+        sendDate: moment.utc().format(),
+        timeZone: 'America/New_York'
+      }
+    }
+  }),
+  [CAMPAIGN_EDIT_SCHEDULE_FIELD]: (state, action) => ({
+    ...state,
+    dirty: true,
+    campaignSchedule: {
+      ...state.campaignSchedule,
+      schedule: {
+        ...state.campaignSchedule.schedule,
+        [action.payload.field]: action.payload.value
+      }
+    }
   }),
   [CAMPAIGN_EDIT_FIELD]: (state, action) => ({
     ...state,
@@ -118,17 +104,6 @@ export default handleActions({
     campaign: {
       ...state.campaign,
       [action.payload.field]: action.payload.value
-    }
-  }),
-  [CAMPAIGN_EDIT_SCHEDULE_FIELD]: (state, action) => ({
-    ...state,
-    dirty: true,
-    campaign: {
-      ...state.campaign,
-      deliverySchedule: {
-        ...state.campaign.deliverySchedule,
-        [action.payload.field]: action.payload.value
-      }
     }
   }),
   [CAMPAIGN_EDIT_DELIVERY_ACTION_FIELD]: (state, action) => ({
@@ -142,61 +117,20 @@ export default handleActions({
       }
     }
   }),
-  [CAMPAIGN_CHANGE_TAB_INDEX]: (state, action) => ({
+  [CAMPAIGN_CHANGE_SCHEDULE_TYPE]: changeScheduleType,
+  [CAMPAIGN_CHANGE_TAB_INDEX]: (state, action) => ({ ...state, tabIndex: state.campaign._id ? Math.min(action.payload, 5) : 0 }),
+  [CAMPAIGN_READ_REQUEST]: (state) => ({ ...state, loading: true }),
+  [CAMPAIGN_READ_SUCCESS]: (state, { payload }) => ({
     ...state,
-    tabIndex: state.campaign._id ? Math.min(action.payload, 5) : 0
-  }),
-  [CAMPAIGN_READ_REQUEST]: (state) => ({
-    ...state,
-    loading: true
-  }),
-  [CAMPAIGN_READ_SUCCESS]: (state, action) => ({
-    ...state,
-    campaign: action.payload,
+    campaign: payload,
+    campaignSchedule: {
+      type: payload.deliverySchedule ? 'schedule' : '',
+      schedule: payload.deliverySchedule
+    },
     tabIndex: 0,
     loading: false
   }),
-  [CAMPAIGN_READ_ERROR]: (state) => ({
-    ...state,
-    loading: false
-  }),
-  [CAMPAIGN_SAVE]: (state) => state,
-  [CAMPAIGN_ADD_PLATFORM]: (state, { payload: { platform, displayType } }) => {
-    const campaignPlatform = state.campaign.platform;
-    const index = _.findIndex(campaignPlatform, { name: platform });
-    let newDisplayTypeData = [];
-    if (index === -1) {
-      newDisplayTypeData = [...campaignPlatform, { name: platform, displayType }];
-    } else {
-      campaignPlatform.splice(index, 1);
-      newDisplayTypeData = [...campaignPlatform, { name: platform, displayType }];
-    }
-
-    return {
-      ...state,
-      campaign: {
-        ...state.campaign,
-        platform: newDisplayTypeData
-      }
-    };
-  },
-  [CAMPAIGN_REMOVE_PLATFORM]: (state, { payload: { platform } }) => {
-    const campaignPlatform = state.campaign.platform;
-    const index = _.findIndex(campaignPlatform, { name: platform });
-    let newDisplayTypeData = [];
-    if (index === -1) {
-      newDisplayTypeData = [...campaignPlatform];
-    } else {
-      campaignPlatform.splice(index, 1);
-      newDisplayTypeData = [...campaignPlatform];
-    }
-
-    return {
-      ...state,
-      campaign: {
-        ...state.campaign,
-        platform: newDisplayTypeData
-      }
-    };
-  }
+  [CAMPAIGN_READ_ERROR]: (state) => ({ ...state, loading: false }),
+  [CAMPAIGN_ADD_PLATFORM]: addPlatform,
+  [CAMPAIGN_REMOVE_PLATFORM]: removePlatform
 }, initialState);
