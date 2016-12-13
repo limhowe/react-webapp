@@ -50,7 +50,7 @@ export const fullSegmentList = createSelector([getSegmentList, getCampaignList, 
     return segments.map((s) => {
       s.campaigns = _.filter(campaigns, (c) => (s._id === c.segment && (c.status === 'ACTIVE' || c.status === 'PAUSED' || c.status === 'DRAFT')));
       s.audienceCount = counts[s._id] || 0;
-      s.active = s.campaigns.length;
+      s.active = !!s.campaigns.length;
       return s;
     });
   }
