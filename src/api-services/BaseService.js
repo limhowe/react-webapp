@@ -28,6 +28,11 @@ export default class BaseService {
   }
 
   _checkError(err) {
+    if (!err.response) {
+      this.dispatch(showNotification('error', err.error || err.message || 'Unknown Error'));
+      return;
+    }
+
     const {
       response: {
         body,

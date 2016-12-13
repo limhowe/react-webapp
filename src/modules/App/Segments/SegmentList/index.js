@@ -5,7 +5,8 @@ import { push } from 'react-router-redux';
 import { Tabs, Tab, Button } from 'react-toolbox';
 
 import SegmentTable from './SegmentTable';
-import { segmentListRequest } from '../redux/actions';
+import { segmentListRequest, setFilter } from '../redux/actions';
+import { campaignsListRequest } from '../../Campaigns/redux/actions';
 
 // @TODO implement filtered list
 // @TODO implement targeted audiences
@@ -18,15 +19,31 @@ export class SegmentList extends Component {
 
   componentWillMount() {
     this.props.listSegments();
+    this.props.listCampaigns();
   }
 
   props: {
     listSegments: Function,
-    createNew: Function
+    listCampaigns: Function,
+    createNew: Function,
+    setFilter: Function
   }
 
   handleTabChange = (tabIndex) => {
     this.setState({ tabIndex });
+    switch (tabIndex) {
+    case 0:
+      this.props.setFilter({});
+      break;
+    case 1:
+      this.props.setFilter({ active: true });
+      break;
+    case 2:
+      this.props.setFilter({ favorite: true });
+      break;
+    default:
+      break;
+    }
   }
 
   render() {
@@ -61,7 +78,9 @@ const mapStatesToProps = () => ({
 
 const mapDispatchToProps = (dispatch) => ({
   listSegments: () => dispatch(segmentListRequest()),
-  createNew: () => dispatch(push('/app/audience/new'))
+  listCampaigns: () => dispatch(campaignsListRequest()),
+  createNew: () => dispatch(push('/app/audience/new')),
+  setFilter: (filter) => dispatch(setFilter(filter))
 });
 
 export default translate()(

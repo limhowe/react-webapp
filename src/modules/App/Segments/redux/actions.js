@@ -19,6 +19,26 @@ export const segmentListRequest = createAction(SEGMENT_LIST_REQUEST, () => {
   };
 });
 
+export const SEGMENT_DELETE_REQUEST = 'segment/delete/request';
+export const SEGMENT_DELETE_SUCCESS = 'segment/delete/success';
+export const SEGMENT_DELETE_ERROR = 'segment/delete/error';
+export const SEGMENT_DELETE_FROM_LIST = 'segment/delete/from-list';
+export const removeFromList = createAction(SEGMENT_DELETE_FROM_LIST);
+
+export const segmentDeleteRequest = createAction(SEGMENT_DELETE_REQUEST, (segmentId) => {
+  return (dispatch, getState) => {
+    const state = getState();
+    const { application: { currentApp: { _id: appId } } } = state;
+    const segmentService = new SegmentService(appId, dispatch, getState());
+    return segmentService.delete(segmentId, {
+      SUCCESS: SEGMENT_DELETE_SUCCESS,
+      ERROR: SEGMENT_DELETE_ERROR
+    }).then(() => {
+      dispatch(removeFromList(segmentId));
+    });
+  };
+});
+
 // update
 export const SEGMENT_UPDATE_REQUEST = 'segment/update/request';
 export const SEGMENT_UPDATE_SUCCESS = 'segment/update/success';
@@ -141,3 +161,6 @@ export const segmentReadRequest = createAction(SEGMENT_READ_REQUEST, (segmentId)
     });
   };
 });
+
+export const SEGMENT_SET_FILTER = 'segment/set/filter';
+export const setFilter = createAction(SEGMENT_SET_FILTER);

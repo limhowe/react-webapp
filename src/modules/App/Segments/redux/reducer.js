@@ -1,4 +1,5 @@
 import { handleActions } from 'redux-actions';
+import _ from 'lodash';
 import {
   SEGMENT_LIST_REQUEST,
   SEGMENT_LIST_SUCCESS,
@@ -26,7 +27,9 @@ import {
   SEGMENT_READ_ERROR,
   SEGMENT_SET_CURRENT,
   SEGMENT_SET_DISPLAY_LIST,
-  SEGMENT_UPDATE_FAVORITE
+  SEGMENT_UPDATE_FAVORITE,
+  SEGMENT_SET_FILTER,
+  SEGMENT_DELETE_FROM_LIST
 } from './actions';
 import { FILTER_GROUPS, AVAILABLE_FILTERS, LOGICAL_OPERATORS, OPERATOR_SETS, FILTER_VALUE_TYPE } from '../../../../constants/Filter';
 
@@ -51,7 +54,8 @@ export const initialState = {
   reading: false,
   expandStatus: {},
   previewCount: { total: 0, count: 0 },
-  previewLoading: false
+  previewLoading: false,
+  filter: {}
 };
 
 export const reduceSegment = (state, segment) => {
@@ -272,5 +276,10 @@ export default handleActions({
   [SEGMENT_SET_DISPLAY_LIST]: (state, { payload }) => ({
     ...state,
     displayList: payload
+  }),
+  [SEGMENT_SET_FILTER]: (state, { payload }) => ({ ...state, filter: payload }),
+  [SEGMENT_DELETE_FROM_LIST]: (state, { payload }) => ({
+    ...state,
+    displayList: _.filter(state.displayList, (s) => s._id !== payload)
   })
 }, initialState);
