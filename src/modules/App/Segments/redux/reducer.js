@@ -25,7 +25,8 @@ import {
   SEGMENT_READ_SUCCESS,
   SEGMENT_READ_ERROR,
   SEGMENT_SET_CURRENT,
-  SEGMENT_SET_DISPLAY_LIST
+  SEGMENT_SET_DISPLAY_LIST,
+  SEGMENT_UPDATE_FAVORITE
 } from './actions';
 import { FILTER_GROUPS, AVAILABLE_FILTERS, LOGICAL_OPERATORS, OPERATOR_SETS, FILTER_VALUE_TYPE } from '../../../../constants/Filter';
 
@@ -42,6 +43,7 @@ export const initialState = {
   currentSegment: {
     id: 'new',
     name: '',
+    favorite: false,
     filter: getInitialFilters()
   },
   listLoading: false,
@@ -237,6 +239,13 @@ export default handleActions({
     currentSegment: {
       ...state.currentSegment,
       name: payload
+    }
+  }),
+  [SEGMENT_UPDATE_FAVORITE]: (state, { payload }) => ({
+    ...state,
+    currentSegment: {
+      ...state.currentSegment,
+      favorite: payload
     }
   }),
   [TOGGLE_EXPAND_STATUS]: (state, { payload }) => ({

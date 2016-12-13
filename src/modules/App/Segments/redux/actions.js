@@ -114,6 +114,9 @@ export const removeFilteritem = createAction(SEGMENT_REMOVE_FILTER_ITEM, (filter
 export const SEGMENT_UPDATE_NAME = 'segment/name/update';
 export const updateName = createAction(SEGMENT_UPDATE_NAME); // name
 
+export const SEGMENT_UPDATE_FAVORITE = 'segment/favorite/update';
+export const updateFavorite = createAction(SEGMENT_UPDATE_FAVORITE);
+
 export const TOGGLE_EXPAND_STATUS = 'segment/toggle/expand';
 export const toggleExpand = createAction(TOGGLE_EXPAND_STATUS);
 

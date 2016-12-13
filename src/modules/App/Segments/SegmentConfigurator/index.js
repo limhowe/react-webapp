@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import { Input, Button, FontIcon } from 'react-toolbox';
+import cn from 'classnames';
+import { Input, Button, FontIcon, IconButton } from 'react-toolbox';
 
-import { updateName, saveSegment } from '../redux/actions';
+import { updateName, updateFavorite, saveSegment } from '../redux/actions';
 import { formattedFilter } from '../redux/selector';
 import SegmentFilter from './SegmentFilter';
 import AudienceCountChart from './AudienceCountChart';
 
-// @TODO implement favorite
+import favoriteBtnTheme from './styles/FavoriteButton.scss';
 
 export class SegmentConfigurator extends Component {
   displayName: 'SegmentConfigurator'
   props: {
     updateName: Function,
+    updateFavorite: Function,
     saveSegment: Function,
     saving: bool,
     readyFilter: Object,
@@ -26,12 +28,20 @@ export class SegmentConfigurator extends Component {
     const { currentSegment, readyFilter } = this.props;
     this.props.saveSegment(currentSegment.id, {
       name: currentSegment.name,
-      filter: readyFilter
+      filter: readyFilter,
+      favorite: currentSegment.favorite
     });
+  }
+
+  updateFavorite = () => {
+    this.props.updateFavorite(!this.props.currentSegment.favorite);
   }
 
   render() {
     const { currentSegment, saving, onCancel } = this.props;
+    const favoriteClassName = cn({
+      [favoriteBtnTheme.favorite]: currentSegment.favorite
+    });
     return (
       <div className="c-segment-configurator">
         <div className="c-segment-configurator-heading">
@@ -60,7 +70,7 @@ export class SegmentConfigurator extends Component {
           <SegmentFilter />
           <div className="row">
             <div className="col-sm-12">
-              {/* <Button icon="star" raised /> &nbsp; */}
+              <IconButton theme={ favoriteBtnTheme } icon="star" className={ favoriteClassName } onClick={ this.updateFavorite } /> &nbsp;
               <Button primary raised disabled={ !currentSegment.name || saving } onClick={ this.save }>
                 { saving ? 'Saving...' : 'Save' }
               </Button>&nbsp;
@@ -85,6 +95,7 @@ const mapStatesToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   updateName: (...args) => dispatch(updateName(...args)),
+  updateFavorite: (...args) => dispatch(updateFavorite(...args)),
   saveSegment: (...args) => dispatch(saveSegment(...args))
 });
 
