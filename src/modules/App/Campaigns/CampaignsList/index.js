@@ -132,7 +132,7 @@ export class Campaigns extends Component {
             ) : null
           }
           {
-            campaign.status === 'DRAFT' ? (
+            campaign.status === 'DRAFT' || campaign.status === 'PAUSED' ? (
               <TooltipIconButton icon="mode_edit" onClick={ () => editCampaign(campaign._id) } primary tooltip={ t('campaigns.list.actions.edit') } />
             ) : null
           }
