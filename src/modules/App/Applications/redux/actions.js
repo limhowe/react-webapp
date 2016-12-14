@@ -1,5 +1,10 @@
 import { createAction } from 'redux-actions';
+import { push } from 'react-router-redux';
 import ApplicationService from '../../../../api-services/ApplicationService';
+
+// action for setting current app on navdrawer
+export const APP_CHANGE_CURRENT = 'application/change/current';
+export const changeCurrentApp = createAction(APP_CHANGE_CURRENT, (app) => app);
 
 // list
 export const APP_LIST_REQUEST = 'application/list/request';
@@ -12,13 +17,18 @@ export const appListRequest = createAction(APP_LIST_REQUEST, () => {
     return appService.list({
       SUCCESS: APP_LIST_SUCCESS,
       ERROR: APP_LIST_ERROR
+    }).then((applications) => {
+      const currentState = getState();
+      if (!currentState.application.currentApp) {
+        if (applications && applications.length) {
+          dispatch(changeCurrentApp(applications[0]));
+        } else {
+          dispatch(push('/app/applications/new'));
+        }
+      }
     });
   };
 });
-
-// action for setting current app on navdrawer
-export const APP_CHANGE_CURRENT = 'application/change/current';
-export const changeCurrentApp = createAction(APP_CHANGE_CURRENT, (app) => app);
 
 // edit actions
 export const APP_SET_ACTIVE_APP = 'application/set/active-app';
@@ -104,6 +114,7 @@ export const appReadRequest = createAction(APP_READ_REQUEST, (id) => {
     }, {
       successMessage: 'Application loaded.'
     }).then((app) => {
+      dispatch(changeStep(0));
       dispatch(setActiveApp(app));
     });
   };

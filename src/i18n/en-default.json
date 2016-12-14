@@ -39,6 +39,7 @@
   "applications": {
     "updateYourApp": "Update Your App",
     "addYourApp": "Add Your App",
+    "addYourFirstApp": "Add Your First App",
     "nextRegisterYourApp": "Next: Register Your App",
     "appName": "App Name",
     "appIcon": "App Icon",

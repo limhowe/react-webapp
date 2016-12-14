@@ -1,4 +1,4 @@
-export { Login, SignUp, SignUpConfirm, VerifyAccount } from './Auth';
+export { Login, Logout, SignUp, SignUpConfirm, VerifyAccount } from './Auth';
 export Dashboard from './Dashboard';
 export { CampaignsList, CampaignEdit } from './Campaigns';
 export { ApplicationList, ApplicationEdit } from './Applications';

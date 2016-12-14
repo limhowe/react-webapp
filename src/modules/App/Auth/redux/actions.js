@@ -1,6 +1,7 @@
 import { createAction } from 'redux-actions';
 import { push } from 'react-router-redux';
 import AuthService from '../../../../api-services/AuthService';
+import { appListRequest } from '../../Applications/redux/actions';
 
 // signin
 export const AUTH_SIGNIN_REQUEST = 'auth/signin/request';
@@ -14,6 +15,7 @@ export const authSigninRequest = createAction(AUTH_SIGNIN_REQUEST, (authData) =>
       SUCCESS: AUTH_SIGNIN_SUCCESS,
       ERROR: AUTH_SIGNIN_ERROR
     }).then(() => {
+      dispatch(appListRequest());
       dispatch(push('/app/home'));
     });
   };

@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import { reducer as formReducer } from 'redux-form';
+import { AUTH_SIGNOUT_SUCCESS } from '../modules/App/Auth/redux/actions';
 
 import auth from '../modules/App/Auth/redux/reducer';
 import layout from '../modules/Layout/redux/reducer';
@@ -26,4 +27,12 @@ const reducer = combineReducers({
   routing: routerReducer
 });
 
-export default reducer;
+const rootReducer = (state, action) => {
+  if (action.type === AUTH_SIGNOUT_SUCCESS) {
+    state.application = undefined; // eslint-disable-line
+  }
+
+  return reducer(state, action);
+};
+
+export default rootReducer;

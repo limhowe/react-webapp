@@ -18,6 +18,7 @@ export class BasicInfo extends Component {
     uploadImage: Function,
     t: Function,
     saving: bool,
+    currentApp: Object,
     imgUploading: bool,
     editing: bool
   }
@@ -40,10 +41,10 @@ export class BasicInfo extends Component {
     (...args) => this.props.editAppField(field, ...args);
 
   render() {
-    const { saveApplication, activeApp, saving, editing, t, goList, imgUploading } = this.props;
+    const { saveApplication, activeApp, saving, editing, t, goList, imgUploading, currentApp } = this.props;
     return (
       <div>
-        <h2>{ editing ? t('applications.updateYourApp') : t('applications.addYourApp') }</h2>
+        <h2>{ editing ? t('applications.updateYourApp') : (currentApp ? t('applications.addYourApp') : t('applications.addYourFirstApp')) }</h2>
         { editing ? <p>{ t('applications.welcomeMessage', { applicationName: __APP_CONFIG__.APP_NAME })}</p> : null }
         { saving ? <ProgressBar mode="indeterminate" multicolor /> : null }
         <Input type="text" value={ activeApp.appName } onChange={ this.editField('appName') } required label={ t('applications.appName') } />
@@ -66,10 +67,11 @@ export class BasicInfo extends Component {
   }
 }
 
-const mapStateToProps = ({ application: { activeApp, saving, imgUploading } }) => ({
+const mapStateToProps = ({ application: { activeApp, saving, imgUploading, currentApp } }) => ({
   activeApp,
   saving,
   imgUploading,
+  currentApp,
   editing: !!(activeApp && activeApp._id)
 });
 

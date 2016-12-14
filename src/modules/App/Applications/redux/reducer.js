@@ -44,8 +44,7 @@ export default handleActions({
   [APP_LIST_SUCCESS]: (state, action) => ({
     ...state,
     applications: action.payload,
-    loading: false,
-    currentApp: state.currentApp ? state.currentApp : (action.payload && action.payload.length ? action.payload[0] : null)
+    loading: false
   }),
   [APP_LIST_ERROR]: (state) => ({
     ...state,
@@ -79,7 +78,7 @@ export default handleActions({
     saving: false,
     step: state.step + 1,
     dirty: false,
-    currentApp: state.currentApp._id === payload._id ? Object.assign({}, payload) : state.currentApp
+    currentApp: state.currentApp && state.currentApp._id === payload._id ? Object.assign({}, payload) : state.currentApp
   }),
   [APP_UPDATE_ERROR]: (state) => ({ ...state, saving: false }),
   [APP_SAVE_ACTIVE_APP]: (state) => state,

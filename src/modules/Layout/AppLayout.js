@@ -25,13 +25,14 @@ class AppLayout extends Component {
     loaded: bool,
     user: ?Object,
     location: Object,
+    currentApp: ?Object,
     goToLogin: Function,
     showNotification: Function
   };
 
   render() {
-    const { children, loaded, user, location: { pathname } } = this.props;
-    if (!loaded || (loaded && !user && pathname.indexOf('/app/auth') === -1)) {
+    const { children, loaded, user, currentApp, location: { pathname } } = this.props;
+    if (!loaded || (loaded && (!user || (!currentApp && pathname.indexOf('/app/applications/new') === -1)) && pathname.indexOf('/app/auth') === -1)) {
       return (
         <div className="layout">
           <Layout>
@@ -43,6 +44,24 @@ class AppLayout extends Component {
               </div>
             </Panel>
           </Layout>
+        </div>
+      );
+    }
+
+    if (!currentApp && pathname.indexOf('/app/applications/new') > -1) {
+      return (
+        <div className="layout">
+          <Header />
+          <Layout>
+            <Panel scrollY>
+              <div>
+                <div className="c-container c-container__center">
+                  { children }
+                </div>
+              </div>
+            </Panel>
+          </Layout>
+          <Notification />
         </div>
       );
     }
@@ -66,7 +85,7 @@ class AppLayout extends Component {
   }
 }
 
-const mapStatesToProps = ({ persist: { loaded }, auth: { user } }) => ({ loaded, user });
+const mapStatesToProps = ({ persist: { loaded }, auth: { user }, application: { currentApp } }) => ({ loaded, user, currentApp });
 
 const mapDispatchToProps = (dispatch) => ({
   goToLogin: () => dispatch(push('/app/auth/login')),

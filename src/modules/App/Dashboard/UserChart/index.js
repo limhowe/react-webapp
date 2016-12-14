@@ -42,15 +42,15 @@ export class UserChart extends Component {
         <div className={ styles.chartContainer }>
           <div className={ styles.chartDetail }>
             <div className={ styles.chartDetailItem }>
-              <span className={ styles.value } style={ { color: colors[0] } }>{ `${ Math.round(userData[0].value * 100 / total) }%` }</span>
+              <span className={ styles.value } style={ { color: colors[0] } }>{ `${ Math.round(userData[0].value * 100 / (total || 1)) }%` }</span>
               <span className={ styles.label }>{ userData[0].name }</span>
             </div>
             <div className={ styles.chartDetailItem }>
-              <span className={ styles.value } style={ { color: colors[1] } }>{ `${ Math.round(userData[1].value * 100 / total) }%` }</span>
+              <span className={ styles.value } style={ { color: colors[1] } }>{ `${ Math.round(userData[1].value * 100 / (total || 1)) }%` }</span>
               <span className={ styles.label }>{ userData[1].name }</span>
             </div>
             <div className={ styles.chartDetailItem }>
-              <span className={ styles.value } style={ { color: colors[2] } }>{ `${ Math.round(userData[2].value * 100 / total) }%`}</span>
+              <span className={ styles.value } style={ { color: colors[2] } }>{ `${ Math.round(userData[2].value * 100 / (total || 1)) }%`}</span>
               <span className={ styles.label }>{ userData[2].name }</span>
             </div>
           </div>
