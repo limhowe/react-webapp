@@ -127,9 +127,9 @@ export class Campaigns extends Component {
       actions: (
         <span>
           {
-            campaign.status === 'ACTIVE' || campaign.status === 'COMPLETED' ? (
-              <TooltipIconButton icon="remove_red_eye" primary tooltip={ t('campaigns.list.actions.results') } />
-            ) : null
+            // campaign.status === 'ACTIVE' || campaign.status === 'COMPLETED' ? (
+            //   <TooltipIconButton icon="remove_red_eye" primary tooltip={ t('campaigns.list.actions.results') } />
+            // ) : null
           }
           {
             campaign.status === 'DRAFT' || campaign.status === 'PAUSED' ? (

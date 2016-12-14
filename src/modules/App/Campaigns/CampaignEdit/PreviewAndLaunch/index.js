@@ -3,6 +3,7 @@ import { Button, List, ListItem } from 'react-toolbox/lib';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import moment from 'moment';
 
 import { push } from 'react-router-redux';
 import { changeTabIndex, editCampaignField, saveCampaignRequest } from '../../redux/actions';
@@ -43,6 +44,15 @@ export class PreviewAndLaunch extends Component {
       bottom: campaign.messagePosition === 'bottom'
     });
 
+    let schedule = 'No Schedule';
+    if (campaign.deliverySchedule) {
+      if (campaign.deliverySchedule.frequency === 'immediate') {
+        schedule = `${ campaign.deliverySchedule.frequency }`;
+      } else {
+        schedule = `${ campaign.deliverySchedule.frequency } - ${  campaign.deliverySchedule.repeat } - ${ moment(campaign.deliverySchedule.sendDate).format('HH:mm') }`;
+      }
+    }
+
     return (
       <div>
         <h3 className="tab-heading">{ t('campaigns.create.selectAudience.heading') }</h3>
@@ -71,7 +81,7 @@ export class PreviewAndLaunch extends Component {
               <ListItem
                 rightIcon="mode_edit"
                 caption={ t('campaigns.create.previewAndLaunch.delivery') }
-                legend={ campaign.deliverySchedule ? campaign.deliverySchedule.repeat : 'No Schedule' }
+                legend={ schedule }
                 onClick={ () => changeTab(3) }
               />
               <ListItem
