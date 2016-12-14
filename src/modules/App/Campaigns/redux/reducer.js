@@ -81,7 +81,7 @@ export default handleActions({
       type: 'schedule',
       schedule: {
         frequency: 'immediate',
-        repeat: 'once',
+        repeat: 'daily',
         sendDate: moment.utc().format(),
         timeZone: 'America/New_York'
       }
