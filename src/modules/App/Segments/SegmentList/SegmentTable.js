@@ -57,8 +57,8 @@ export class SegmentTable extends Component {
       ...s,
       actions: (
         <span>
-          <IconButton icon="edit" onClick={ () => editSegment(s._id) } />
-          <IconButton icon="delete" onClick={ this.openDeleteDialog(s._id) } />
+          <IconButton primary icon="edit" onClick={ () => editSegment(s._id) } />
+          <IconButton primary icon="delete" onClick={ this.openDeleteDialog(s._id) } />
         </span>
       ),
       campaigns: (

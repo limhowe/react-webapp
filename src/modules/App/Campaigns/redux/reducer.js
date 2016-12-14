@@ -32,6 +32,8 @@ import {
 import addPlatform from './reducers/addPlatform';
 import removePlatform from './reducers/removePlatform';
 import changeScheduleType from './reducers/changeScheduleType';
+import updateCampaignSuccess from './reducers/updateCampaignSuccess';
+
 
 export const initialState = {
   campaigns: [],
@@ -54,7 +56,7 @@ export default handleActions({
   [CAMPAIGN_IMAGE_SUCCESS]: (state, action) => ({ ...state, campaign: action.payload }),
   [CAMPAIGN_IMAGE_ERROR]: (state, action) => ({ ...state, error: action.payload }),
   [CAMPAIGN_UPDATE_REQUEST]: (state) => ({ ...state, error: '' }),
-  [CAMPAIGN_UPDATE_SUCCESS]: (state, action) => ({ ...state, campaign: action.payload, tabIndex: Math.min(state.tabIndex + 1, 5) }),
+  [CAMPAIGN_UPDATE_SUCCESS]: (state, action) => ({ ...state, campaign: action.payload, tabIndex: Math.min(state.tabIndex + 1, 5), campaigns: updateCampaignSuccess(state, action.payload) }),
   [CAMPAIGN_UPDATE_ERROR]: (state, action) => ({ ...state, error: action.payload }),
   [CAMPAIGN_SCHEDULE_REQUEST]: (state) => ({ ...state, error: '' }),
   [CAMPAIGN_SCHEDULE_SUCCESS]: (state, action) => ({
