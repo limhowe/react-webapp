@@ -125,6 +125,9 @@ const updateArray = (arr, index, key, val) => {
 const removeArrayItem = (arr, index) => {
   const newArr = [...arr];
   newArr.splice(index, 1);
+  if (newArr.length === 1) {
+    newArr[0].logicalOperator = LOGICAL_OPERATORS.AND;
+  }
   return newArr;
 };
 
