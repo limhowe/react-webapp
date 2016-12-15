@@ -74,6 +74,7 @@ export default handleActions({
     campaign: {
       title: '',
       tags: [],
+      messagePosition: 'top',
       platform: [{
         name: 'android',
         displayType: ['dpi']

@@ -40,6 +40,7 @@ export class CreatePush extends Component {
   ];
 
   loopDelays = [
+    { value: 0, text: 'No Delay' },
     { value: 10, text: '10 secs' },
     { value: 15, text: '15 secs' },
     { value: 30, text: '30 secs' },

@@ -15,18 +15,15 @@ export class ExpiresAt extends Component {
     editCampaignField: Function
   }
 
-  getLocalTime = (val) => {
-    const utcOffset = moment().utcOffset();
-    const newVal = moment(val).utcOffset(utcOffset).subtract(utcOffset, 'minute').toDate();
-    return newVal;
+  editField = (value) => {
+    this.props.editCampaignField('expiresAt', moment(value).format('YYYY-MM-DD HH:mm:ss'));
   }
-
-  editField = (value) => this.props.editCampaignField('expiresAt', moment(value).utcOffset(0, true).format())
 
   render() {
     const { t, campaign } = this.props;
 
-    const date = campaign.expiresAt ? this.getLocalTime(campaign.expiresAt) : moment.utc().add(1, 'day').startOf('day').toDate();
+    const momentDate = campaign.expiresAt ? moment(campaign.expiresAt) : moment().add(1, 'day').startOf('day');
+    const date = momentDate.toDate();
 
     return (
       <div>
