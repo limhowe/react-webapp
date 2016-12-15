@@ -49,7 +49,8 @@ export class PreviewAndLaunch extends Component {
       if (campaign.deliverySchedule.frequency === 'immediate') {
         schedule = `${ campaign.deliverySchedule.frequency }`;
       } else {
-        schedule = `${ campaign.deliverySchedule.frequency } - ${  campaign.deliverySchedule.repeat } - ${ moment(campaign.deliverySchedule.sendDate).format('HH:mm') }`;
+        const utcOffset = moment().utcOffset();
+        schedule = `${ campaign.deliverySchedule.frequency } - ${  campaign.deliverySchedule.repeat } - ${ moment(campaign.deliverySchedule.sendDate).subtract(utcOffset, 'minute').format('HH:mm') }`;
       }
     }
 
