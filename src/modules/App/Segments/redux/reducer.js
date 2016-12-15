@@ -164,7 +164,14 @@ export default handleActions({
     }
   }),
   [SEGMENT_CREATE_ERROR]: (state) => ({ ...state, saving: false }),
-  [SEGMENT_SET_CURRENT]: (state, { payload }) => reduceSegment(state, payload),
+  [SEGMENT_SET_CURRENT]: (state, { payload }) => (payload ? reduceSegment(state, payload) : {
+    ...state,
+    currentSegment: {
+      id: 'new',
+      filter: getInitialFilters(),
+      name: ''
+    }
+  }),
   [SEGMENT_INIT_NEW]: (state) => ({
     ...state,
     currentSegment: {
