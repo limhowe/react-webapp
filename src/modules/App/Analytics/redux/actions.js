@@ -129,3 +129,18 @@ export const changeEventAnalyticsFilter = createAction(CHANGE_EVENT_ANALYTICS_FI
 
 export const CHANGE_CHART_TYPE = 'analytics/event/chart-type-change';
 export const changeChartType = createAction(CHANGE_CHART_TYPE, (type) => type);
+
+export const GET_DP_COUNT_REQUEST = 'analytics/dp-count/request';
+export const GET_DP_COUNT_SUCCESS = 'analytics/dp-count/success';
+export const GET_DP_COUNT_ERROR = 'analytics/dp-count/error';
+export const getDPCount = createAction(GET_DP_COUNT_REQUEST, (params) => {
+  return (dispatch, getState) => {
+    const state = getState();
+    const { application: { currentApp: { _id: appId } } } = state;
+    const service = new AnalyticsService(appId, dispatch, getState());
+    return service.getDPCount(params, {
+      SUCCESS: GET_DP_COUNT_SUCCESS,
+      ERROR: GET_DP_COUNT_ERROR
+    });
+  };
+});

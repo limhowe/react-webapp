@@ -34,6 +34,7 @@ export class Campaigns extends Component {
     updateCampaign: Function,
     duplicateCampaign: Function,
     deleteCampaign: Function,
+    previewCampaign: Function,
     editCampaign: Function
   }
 
@@ -103,7 +104,7 @@ export class Campaigns extends Component {
   ];
 
   render() {
-    const { t, start, editCampaign, listLoading } = this.props;
+    const { t, start, editCampaign, previewCampaign, listLoading } = this.props;
     const campaigns = this.getCampaigns();
     const model = {
       animation: { title: 'Animation' },
@@ -126,11 +127,7 @@ export class Campaigns extends Component {
       created: moment(campaign.created).format('MM/DD/YYYY HH:mm:ss'),
       actions: (
         <span>
-          {
-            // campaign.status === 'ACTIVE' || campaign.status === 'COMPLETED' ? (
-            //   <TooltipIconButton icon="remove_red_eye" primary tooltip={ t('campaigns.list.actions.results') } />
-            // ) : null
-          }
+          <TooltipIconButton icon="remove_red_eye" primary tooltip={ t('campaigns.list.actions.results') } onClick={ () => previewCampaign(campaign._id) } />
           {
             campaign.status === 'DRAFT' || campaign.status === 'PAUSED' ? (
               <TooltipIconButton icon="mode_edit" onClick={ () => editCampaign(campaign._id) } primary tooltip={ t('campaigns.list.actions.edit') } />
@@ -205,7 +202,8 @@ const mapDispatchToProps = (dispatch) => ({
   updateCampaign: (campaign, payload) => dispatch(campaignUpdateRequest(campaign._id, payload)),
   duplicateCampaign: (campaign) => dispatch(campaignDuplicateRequest(campaign._id)),
   deleteCampaign: (campaign) => dispatch(campaignDeleteRequest(campaign._id)),
-  editCampaign: (id) => dispatch(push(`/app/campaigns/${ id }`))
+  editCampaign: (id) => dispatch(push(`/app/campaigns/${ id }`)),
+  previewCampaign: (id) => dispatch(push(`/app/campaigns/${ id }/preview`))
 });
 
 export default translate()(connect(mapStatesToProps, mapDispatchToProps)(Campaigns));

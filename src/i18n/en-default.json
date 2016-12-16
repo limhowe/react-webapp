@@ -60,6 +60,9 @@
     "congratsMessage": "Your App has been successfully registered. Now you're ready for your first {{applicationName}} campaign"
   },
   "campaigns": {
+    "preview": {
+      "heading": "Campaign Details"
+    },
     "list": {
       "heading": "Campaigns",
       "newCampaign": "Create a New Campaign",
@@ -211,6 +214,7 @@
       },
       "previewAndLaunch": {
         "heading": "Preview and Launch",
+        "subtitle": "Preview your campaign details before you launch",
         "campaignName": "Campaign Name",
         "tags": "Tags",
         "action": "Action",

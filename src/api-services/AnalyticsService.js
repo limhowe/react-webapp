@@ -26,4 +26,8 @@ export default class AnalyticsService extends BaseAuthorizedService {
   getEventAnalytics(params, ...args) {
     return this._get(`/applications/${ this.appId }/analytics/events?${ this.makeQueryString(params) }`, ...args);
   }
+
+  getDPCount(params, ...args) {
+    return this._get(`/applications/${ this.appId }/analytics/dpCount?${ this.makeQueryString(params) }`, ...args);
+  }
 }

@@ -1,0 +1,25 @@
+.c-campaign-detail {
+  max-width: 760px;
+  p {
+    font-size: $small-font-size;
+  }
+
+  b {
+    font-size: $medium-font-size;
+    margin-right: $unit * 3;
+  }
+
+  h3 {
+    vertical-align: middle;
+  }
+
+  h4 {
+    color: $blue-dark;
+    margin: 0;
+  }
+
+  .col-xs-6 {
+    padding-top: $unit;
+    padding-bottom: $unit;
+  }
+}

@@ -15,7 +15,7 @@ export class SelectAudience extends Component {
   }
   componentWillMount() {
     this.props.listSegments().then(() => {
-      if (this.props.campaign.segment !== null) {
+      if (this.props.campaign.segment) {
         this.props.setCurrentSegment(this.props.segments.find((s) => {
           return s._id === this.props.campaign.segment;
         }));

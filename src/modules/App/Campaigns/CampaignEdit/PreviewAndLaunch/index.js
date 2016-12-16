@@ -56,8 +56,8 @@ export class PreviewAndLaunch extends Component {
 
     return (
       <div>
-        <h3 className="tab-heading">{ t('campaigns.create.selectAudience.heading') }</h3>
-        <div><small className="text-muted">{ t('campaigns.create.selectAudience.subtitle') }</small></div>
+        <h3 className="tab-heading">{ t('campaigns.create.previewAndLaunch.heading') }</h3>
+        <div><small className="text-muted">{ t('campaigns.create.previewAndLaunch.subtitle') }</small></div>
         <div className="row">
           <div className="col-md-6">
             <List selectable ripple>

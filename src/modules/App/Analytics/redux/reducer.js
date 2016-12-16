@@ -21,7 +21,10 @@ import {
   GET_EVENT_ANALYTICS_ERROR,
   CHANGE_EVENT_ANALYTICS_FILTER,
   UPDATE_EVENT_ANALYTICS_FILTER,
-  CHANGE_CHART_TYPE
+  CHANGE_CHART_TYPE,
+  GET_DP_COUNT_REQUEST,
+  GET_DP_COUNT_SUCCESS,
+  GET_DP_COUNT_ERROR
 } from './actions';
 
 export const initialState = {
@@ -51,7 +54,9 @@ export const initialState = {
     endDate: '',
     groupBy: 'day'
   },
-  chartType: 'line'
+  chartType: 'line',
+  dpCount: [],
+  dpCountLoading: false
 };
 
 const dataReducer = ({ payload }) => {
@@ -204,5 +209,8 @@ export default handleActions({
   [CHANGE_CHART_TYPE]: (state, { payload }) => ({
     ...state,
     chartType: payload
-  })
+  }),
+  [GET_DP_COUNT_REQUEST]: (state) => ({ ...state, dpCount: [], dpCountLoading: true }),
+  [GET_DP_COUNT_SUCCESS]: (state, { payload }) => ({ ...state, dpCountLoading: false, dpCount: payload }),
+  [GET_DP_COUNT_ERROR]: (state) => ({ ...state, dpCountLoading: false })
 }, initialState);
