@@ -32,7 +32,7 @@ class AppLayout extends Component {
 
   render() {
     const { children, loaded, user, location: { pathname }, currentApp } = this.props;
-    if (!loaded || (loaded && !user && (!currentApp || pathname.indexOf('/app/applications') > -1) && pathname.indexOf('/app/auth') === -1)) {
+    if (!loaded || (loaded && !user && pathname.indexOf('/app/auth') === -1) || (user && !currentApp && pathname.indexOf('/app/applications') === -1)) {
       return (
         <div className="layout">
           <Layout>
