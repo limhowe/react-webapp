@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Menu, MenuItem, MenuDivider, Button, FontIcon } from 'react-toolbox';
+import { Menu, MenuItem, MenuDivider, FontIcon } from 'react-toolbox';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import cn from 'classnames';
@@ -38,16 +38,12 @@ export class AppSelect extends Component {
       return null;
     }
 
-    if (!applications.length) {
-      return <Button onClick={ this.props.goAppCreate }>Create First App</Button>;
-    }
-
     const menuItems = applications.map((app) => {
       const avatar = <AppIcon image={ app.image } />;
       return <MenuItem theme={ menuTheme } key={ app.appName } icon={ avatar } caption={ app.appName } onClick={ () => this.props.changeCurrentApp(app) } />;
     });
 
-    const appName = currentApp.appName.length < 10 ? currentApp.appName : `${ currentApp.appName.substr(0, 10) }...`;
+    const appName = currentApp ? (currentApp.appName.length < 10 ? currentApp.appName : `${ currentApp.appName.substr(0, 10) }...`) : '';
     const buttonClassName = cn(styles.selectedAppIconWrapper, {
       [styles.active]: this.state.menuActive
     });
@@ -55,7 +51,7 @@ export class AppSelect extends Component {
     return (
       <div className={ styles.appSelect }>
         <div className={ buttonClassName } onClick={ this.toggleMenu }>
-          <AppIcon image={ currentApp.image } />
+          <AppIcon image={ currentApp ? currentApp.image : '' } />
           <small>{ appName }<FontIcon value="keyboard_arrow_down" className="c-icon" /></small>
         </div>
         <div className="u-position-relative">

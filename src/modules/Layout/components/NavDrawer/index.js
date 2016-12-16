@@ -6,14 +6,12 @@ import { translate } from 'react-i18next';
 import { hideNavDrawer, setPath } from '../../redux/actions';
 import ListItem from './ListItem';
 import AppSelect from './AppSelect';
-import { appListRequest } from '../../../App/Applications/redux/actions';
 import theme from './styles/NavDrawer.scss';
 
 export class SideBar extends Component {
   static displayName = 'NavDrawer';
 
   componentWillMount() {
-    this.props.listApp();
     this.props.setPath(this.props.pathname);
   }
 
@@ -28,7 +26,6 @@ export class SideBar extends Component {
     active: bool,
     hide: Function,
     t: Function,
-    listApp: Function,
     setPath: Function
   };
 
@@ -50,7 +47,7 @@ export class SideBar extends Component {
             <ListItem href="/app/analytics/events" caption={ t('layout.navbar.events') } />
           </ListItem>
           {/* <ListItem href="/app/revenue" caption={ t('layout.navbar.revenueGoals') } icon="attach_money" /> */}
-          <ListItem href="/app/settings" caption={ t('layout.navbar.settings') } icon="cog" />
+          <ListItem href="/app/applications" always caption={ t('layout.navbar.settings') } icon="cog" />
         </div>
       </NavDrawer>
     );
@@ -63,7 +60,6 @@ const mapStatesToProps = ({ layout: { navDrawerActive } }) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   hide: () => dispatch(hideNavDrawer()),
-  listApp: () => dispatch(appListRequest()),
   setPath: (path) => dispatch(setPath(path))
 });
 

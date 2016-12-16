@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import cn from 'classnames';
 
-import { expandToggle } from '../../redux/actions';
+import { expandToggle, showNotification } from '../../redux/actions';
 const styles = require('./styles/ListItem.scss');
 
 export class CustomListItem extends Component {
@@ -19,11 +19,18 @@ export class CustomListItem extends Component {
     name: string,
     icon: string,
     caption: string,
+    always: bool,
     collapsed: bool,
-    children: any
+    currentApp: Object,
+    children: any,
+    showNotification: Function
   }
 
   onClick = (e) => {
+    if (!this.props.currentApp && !this.props.always) {
+      return this.props.showNotification('error', 'Plase create an application to access this page.');
+    }
+
     const { pushLocation, href, onClick, icon } = this.props;
     if (onClick) {
       onClick();
@@ -41,7 +48,7 @@ export class CustomListItem extends Component {
   render() {
     const { pathname, href, expanded, children, icon, caption, collapsed } = this.props;
     const className = cn(styles.listItemWrapper, {
-      [styles.active]: (href === pathname) || expanded,
+      [styles.active]: (pathname.indexOf(href) > -1) || expanded,
       [styles.collapsed]: collapsed
     });
     const iconClassName = cn(styles.icon, 'fa', `fa-${ icon }`);
@@ -60,15 +67,17 @@ export class CustomListItem extends Component {
   }
 }
 
-const mapStatesToProps = ({ layout: { expandItem, pathname, navDrawerActive } }, { name }) => ({
+const mapStatesToProps = ({ layout: { expandItem, pathname, navDrawerActive }, application: { currentApp } }, { name }) => ({
   pathname,
+  currentApp,
   collapsed: !navDrawerActive,
   expanded: name && expandItem === name
 });
 
 const mapDispatchToProps = (dispatch, { name }) => ({
   pushLocation: (href) => dispatch(push(href)),
-  expandToggle: () => dispatch(expandToggle(name))
+  expandToggle: () => dispatch(expandToggle(name)),
+  showNotification: (...args) => dispatch(showNotification(...args))
 });
 
 export default connect(mapStatesToProps, mapDispatchToProps)(CustomListItem);
