@@ -29,6 +29,7 @@ export class ApplicationList extends Component {
       image: { title: 'Icon' },
       appName: { title: 'Application Name' },
       packageName: { title: 'Package' },
+      environment: { title: 'Environment' },
       actions: { title: 'Actions' }
     };
 

@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import { Input, Button, ProgressBar } from 'react-toolbox';
+import { Input, Button, ProgressBar, Dropdown } from 'react-toolbox';
 import Dropzone from 'react-dropzone';
 
 import AppIcon from '../../../../../components/AppIcon';
 import { editAppField, saveApp, appImageUpload } from '../../redux/actions';
+import { ENVIRONMENTS } from '../../../../../constants/Application';
 
 export class BasicInfo extends Component {
   displayName: 'BasicInfo'
@@ -42,6 +43,10 @@ export class BasicInfo extends Component {
 
   render() {
     const { saveApplication, activeApp, saving, editing, t, goList, imgUploading, currentApp } = this.props;
+    const environments = Object.keys(ENVIRONMENTS).map((key) => ({
+      label: t(`applications.${ ENVIRONMENTS[key] }`),
+      value: ENVIRONMENTS[key]
+    }));
     return (
       <div>
         <h2>{ editing ? t('applications.updateYourApp') : (currentApp ? t('applications.addYourApp') : t('applications.addYourFirstApp')) }</h2>
@@ -49,6 +54,7 @@ export class BasicInfo extends Component {
         { saving ? <ProgressBar mode="indeterminate" multicolor /> : null }
         <Input type="text" value={ activeApp.appName } onChange={ this.editField('appName') } required label={ t('applications.appName') } />
         <Input type="text" value={ activeApp.packageName } onChange={ this.editField('packageName') } required label={ t('applications.packageName') } />
+        <Dropdown source={ environments } onChange={ this.editField('environment') } value={ activeApp.environment } required label={ t('applications.environment') } />
         <div className="u-margin-bottom-lg">
           <h4>{t('applications.appIcon')}</h4>
           <div className="pull-left u-margin-right-sm">
