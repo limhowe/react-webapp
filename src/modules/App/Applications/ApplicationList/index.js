@@ -46,9 +46,15 @@ export class ApplicationList extends Component {
     }));
 
     return (
-      <div>
-        <h2>Applications</h2>
-        <Button label="Create Application" primary raised onClick={ this.props.newApp } />
+      <div className="c-container__large">
+        <div className="row">
+          <div className="col-sm-8">
+            <h2>Applications</h2>
+          </div>
+          <div className="col-sm-4 text-right u-padding-top-lg">
+            <Button label="Create Application" primary raised onClick={ this.props.newApp } />
+          </div>
+        </div>
         <Table model={ model } source={ extendedApps } loading={ loading } selectable={ false } />
       </div>
     );

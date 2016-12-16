@@ -40,6 +40,11 @@ export default class BaseService {
         status // eslint-disable-line
       }
     } = err;
+
+    if (status === 413) {
+      body.error = 'The file size is too large. Please check your upload limit with administrator.';
+    }
+
     this.dispatch(showNotification('error', body.error || body.message || 'Unknown Error'));
     // @TODO show notification by dispatching notificaiton action
   }
