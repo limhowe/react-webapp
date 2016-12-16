@@ -21,6 +21,16 @@
       path: "/srv/dp-web-app",
       "pre-deploy": "",
       "post-deploy": "nvm use 6.9; npm install; npm run check; npm run build; pm2 startOrRestart ecosystem.json5 --env development"
+    },
+    production: {
+      key: "./pem/dp-mean.pem",
+      user: "ubuntu",
+      host: "52.6.70.119",
+      ref: "origin/master",
+      repo: "git@bitbucket.org:cmodels/dp-web-app.git",
+      path: "/srv/dp/dp-web-app",
+      "pre-deploy": "",
+      "post-deploy": "nvm use 6.9; npm install; npm run check; npm run build; pm2 startOrRestart ecosystem.json5 --env development"
     }
   }
 }
