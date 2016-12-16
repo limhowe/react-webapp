@@ -31,8 +31,8 @@ class AppLayout extends Component {
   };
 
   render() {
-    const { children, loaded, user, currentApp, location: { pathname } } = this.props;
-    if (!loaded || (loaded && (!user || (!currentApp && pathname.indexOf('/app/applications/new') === -1)) && pathname.indexOf('/app/auth') === -1)) {
+    const { children, loaded, user, location: { pathname }, currentApp } = this.props;
+    if (!loaded || (loaded && !user && (!currentApp || pathname.indexOf('/app/applications') > -1) && pathname.indexOf('/app/auth') === -1)) {
       return (
         <div className="layout">
           <Layout>
@@ -44,24 +44,6 @@ class AppLayout extends Component {
               </div>
             </Panel>
           </Layout>
-        </div>
-      );
-    }
-
-    if (!currentApp && pathname.indexOf('/app/applications/new') > -1) {
-      return (
-        <div className="layout">
-          <Header />
-          <Layout>
-            <Panel scrollY>
-              <div>
-                <div className="c-container c-container__center">
-                  { children }
-                </div>
-              </div>
-            </Panel>
-          </Layout>
-          <Notification />
         </div>
       );
     }

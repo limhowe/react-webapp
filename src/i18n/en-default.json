@@ -37,6 +37,9 @@
     }
   },
   "applications": {
+    "environment": "Environment",
+    "development": "Development",
+    "production": "Production",
     "updateYourApp": "Update Your App",
     "addYourApp": "Add Your App",
     "addYourFirstApp": "Add Your First App",

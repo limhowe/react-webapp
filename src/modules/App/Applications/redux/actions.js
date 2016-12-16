@@ -11,19 +11,23 @@ export const APP_LIST_REQUEST = 'application/list/request';
 export const APP_LIST_SUCCESS = 'application/list/success';
 export const APP_LIST_ERROR = 'application/list/error';
 
-export const appListRequest = createAction(APP_LIST_REQUEST, () => {
+export const appListRequest = createAction(APP_LIST_REQUEST, (noDispatch = false) => {
   return (dispatch, getState) => {
     const appService = new ApplicationService(dispatch, getState());
     return appService.list({
       SUCCESS: APP_LIST_SUCCESS,
       ERROR: APP_LIST_ERROR
     }).then((applications) => {
+      if (noDispatch) {
+        return applications;
+      }
+
       const currentState = getState();
       if (!currentState.application.currentApp) {
         if (applications && applications.length) {
           dispatch(changeCurrentApp(applications[0]));
         } else {
-          dispatch(push('/app/applications/new'));
+          dispatch(push('/app/applications'));
         }
       }
     });

@@ -12,7 +12,7 @@ export class ApplicationList extends Component {
   displayName: 'ApplicationList'
 
   componentWillMount() {
-    this.props.listApps();
+    this.props.listApps(true);
   }
 
   props: {
@@ -29,6 +29,7 @@ export class ApplicationList extends Component {
       image: { title: 'Icon' },
       appName: { title: 'Application Name' },
       packageName: { title: 'Package' },
+      environment: { title: 'Environment' },
       actions: { title: 'Actions' }
     };
 
@@ -66,7 +67,7 @@ const mapStatesToProps = ({ application: { applications, loading } }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  listApps: () => dispatch(appListRequest()),
+  listApps: (...args) => dispatch(appListRequest(...args)),
   newApp: () => dispatch(push('/app/applications/new')),
   editApp: (id) => dispatch(push(`/app/applications/${ id }`))
 });

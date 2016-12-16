@@ -40,7 +40,7 @@ export class Header extends Component {
         <Link to="/app">{t('layout.header.helpAndDocumentation')}</Link>
         <Link onClick={ this.toggleMenu }>{t('layout.header.hello')} {user.firstName} <FontIcon className="c-icon" value="keyboard_arrow_down" /></Link>
         <Menu theme={ menuTheme } position="topRight" active={ this.state.menuActive } onHide={ this.hideMenu }>
-          <MenuItem theme={ menuTheme } icon="person" caption="Profile" onClick={ () => this.props.changeLocation('/app') } />
+          {/* <MenuItem theme={ menuTheme } icon="person" caption="Profile" onClick={ () => this.props.changeLocation('/app') } /> */}
           <MenuItem theme={ menuTheme } icon="exit_to_app" caption="Log out" onClick={ logout } />
         </Menu>
       </Navigation>
