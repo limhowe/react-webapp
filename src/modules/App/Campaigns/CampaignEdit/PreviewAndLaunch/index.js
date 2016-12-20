@@ -4,8 +4,8 @@ import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import moment from 'moment';
-
 import { push } from 'react-router-redux';
+
 import { changeTabIndex, editCampaignField, saveCampaignRequest } from '../../redux/actions';
 import { showNotification } from '../../../../Layout/redux/actions';
 
@@ -18,14 +18,9 @@ export class PreviewAndLaunch extends Component {
     gotoList: Function,
     editCampaignField: Function,
     saveCampaign: Function,
-    showNotification: Function
+    showNotification: Function,
+    currentSegment: Object
   }
-
-  campaignTypes = {
-    'in-app-message': 'Display In App Message',
-    'deep-link': 'Link to the Page Inside the app',
-    'url': 'Link to URL'
-  };
 
   launch = () => {
     this.props.editCampaignField('isActive', true);
@@ -37,7 +32,7 @@ export class PreviewAndLaunch extends Component {
   }
 
   render() {
-    const { t, changeTab, gotoList, campaign } = this.props;
+    const { t, changeTab, gotoList, campaign, currentSegment } = this.props;
     const animationClasses = classNames('animation-preview', 'on-mobile', {
       top: campaign.messagePosition === 'top',
       center: campaign.messagePosition === 'center',
@@ -53,6 +48,8 @@ export class PreviewAndLaunch extends Component {
         schedule = `${ campaign.deliverySchedule.frequency } - ${  campaign.deliverySchedule.repeat } - ${ moment(campaign.deliverySchedule.sendDate).subtract(utcOffset, 'minute').format('HH:mm') }`;
       }
     }
+
+    const campaignType = t(`campaigns.campaignTypes.${ campaign.campaignType }`);
 
     return (
       <div>
@@ -76,7 +73,7 @@ export class PreviewAndLaunch extends Component {
               <ListItem
                 rightIcon="mode_edit"
                 caption={ t('campaigns.create.previewAndLaunch.action') }
-                legend={ this.campaignTypes[campaign.campaignType] }
+                legend={ `${ campaignType } - ${ campaign.url }` }
                 onClick={ () => changeTab(2) }
               />
               <ListItem
@@ -88,6 +85,7 @@ export class PreviewAndLaunch extends Component {
               <ListItem
                 rightIcon="mode_edit"
                 caption={ t('campaigns.create.previewAndLaunch.audience') }
+                legend={ currentSegment && currentSegment.name ? currentSegment.name : 'All' }
                 onClick={ () => changeTab(4) }
               />
             </List>
@@ -112,7 +110,7 @@ export class PreviewAndLaunch extends Component {
   }
 }
 
-const mapStatesToProps = ({ campaign: { campaign } }) => ({ campaign });
+const mapStatesToProps = ({ campaign: { campaign }, segments: { currentSegment } }) => ({ campaign, currentSegment });
 
 const mapDispatchToProps = (dispatch) => ({
   changeTab: (index) => dispatch(changeTabIndex(index)),

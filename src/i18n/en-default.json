@@ -66,6 +66,11 @@
     "preview": {
       "heading": "Campaign Details"
     },
+    "campaignTypes": {
+      "in-app-message": "Display In App Message",
+      "deep-link": "Link to the Page Inside the app",
+      "url": "Link to URL"
+    },
     "list": {
       "heading": "Campaigns",
       "newCampaign": "Create a New Campaign",

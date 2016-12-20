@@ -4,6 +4,7 @@ import Dropzone from 'react-dropzone';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 
+import { CAMPAIGN_TYPES } from '../../../../../constants/Campaign';
 import { changeTabIndex, editCampaignField, saveCampaignRequest } from '../../redux/actions';
 
 export class AddAction extends Component {
@@ -22,12 +23,6 @@ export class AddAction extends Component {
     uploadImage: Function,
     saveCampaign: Function
   }
-
-  campaignTypes = [
-    { value: 'in-app-message', text: 'Display In App Message' },
-    { value: 'deep-link', text: 'Link to the Page Inside the app' },
-    { value: 'url', text: 'Link to URL' }
-  ];
 
   editField = (field) => (...args) => this.props.editCampaignField(field, ...args);
 
@@ -70,13 +65,17 @@ export class AddAction extends Component {
 
   render() {
     const { t, changeTab, saveCampaign, campaign } = this.props;
+    const campaignTypes = Object.keys(CAMPAIGN_TYPES).map((key) => ({
+      value: CAMPAIGN_TYPES[key],
+      text: t(`campaigns.campaignTypes.${ CAMPAIGN_TYPES[key] }`)
+    }));
     return (
       <div>
         <h3 className="tab-heading">{ t('campaigns.create.addAction.heading') }</h3>
         <div><small className="text-muted">{ t('campaigns.create.addAction.subtitle') }</small></div>
         <Dropdown
           allowBlank={ false }
-          source={ this.campaignTypes }
+          source={ campaignTypes }
           onChange={ this.editField('campaignType') }
           label={ t('campaigns.create.createPush.addPushNotification.selectScreenLocation') }
           template={ this.dropDownItemTextTemplate }
@@ -108,11 +107,11 @@ export class AddAction extends Component {
               </div>
             </div>
           ) : (
-          <div className="row">
-            <div className="col-md-6">
-              <Input type="text" label={ t('campaigns.create.addAction.link.enterLink') } name="actionLink" value={ campaign.url } onChange={ this.editField('url') } />
+            <div className="row">
+              <div className="col-md-6">
+                <Input type="text" label={ t('campaigns.create.addAction.link.enterLink') } name="actionLink" value={ campaign.url } onChange={ this.editField('url') } />
+              </div>
             </div>
-          </div>
           )
         }
         <div className="form-buttons">

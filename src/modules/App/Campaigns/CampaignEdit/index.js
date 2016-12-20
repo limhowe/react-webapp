@@ -15,6 +15,7 @@ import PreviewAndLaunch from './PreviewAndLaunch';
 import styles from '../theme/styles.scss';
 
 import { initNew, changeTabIndex, campaignReadRequest } from '../redux/actions';
+import { segmentReadRequest } from '../../Segments/redux/actions';
 
 export class CampaignEdit extends Component {
   displayName: 'Edit Campaign';
@@ -27,8 +28,11 @@ export class CampaignEdit extends Component {
       this.props.initNew();
       this.setState({ loaded: true });
     } else {
-      this.props.readCampaign(campaignId).then(() => {
+      this.props.readCampaign(campaignId).then((campaign) => {
         this.setState({ loaded: true });
+        if (campaign && campaign.segment) {
+          this.props.readSegment(campaign.segment);
+        }
       });
     }
   }
@@ -40,7 +44,8 @@ export class CampaignEdit extends Component {
     initNew: Function,
     changeTabIndex: Function,
     readCampaign: Function,
-    gotoList: Function
+    gotoList: Function,
+    readSegment: Function
   }
 
   handleTabIndexChange = (index) => {
@@ -107,6 +112,7 @@ const mapDispatchToProps = (dispatch) => ({
   initNew: () => dispatch(initNew()),
   readCampaign: (id) => dispatch(campaignReadRequest(id)),
   changeTabIndex: (index) => dispatch(changeTabIndex(index)),
+  readSegment: (...args) => dispatch(segmentReadRequest(...args)),
   gotoList: () => dispatch(push('/app/campaigns'))
 });
 
