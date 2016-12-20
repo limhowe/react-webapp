@@ -6,7 +6,7 @@ import { push } from 'react-router-redux';
 import moment from 'moment-timezone';
 
 import { campaignReadRequest } from '../redux/actions';
-import { segmentReadRequest } from '../../Segments/redux/actions';
+import { segmentReadRequest, initNewSegment } from '../../Segments/redux/actions';
 import { getAudienceCount, getDPCount } from '../../Analytics/redux/actions';
 
 export class CampaignEdit extends Component {
@@ -23,6 +23,7 @@ export class CampaignEdit extends Component {
         this.props.readSegment(campaign.segment);
         this.props.getAudienceCount([campaign.segment]);
       } else {
+        this.props.initNewSegment();
         this.props.getAudienceCount();
       }
       this.props.getDPCount({
@@ -155,7 +156,8 @@ const mapDispatchToProps = (dispatch) => ({
   readCampaign: (id) => dispatch(campaignReadRequest(id)),
   getAudienceCount: (...args) => dispatch(getAudienceCount(...args)),
   getDPCount: (...args) => dispatch(getDPCount(...args)),
-  gotoList: () => dispatch(push('/app/campaigns'))
+  gotoList: () => dispatch(push('/app/campaigns')),
+  initNewSegment: () => dispatch(initNewSegment())
 });
 
 export default translate()(connect(mapStatesToProps, mapDispatchToProps)(CampaignEdit));
