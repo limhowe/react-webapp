@@ -52,7 +52,7 @@ export default handleActions({
   }),
   [APP_CHANGE_CURRENT]: (state, action) => ({
     ...state,
-    currentApp: Object.assign({}, action.payload)
+    currentApp: action.payload ? Object.assign({}, action.payload) : null
   }),
   [APP_INIT_NEW]: (state) => ({ ...state, step: 0 }),
   [APP_SET_ACTIVE_APP]: (state, action) => ({

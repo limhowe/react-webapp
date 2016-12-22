@@ -14,9 +14,13 @@ export const authSigninRequest = createAction(AUTH_SIGNIN_REQUEST, (authData) =>
     authService.signin(authData, {
       SUCCESS: AUTH_SIGNIN_SUCCESS,
       ERROR: AUTH_SIGNIN_ERROR
-    }).then(() => {
-      dispatch(appListRequest());
-      dispatch(push('/app/home'));
+    }).then((user) => {
+      if (user.role === 'superadmin') {
+        dispatch(push('/app/companies'));
+      } else if (user.role === 'admin') {
+        dispatch(appListRequest());
+        dispatch(push('/app/home'));
+      }
     });
   };
 });
@@ -73,3 +77,6 @@ export const verifyAccountRequest = createAction(AUTH_VERIFY_ACCOUNT_REQUEST, (p
     });
   };
 });
+
+export const AUTH_CHANGE_BEHALF_USER = 'auth/change/behalf-user';
+export const changeBehalfUser = createAction(AUTH_CHANGE_BEHALF_USER);

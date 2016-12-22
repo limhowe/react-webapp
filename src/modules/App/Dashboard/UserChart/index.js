@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ProgressBar } from 'react-toolbox';
-import { Pie, PieChart, Cell, Tooltip, Legend } from 'recharts';
+import { Pie, PieChart, Cell, Tooltip } from 'recharts';
 import _ from 'lodash';
 
 import styles from './styles.scss';

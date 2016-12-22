@@ -7,3 +7,4 @@ export { SegmentList, SegmentEdit } from './Segments';
 export Reports from './Reports';
 export RevenueGoals from './RevenueGoals';
 export Settings from './Settings';
+export { AdminList, UserEdit } from './SuperDashboard';

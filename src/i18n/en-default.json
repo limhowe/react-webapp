@@ -10,6 +10,12 @@
     "save": "Save",
     "cancel": "Cancel"
   },
+  "validation": {
+    "required": "This field is required.",
+    "email": "Invalid email address.",
+    "minlen": "This field should contain at least {{len}} characters.",
+    "maxlen": "This field should contain at most {{len}} characters."
+  },
   "layout": {
     "header": {
       "home": "Home",
@@ -20,6 +26,7 @@
       "login": "Login",
       "logout": "Logout",
       "hello": "Hello",
+      "companies": "Company List",
       "helpAndDocumentation": "Help & Documentation"
     },
     "navbar": {
@@ -288,5 +295,19 @@
       "pushNotificationEnabled": "Opt In",
       "uninstalled": "uninstalled"
     }
+  },
+  "users": {
+    "editCompany": "Edit Company",
+    "createCompany": "Add New Company",
+    "save": "Save",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "company": "Company Name",
+    "email": "Email",
+    "password": "Password",
+    "phone": "Phone Number",
+    "address": "Address",
+    "verified": "Verified",
+    "activated": "Activated"
   }
 }

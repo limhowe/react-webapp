@@ -31,7 +31,7 @@ export class Notification extends Component {
         type={ notification.type === 'error' ? 'cancel' : 'accept' }
         label={ notification.message }
         active={ !!notification.message }
-        timeout={ 100000 }
+        timeout={ 10000 }
         onTimeout={ hide }
         onClick={ hide }
       />

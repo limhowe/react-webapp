@@ -32,6 +32,25 @@ class AppLayout extends Component {
 
   render() {
     const { children, loaded, user, location: { pathname }, currentApp } = this.props;
+    if (loaded && user && user.role === 'superadmin') {
+      return (
+        <div className="layout">
+          <Header />
+          <Layout>
+            { user.behalf ? <NavDrawer pathname={ pathname } /> : <div /> }
+            <Panel scrollY>
+              <div>
+                <div className="c-container c-container__center">
+                  { children }
+                </div>
+              </div>
+            </Panel>
+          </Layout>
+          <Notification />
+        </div>
+      );
+    }
+
     if (!loaded || (loaded && !user && pathname.indexOf('/app/auth') === -1) || (user && !currentApp && pathname.indexOf('/app/applications') === -1)) {
       return (
         <div className="layout">

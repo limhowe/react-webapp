@@ -7,7 +7,8 @@ import { translate } from 'react-i18next';
 import { push } from 'react-router-redux';
 
 import { toggleNavDrawer } from '../../redux/actions';
-import { authSignoutRequest } from '../../../App/Auth/redux/actions';
+import { changeCurrentApp } from '../../../App/Applications/redux/actions';
+import { authSignoutRequest, changeBehalfUser } from '../../../App/Auth/redux/actions';
 import appBarTheme from './styles/AppBar.scss';
 import menuTheme from './styles/Menu.scss';
 
@@ -22,7 +23,9 @@ export class Header extends Component {
     t: Function,
     logout: Function,
     toggle: Function,
-    changeLocation: Function
+    changeLocation: Function,
+    changeBehalfUser: Function,
+    changeCurrentApp: Function
   };
 
   toggleMenu = () => {
@@ -33,14 +36,22 @@ export class Header extends Component {
     this.setState({ menuActive: false });
   }
 
+  logoutBehalf = () => {
+    this.props.changeBehalfUser(null);
+    this.props.changeCurrentApp(null);
+    this.props.changeLocation('/app/companies');
+  }
+
   renderUserMenu() {
     const { t, logout, user } = this.props;
     return (
       <Navigation horizontal>
         <Link to="/app">{t('layout.header.helpAndDocumentation')}</Link>
-        <Link onClick={ this.toggleMenu }>{t('layout.header.hello')} {user.firstName} <FontIcon className="c-icon" value="keyboard_arrow_down" /></Link>
+        { user.role === 'superadmin' ? <Link to="/app/companies">{t('layout.header.companies')}</Link> : null }
+        <Link onClick={ this.toggleMenu }>{t('layout.header.hello')} {user.firstName} {user.behalf ? `(${ user.behalf.firstName } ${ user.behalf.lastName })` : null } <FontIcon className="c-icon" value="keyboard_arrow_down" /></Link>
         <Menu theme={ menuTheme } position="topRight" active={ this.state.menuActive } onHide={ this.hideMenu }>
           {/* <MenuItem theme={ menuTheme } icon="person" caption="Profile" onClick={ () => this.props.changeLocation('/app') } /> */}
+          { user.role === 'superadmin' && user.behalf ? <MenuItem theme={ menuTheme } icon="exit_to_app" caption={ `Log out from (${ user.behalf.firstName } ${ user.behalf.lastName })` } onClick={ this.logoutBehalf } /> : null }
           <MenuItem theme={ menuTheme } icon="exit_to_app" caption="Log out" onClick={ logout } />
         </Menu>
       </Navigation>
@@ -55,7 +66,7 @@ export class Header extends Component {
       <AppBar theme={ appBarTheme }>
         <div className={ appBarTheme.logoContainer }>
           <Link to="/app/home"><img src={ __APP_CONFIG__.LOGO_URL } className={ appBarTheme.logo } /></Link>
-          <IconButton icon="menu" onClick={ toggle } className={ appBarTheme.menuNav } />
+          { isLoggedIn ? <IconButton icon="menu" onClick={ toggle } className={ appBarTheme.menuNav } /> : null }
         </div>
         {
           isLoggedIn ? this.renderUserMenu() :
@@ -80,7 +91,9 @@ const mapStatesToProps = ({ auth: { user } }) => ({
 const mapDispatchToProps = (dispatch) => ({
   toggle: () => dispatch(toggleNavDrawer()),
   logout: () => dispatch(authSignoutRequest()),
-  changeLocation: (...args) => dispatch(push(...args))
+  changeLocation: (...args) => dispatch(push(...args)),
+  changeCurrentApp: (...args) => dispatch(changeCurrentApp(...args)),
+  changeBehalfUser: (...args) => dispatch(changeBehalfUser(...args))
 });
 
 export default translate()(connect(mapStatesToProps, mapDispatchToProps)(Header));

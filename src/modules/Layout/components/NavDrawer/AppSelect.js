@@ -43,7 +43,7 @@ export class AppSelect extends Component {
       return <MenuItem theme={ menuTheme } key={ app.appName } icon={ avatar } caption={ app.appName } onClick={ () => this.props.changeCurrentApp(app) } />;
     });
 
-    const appName = currentApp ? (currentApp.appName.length < 10 ? currentApp.appName : `${ currentApp.appName.substr(0, 10) }...`) : '';
+    const appName = currentApp && currentApp.appName ? (currentApp.appName.length < 10 ? currentApp.appName : `${ currentApp.appName.substr(0, 10) }...`) : '';
     const buttonClassName = cn(styles.selectedAppIconWrapper, {
       [styles.active]: this.state.menuActive
     });

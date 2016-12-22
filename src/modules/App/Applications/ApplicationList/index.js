@@ -40,7 +40,7 @@ export class ApplicationList extends Component {
       ),
       actions: (
         <span>
-          <IconButton icon="edit" onClick={ () => this.props.editApp(app._id) } />
+          <IconButton primary icon="edit" onClick={ () => this.props.editApp(app._id) } />
         </span>
       )
     }));
