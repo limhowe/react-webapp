@@ -26,16 +26,28 @@ export class SideBar extends Component {
     active: bool,
     hide: Function,
     t: Function,
+    user: Object,
     setPath: Function
   };
 
   render() {
-    const { active, t } = this.props;
+    const { active, user, t } = this.props;
+
+    if (user.role === 'superadmin' && !user.behalf) {
+      return (
+        <NavDrawer permanentAt="md" width={ active ? 'wide' : 'normal' } active={ active } theme={ theme }>
+          <div>
+            <ListItem href="/app/companies" caption={ t('layout.navbar.companies') } icon="list-alt" />
+          </div>
+        </NavDrawer>
+      );
+    }
 
     return (
       <NavDrawer permanentAt="md" width={ active ? 'wide' : 'normal' } active={ active } theme={ theme }>
         <div>
           <AppSelect />
+          { user.role === 'superadmin' && user.behalf && <ListItem href="/app/companies" caption={ t('layout.navbar.companies') } icon="list-alt" /> }
           <ListItem href="/app/home" caption={ t('layout.navbar.dashboard') } icon="dashboard" />
           <ListItem href="/app/campaigns" caption={ t('layout.navbar.campaigns') } icon="bullhorn" />
           <ListItem href="/app/audience" caption={ t('layout.navbar.audience') } icon="users" />
@@ -54,8 +66,9 @@ export class SideBar extends Component {
   }
 }
 
-const mapStatesToProps = ({ layout: { navDrawerActive } }) => ({
-  active: navDrawerActive
+const mapStatesToProps = ({ layout: { navDrawerActive }, auth: { user } }) => ({
+  active: navDrawerActive,
+  user
 });
 
 const mapDispatchToProps = (dispatch) => ({

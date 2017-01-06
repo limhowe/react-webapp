@@ -40,7 +40,8 @@
       "users": "Users",
       "devices": "Devices",
       "events": "Events",
-      "locations": "Locations"
+      "locations": "Locations",
+      "companies": "Companies"
     }
   },
   "applications": {
